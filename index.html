@@ -2974,27 +2974,60 @@ ignoreList.clear();</code>
             sidebar.classList.toggle('open');
         }
 
-        // Navegación activa y smooth scroll
+        // Sistema de navegación activa robusto y smooth scroll
         document.addEventListener('DOMContentLoaded', function() {
             const navLinks = document.querySelectorAll('.nav-links a');
-            const sections = document.querySelectorAll('section');
+            const sections = Array.from(document.querySelectorAll('section'));
+            let isScrolling = false;
+            let scrollTimeout;
+            let activeSection = null;
             
-            // Intersection Observer para navegación activa
-            const observer = new IntersectionObserver((entries) => {
-                // Encontrar la sección más visible (con mayor intersectionRatio)
-                let mostVisible = null;
-                let maxRatio = 0;
+            // Función para determinar la sección activa basada en posición
+            function getCurrentSection() {
+                const scrollPos = window.pageYOffset;
+                const viewportHeight = window.innerHeight;
+                const offset = viewportHeight * 0.2; // 20% del viewport como offset
                 
-                entries.forEach(entry => {
-                    if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
-                        maxRatio = entry.intersectionRatio;
-                        mostVisible = entry.target;
+                let currentSection = null;
+                let maxVisibility = 0;
+                
+                sections.forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    const sectionTop = rect.top + scrollPos;
+                    const sectionBottom = sectionTop + rect.height;
+                    
+                    // Calcular qué tanto de la sección está visible
+                    const visibleTop = Math.max(sectionTop, scrollPos + offset);
+                    const visibleBottom = Math.min(sectionBottom, scrollPos + viewportHeight);
+                    const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+                    const visibility = visibleHeight / rect.height;
+                    
+                    // También considerar si la sección está cerca del centro de la pantalla
+                    const sectionCenter = sectionTop + rect.height / 2;
+                    const screenCenter = scrollPos + viewportHeight / 2;
+                    const distanceFromCenter = Math.abs(sectionCenter - screenCenter);
+                    const centerWeight = 1 / (1 + distanceFromCenter / viewportHeight);
+                    
+                    // Combinar visibilidad y proximidad al centro
+                    const score = visibility * 0.7 + centerWeight * 0.3;
+                    
+                    if (score > maxVisibility && visibility > 0.1) {
+                        maxVisibility = score;
+                        currentSection = section;
                     }
                 });
                 
-                // Solo actualizar si hay una sección claramente más visible
-                if (mostVisible) {
-                    const id = mostVisible.id;
+                return currentSection;
+            }
+            
+            // Función para actualizar la navegación activa
+            function updateActiveNavigation() {
+                const currentSection = getCurrentSection();
+                
+                if (currentSection && currentSection !== activeSection) {
+                    activeSection = currentSection;
+                    const id = currentSection.id;
+                    
                     navLinks.forEach(link => {
                         link.classList.remove('active');
                         if (link.getAttribute('data-section') === id) {
@@ -3002,10 +3035,59 @@ ignoreList.clear();</code>
                         }
                     });
                 }
-            }, {
-                threshold: [0.1, 0.3, 0.5, 0.7, 0.9],
-                rootMargin: '-50px 0px 0px 0px'
-            });
+            }
+            
+            // Función de throttling para optimizar el rendimiento
+            function throttle(func, limit) {
+                let inThrottle;
+                return function() {
+                    const args = arguments;
+                    const context = this;
+                    if (!inThrottle) {
+                        func.apply(context, args);
+                        inThrottle = true;
+                        setTimeout(() => inThrottle = false, limit);
+                    }
+                }
+            }
+            
+            // Event listener optimizado para scroll
+            const handleScroll = throttle(() => {
+                if (!isScrolling) {
+                    updateActiveNavigation();
+                }
+            }, 16); // ~60fps
+            
+            // Detectar cuando el scroll termina para una actualización final
+            function handleScrollEnd() {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    isScrolling = false;
+                    updateActiveNavigation();
+                }, 100);
+            }
+            
+            // Event listeners
+            window.addEventListener('scroll', () => {
+                handleScroll();
+                handleScrollEnd();
+            }, { passive: true });
+            
+            // Inicializar la navegación activa
+            updateActiveNavigation();
+            
+            // IntersectionObserver como respaldo para casos edge
+            const observerOptions = {
+                threshold: [0, 0.25, 0.5, 0.75, 1],
+                rootMargin: '-10% 0px -10% 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                // Solo actuar si no estamos en scroll rápido
+                if (!isScrolling) {
+                    setTimeout(updateActiveNavigation, 50);
+                }
+            }, observerOptions);
 
             sections.forEach(section => {
                 observer.observe(section);

@@ -388,6 +388,10 @@
             }
         }
     </style>
+    
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css" rel="stylesheet" />
 </head>
 <body>
     <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
@@ -473,7 +477,7 @@
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>function exit(reason?: string): void;</code>
+                                <pre><code class="language-javascript">function exit(reason?: string): void;</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Termina la ejecución del script anticipadamente, útil para salir basado en ciertas condiciones.</p>
@@ -494,9 +498,9 @@
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>if (player.isDead) {
+                                <pre><code class="language-javascript">if (player.isDead) {
     exit("Failed, I'm dead!");
-}</code>
+}</code></pre>
                             </div>
                         </div>
                     </div>
@@ -509,7 +513,7 @@
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>function log(...args: any[]): void;</code>
+                                <pre><code class="language-javascript">function log(...args: any[]): void;</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Registra los argumentos en el área de consola debajo de la ventana de scripting.</p>
@@ -530,9 +534,9 @@
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>log('Hi there!');
+                                <pre><code class="language-javascript">log('Hi there!');
 log(`My name is ${player.name}`);
-log(`My helmet is`, player.equippedItems.helmet);</code>
+log(`My helmet is`, player.equippedItems.helmet);</code></pre>
                             </div>
                         </div>
                     </div>
@@ -545,7 +549,7 @@ log(`My helmet is`, player.equippedItems.helmet);</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>function sleep(ms: number): void;</code>
+                                <pre><code class="language-javascript">function sleep(ms: number): void;</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Retrasa la ejecución del script durante un número específico de milisegundos.</p>
@@ -569,9 +573,9 @@ log(`My helmet is`, player.equippedItems.helmet);</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>player.useSkill(Skills.Anatomy);
+                                <pre><code class="language-javascript">player.useSkill(Skills.Anatomy);
 sleep(10000); // dormir 10 segundos
-player.useSkill(Skills.Meditation);</code>
+player.useSkill(Skills.Meditation);</code></pre>
                             </div>
                         </div>
                     </div>
@@ -682,13 +686,13 @@ player.useSkill(Skills.Meditation);</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>findObject(
+                                <pre><code class="language-javascript">findObject(
     serial: number | SerialObject | GameObject | "world",
     hue?: null | number,
     sourceSerial?: null | number | SerialObject | GameObject | "world",
     amount?: null | number,
     range?: null | number
-): any</code>
+): any</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Intenta verificar si un cierto objeto puede encontrarse en el juego.</p>
@@ -698,13 +702,13 @@ player.useSkill(Skills.Meditation);</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>const runebookSerial = 0x401c37fb;
+                                <pre><code class="language-javascript">const runebookSerial = 0x401c37fb;
 const runebook = client.findObject(runebookSerial);
 if (runebook) {
     player.use(runebook);
 } else {
     client.headMsg('Runebook missing!', player.serial);
-}</code>
+}</code></pre>
                             </div>
                         </div>
 
@@ -715,13 +719,13 @@ if (runebook) {
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>findType(
+                                <pre><code class="language-javascript">findType(
     graphic: number,
     hue?: null | number,
     sourceSerial?: null | number | SerialObject | GameObject | "world",
     amount?: null | number,
     range?: null | number
-): any</code>
+): any</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Intenta encontrar un objeto en el mundo con los parámetros de búsqueda especificados, retornándolo si se encuentra.</p>
@@ -734,7 +738,7 @@ if (runebook) {
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>// Usar cualquier vendaje que se pueda encontrar
+                                <pre><code class="language-javascript">// Usar cualquier vendaje que se pueda encontrar
 const bandageType = 0xe21;
 const bandages = client.findType(bandageType);
 if (bandages) {
@@ -742,7 +746,7 @@ if (bandages) {
     target.waitTargetSelf();
 } else {
     client.headMsg('Out of bandages', player.serial);
-}</code>
+}</code></pre>
                             </div>
                         </div>
 
@@ -772,11 +776,11 @@ if (bandages) {
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>headMsg(
+                                <pre><code class="language-javascript">headMsg(
     message: string,
     serial: number | SerialObject | GameObject | "world",
     hue?: number
-): void</code>
+): void</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Muestra un mensaje sobre la cabeza de la entidad objetivo.</p>
@@ -786,8 +790,8 @@ if (bandages) {
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>client.headMsg('A message in Red', player, 33);
-client.headMsg('A message in Green', player, 66);</code>
+                                <pre><code class="language-javascript">client.headMsg('A message in Red', player, 33);
+client.headMsg('A message in Green', player, 66);</code></pre>
                             </div>
                         </div>
 
@@ -798,7 +802,7 @@ client.headMsg('A message in Green', player, 66);</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>sysMsg(message: string, hue?: number): void</code>
+                                <pre><code class="language-javascript">sysMsg(message: string, hue?: number): void</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Muestra un mensaje en el chat de texto.</p>
@@ -835,12 +839,12 @@ client.headMsg('A message in Green', player, 66);</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>selectEntity(
+                                <pre><code class="language-javascript">selectEntity(
     searchOpt: number,
     searchRangeOpt: number,
     searchTypeOpt: number,
     asFriend: boolean
-): any</code>
+): any</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Retorna la entidad basada en los criterios de búsqueda.</p>
@@ -850,7 +854,7 @@ client.headMsg('A message in Green', player, 66);</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>client.selectEntity(
+                                <pre><code class="language-javascript">client.selectEntity(
     SearchEntityOptions.Enemy | SearchEntityOptions.Gray,
     SearchEntityRangeOptions.Nearest,
     SearchEntityTypeOptions.Any,
@@ -862,7 +866,7 @@ client.selectEntity(
     SearchEntityRangeOptions.Nearest,
     SearchEntityTypeOptions.Human,
     false
-);</code>
+);</code></pre>
                             </div>
                         </div>
                     </div>
@@ -1021,7 +1025,7 @@ client.selectEntity(
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>attack(serial: SerialOrEntity): void</code>
+                                <pre><code class="language-javascript">attack(serial: SerialOrEntity): void</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Ataca un móvil.</p>
@@ -1031,7 +1035,7 @@ client.selectEntity(
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>player.attack(target.lastSerial);</code>
+                                <pre><code class="language-javascript">player.attack(target.lastSerial);</code></pre>
                             </div>
                         </div>
 
@@ -1042,8 +1046,8 @@ client.selectEntity(
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>cast(spell: any): void
-castTo(spell: any, serial: SerialOrEntity, timeout?: number): void</code>
+                                <pre><code class="language-javascript">cast(spell: any): void
+castTo(spell: any, serial: SerialOrEntity, timeout?: number): void</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> <code>cast()</code> lanza un hechizo. <code>castTo()</code> lanza un hechizo y automáticamente apunta al serial dado en el siguiente target.</p>
@@ -1053,12 +1057,12 @@ castTo(spell: any, serial: SerialOrEntity, timeout?: number): void</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>player.cast(Spells.Agility);
+                                <pre><code class="language-javascript">player.cast(Spells.Agility);
 target.wait();
 target.entity(player);
 
 // O más directo:
-player.castTo(Spells.Heal, player);</code>
+player.castTo(Spells.Heal, player);</code></pre>
                             </div>
                         </div>
 
@@ -1069,14 +1073,14 @@ player.castTo(Spells.Heal, player);</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>moveItem(
+                                <pre><code class="language-javascript">moveItem(
     serial: SerialOrEntity,
     container: SerialOrEntity,
     x?: number,
     y?: number,
     z?: number,
     amount?: number
-): number</code>
+): number</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Intenta mover un objeto entre contenedores.</p>
@@ -1086,9 +1090,9 @@ player.castTo(Spells.Heal, player);</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>if (player.equippedItems.robe) {
+                                <pre><code class="language-javascript">if (player.equippedItems.robe) {
     player.moveItem(player.equippedItems.robe, player.backpack);
-}</code>
+}</code></pre>
                             </div>
                         </div>
 
@@ -1099,7 +1103,7 @@ player.castTo(Spells.Heal, player);</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>say(message: string, hue?: number): void</code>
+                                <pre><code class="language-javascript">say(message: string, hue?: number): void</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Envía un mensaje de chat como tu jugador, con un hue opcional para el mensaje.</p>
@@ -1109,7 +1113,7 @@ player.castTo(Spells.Heal, player);</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>player.say('Hello there!');</code>
+                                <pre><code class="language-javascript">player.say('Hello there!');</code></pre>
                             </div>
                         </div>
 
@@ -1120,7 +1124,7 @@ player.castTo(Spells.Heal, player);</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>useSkill(skill: any, target?: SerialOrEntity, timeout?: number): void</code>
+                                <pre><code class="language-javascript">useSkill(skill: any, target?: SerialOrEntity, timeout?: number): void</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Usa una habilidad.</p>
@@ -1130,7 +1134,7 @@ player.castTo(Spells.Heal, player);</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>player.useSkill(Skills.Meditation);</code>
+                                <pre><code class="language-javascript">player.useSkill(Skills.Meditation);</code></pre>
                             </div>
                         </div>
                     </div>
@@ -1214,12 +1218,12 @@ player.castTo(Spells.Heal, player);</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>const anatomySkill = player.getSkill(Skills.Anatomy);
+                                <pre><code class="language-javascript">const anatomySkill = player.getSkill(Skills.Anatomy);
 if (anatomySkill) {
     console.log(`Anatomy: ${anatomySkill.value / 10}%`); // Convertir a decimal
     console.log(`Base: ${anatomySkill.base / 10}%`);
     console.log(`Cap: ${anatomySkill.cap / 10}%`);
-}</code>
+}</code></pre>
                             </div>
                         </div>
                     </div>
@@ -1260,7 +1264,7 @@ if (anatomySkill) {
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>wait(timeoutMs?: number): boolean</code>
+                                <pre><code class="language-javascript">wait(timeoutMs?: number): boolean</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Espera a que el target se abra dentro de un tiempo específico.</p>
@@ -1270,9 +1274,9 @@ if (anatomySkill) {
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>client.castSpell(Spells.Heal);
+                                <pre><code class="language-javascript">client.castSpell(Spells.Heal);
 target.wait();
-target.entity(player);</code>
+target.entity(player);</code></pre>
                             </div>
                         </div>
 
@@ -1283,7 +1287,7 @@ target.entity(player);</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>entity(serial: SerialOrEntity): void</code>
+                                <pre><code class="language-javascript">entity(serial: SerialOrEntity): void</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Apunta a un Mobile o un Item con el target actualmente abierto.</p>
@@ -1295,7 +1299,7 @@ target.entity(player);</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>waitTargetSelf(timeoutMs?: number): boolean</code>
+                                <pre><code class="language-javascript">waitTargetSelf(timeoutMs?: number): boolean</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Espera el target con un tiempo específico, cuando se abra se apunta a sí mismo.</p>
@@ -1305,8 +1309,8 @@ target.entity(player);</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>player.useType(0xe21);
-target.waitTargetSelf();</code>
+                                <pre><code class="language-javascript">player.useType(0xe21);
+target.waitTargetSelf();</code></pre>
                             </div>
                         </div>
                     </div>
@@ -1366,7 +1370,7 @@ target.waitTargetSelf();</code>
                             <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                         </div>
                         <div class="code-content">
-                            <code>// Teleport a coordenadas específicas
+                            <pre><code class="language-javascript">// Teleport a coordenadas específicas
 client.castSpell(Spells.Teleport);
 target.wait();
 target.terrain(1203, 222, 0);
@@ -1379,7 +1383,7 @@ target.terrainWithOffset(-1, -2, 0);
 // Teleport relativo a una entidad
 client.castSpell(Spells.Teleport);
 target.wait();
-target.terrainRelativeToEntity(mob, 5, true);</code>
+target.terrainRelativeToEntity(mob, 5, true);</code></pre>
                         </div>
                     </div>
                 </div>
@@ -1422,11 +1426,11 @@ target.terrainRelativeToEntity(mob, 5, true);</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>static findOrWait(
+                                <pre><code class="language-javascript">static findOrWait(
     serialOrText: string | number,
     timeoutMs?: number,
     fromServer?: boolean
-): undefined | Gump</code>
+): undefined | Gump</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Encuentra un gump por su serial o que contenga cierto texto, o espera a que aparezca.</p>
@@ -1436,7 +1440,7 @@ target.terrainRelativeToEntity(mob, 5, true);</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>const gump = Gump.findOrWait(0xbb1b5472, 100);
+                                <pre><code class="language-javascript">const gump = Gump.findOrWait(0xbb1b5472, 100);
 if (gump) {
     gump.reply(1);
 }
@@ -1444,7 +1448,7 @@ if (gump) {
 const gump = Gump.findOrWait('Blacksmithy Selection Menu');
 if (gump) {
     gump.reply(1);
-}</code>
+}</code></pre>
                             </div>
                         </div>
 
@@ -1455,7 +1459,7 @@ if (gump) {
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>reply(buttonID: number): void</code>
+                                <pre><code class="language-javascript">reply(buttonID: number): void</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Responde a un gump "presionando" uno de los botones.</p>
@@ -1465,10 +1469,10 @@ if (gump) {
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>const gump = Gump.findOrWait(0xbb1b5472, 100);
+                                <pre><code class="language-javascript">const gump = Gump.findOrWait(0xbb1b5472, 100);
 if (gump?.containsText('Alchemy')) {
     gump.reply(1);
-}</code>
+}</code></pre>
                             </div>
                         </div>
 
@@ -1479,7 +1483,7 @@ if (gump?.containsText('Alchemy')) {
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>static waitForVendorGumpData(timeoutMs?: number): undefined | object</code>
+                                <pre><code class="language-javascript">static waitForVendorGumpData(timeoutMs?: number): undefined | object</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Espera a que aparezca un gump de compra o venta de vendedor y retorna los datos.</p>
@@ -1489,11 +1493,11 @@ if (gump?.containsText('Alchemy')) {
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>player.say('vendor sell');
+                                <pre><code class="language-javascript">player.say('vendor sell');
 const data = Gump.waitForVendorGumpData();
 if (data && data.type === 'sell') {
     client.sendSellRequest(data.vendor, data.items);
-}</code>
+}</code></pre>
                             </div>
                         </div>
                     </div>
@@ -1552,7 +1556,7 @@ if (data && data.type === 'sell') {
                             <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                         </div>
                         <div class="code-content">
-                            <code>const data = Gump.lastVendorBuyData;
+                            <pre><code class="language-javascript">const data = Gump.lastVendorBuyData;
 if (data && data.type === 'buy') {
     // Comprar todos sus lingotes
     const ingots = data.items.filter((i) => 
@@ -1560,7 +1564,7 @@ if (data && data.type === 'buy') {
     );
     client.sendBuyRequest(data.vendor, ingots);
     console.log('Bought items', ingots);
-}</code>
+}</code></pre>
                         </div>
                     </div>
                 </div>
@@ -1580,7 +1584,7 @@ if (data && data.type === 'buy') {
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>clear(): void</code>
+                                <pre><code class="language-javascript">clear(): void</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Limpia/olvida el historial del journal. Útil si no quieres procesar entradas más antiguas del journal.</p>
@@ -1590,10 +1594,10 @@ if (data && data.type === 'buy') {
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>player.say('Hello there');
+                                <pre><code class="language-javascript">player.say('Hello there');
 journal.waitForText('Hello there'); // Éxito rápido
 journal.clear();
-journal.waitForText('Hello there'); // Timeout, string limpiado</code>
+journal.waitForText('Hello there'); // Timeout, string limpiado</code></pre>
                             </div>
                         </div>
                     </div>
@@ -1606,7 +1610,7 @@ journal.waitForText('Hello there'); // Timeout, string limpiado</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>containsText(text: string, author?: string): boolean</code>
+                                <pre><code class="language-javascript">containsText(text: string, author?: string): boolean</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Verifica la existencia de texto en el journal.</p>
@@ -1621,7 +1625,7 @@ journal.waitForText('Hello there'); // Timeout, string limpiado</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>waitForText(text: string, author?: string, timeout?: number): boolean</code>
+                                <pre><code class="language-javascript">waitForText(text: string, author?: string, timeout?: number): boolean</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Espera a que aparezca el texto en el journal.</p>
@@ -1633,13 +1637,13 @@ journal.waitForText('Hello there'); // Timeout, string limpiado</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>const healthBefore = player.hits;
+                                <pre><code class="language-javascript">const healthBefore = player.hits;
 journal.clear();
 player.useType(0xe21);
 target.waitTargetSelf();
 if (journal.waitForText('You healed', 'System', 8000)) {
     client.headMsg(`Bandaged +${player.hits - healthBefore}`, player, 66);
-}</code>
+}</code></pre>
                             </div>
                         </div>
                     </div>
@@ -1652,7 +1656,7 @@ if (journal.waitForText('You healed', 'System', 8000)) {
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>waitForTextAny(text: string[], author?: string, timeout?: number): null | string</code>
+                                <pre><code class="language-javascript">waitForTextAny(text: string[], author?: string, timeout?: number): null | string</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Espera a que CUALQUIER string en un array de strings sea encontrado en el Journal, o a que se alcance el timeout. Retorna el primer string encontrado o null si se alcanzó el timeout.</p>
@@ -1663,7 +1667,7 @@ if (journal.waitForText('You healed', 'System', 8000)) {
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>const waitMessage = 'You must wait';
+                                <pre><code class="language-javascript">const waitMessage = 'You must wait';
 const failMessage = 'You cannot focus';
 const successMessage = 'You enter a meditative trance.';
 journal.clear();
@@ -1672,7 +1676,7 @@ switch (response) {
     case waitMessage: // sleep break;
     case failMessage: // retry break;
     case successMessage: // loop break;
-}</code>
+}</code></pre>
                             </div>
                         </div>
                     </div>
@@ -1685,7 +1689,7 @@ switch (response) {
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>waitForTextEvery(text: string[], author?: string, timeout?: number): string[]</code>
+                                <pre><code class="language-javascript">waitForTextEvery(text: string[], author?: string, timeout?: number): string[]</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Espera a que TODOS los strings en un array de strings sean encontrados en el Journal, o a que se alcance el timeout. Retorna todos los strings que fueron encontrados, puede ser menos que la entrada si se alcanzó el timeout.</p>
@@ -1697,14 +1701,14 @@ switch (response) {
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>const waitMessage = 'You must wait';
+                                <pre><code class="language-javascript">const waitMessage = 'You must wait';
 const failMessage = 'You cannot focus';
 const successMessage = 'You enter a meditative trance.';
 journal.clear();
 const response = journal.waitForTextEvery([waitMessage, failMessage, successMessage]);
 if (response.includes(successMessage)) {
     client.headMsg(`Meditating...`, player, 66);
-}</code>
+}</code></pre>
                             </div>
                         </div>
                     </div>
@@ -1740,7 +1744,7 @@ if (response.includes(successMessage)) {
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>request(serial: number, waitMs?: number): undefined | boolean</code>
+                                <pre><code class="language-javascript">request(serial: number, waitMs?: number): undefined | boolean</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Solicita un menú popup para el objeto dado.</p>
@@ -1750,9 +1754,9 @@ if (response.includes(successMessage)) {
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>popupMenu.request(player.serial);
+                                <pre><code class="language-javascript">popupMenu.request(player.serial);
 popupMenu.waitForContent(1000);
-popupMenu.reply(0); // 0 es primer item</code>
+popupMenu.reply(0); // 0 es primer item</code></pre>
                             </div>
                         </div>
                     </div>
@@ -1782,7 +1786,7 @@ popupMenu.reply(0); // 0 es primer item</code>
                 </div>
                 <div class="section-content">
                     <div class="alert alert-warning">
-                        <strong>⚠️ Discrepancia en Documentación Oficial:</strong> El ejemplo oficial usa <code>prompt.waitUntilOpen()</code> pero este método no está documentado en la API.
+                        <strong>⚠️ Discrepancia en Documentación Oficial:</strong> El ejemplo oficial usa <pre><code class="language-javascript">prompt.waitUntilOpen()</code></pre> pero este método no está documentado en la API.
                     </div>
 
                     <div class="subsection">
@@ -1793,7 +1797,7 @@ popupMenu.reply(0); // 0 es primer item</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>exists: boolean</code>
+                                <pre><code class="language-javascript">exists: boolean</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Verifica si un prompt existe y está esperando entrada de texto.</p>
@@ -1803,9 +1807,9 @@ popupMenu.reply(0); // 0 es primer item</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>if (prompt.exists) {
+                                <pre><code class="language-javascript">if (prompt.exists) {
     prompt.reply('House Rune');
-}</code>
+}</code></pre>
                             </div>
                         </div>
                     </div>
@@ -1818,7 +1822,7 @@ popupMenu.reply(0); // 0 es primer item</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>reply(value: string): void</code>
+                                <pre><code class="language-javascript">reply(value: string): void</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Responde a un prompt que está esperando actualmente, si hay uno abierto.</p>
@@ -1828,14 +1832,14 @@ popupMenu.reply(0); // 0 es primer item</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>player.use(0x4021c7b1); // Runebook
+                                <pre><code class="language-javascript">player.use(0x4021c7b1); // Runebook
 const gump = Gump.findOrWait(0x59);
 if (!gump) {
     exit("Couldn't open runebook");
 }
 gump.reply(1);
 // prompt.waitUntilOpen(1000); // Método no documentado oficialmente
-prompt.reply('My Awesome runebook');</code>
+prompt.reply('My Awesome runebook');</code></pre>
                             </div>
                         </div>
                     </div>
@@ -1856,7 +1860,7 @@ prompt.reply('My Awesome runebook');</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>markers: readonly WorldMapMarker[]</code>
+                                <pre><code class="language-javascript">markers: readonly WorldMapMarker[]</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Obtiene la lista de marcadores del Mapa del Mundo. Lista de solo lectura.</p>
@@ -1870,7 +1874,7 @@ prompt.reply('My Awesome runebook');</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>addMarker(marker: WorldMapMarker | WorldMapMarkerPartial): WorldMapMarker</code>
+                                <pre><code class="language-javascript">addMarker(marker: WorldMapMarker | WorldMapMarkerPartial): WorldMapMarker</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Agrega un marcador al Mapa del Mundo.</p>
@@ -1880,7 +1884,7 @@ prompt.reply('My Awesome runebook');</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>const marker = worldMap.addMarker({ 
+                                <pre><code class="language-javascript">const marker = worldMap.addMarker({ 
     name: 'Here', 
     x: player.x, 
     y: player.y, 
@@ -1891,7 +1895,7 @@ const marker = worldMap.addMarker({
     name: 'Sextant Loc',
     color: 'green',
     ...worldMap.parseLocation("100o25'S,40o04'E")
-});</code>
+});</code></pre>
                             </div>
                         </div>
                     </div>
@@ -1961,7 +1965,7 @@ const marker = worldMap.addMarker({
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>type SerialOrEntity = number | GameObject | SerialObject;</code>
+                                <pre><code class="language-javascript">type SerialOrEntity = number | GameObject | SerialObject;</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Tipo union que representa un serial, GameObject o SerialObject. Se usa ampliamente en la API para aceptar múltiples formas de referenciar objetos.</p>
@@ -2005,14 +2009,14 @@ const marker = worldMap.addMarker({
                             <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                         </div>
                         <div class="code-content">
-                            <code>const entity = client.findObject(0x991);
+                            <pre><code class="language-javascript">const entity = client.findObject(0x991);
 if (entity) {
     if (entity.direction === Directions.North) {
         console.log(`${entity.name} is facing North`);
     } else {
         console.log(Directions[entity.direction]); // Prints the directions name, e.g. East
     }
-}</code>
+}</code></pre>
                         </div>
                     </div>
                 </div>
@@ -2121,7 +2125,7 @@ if (entity) {
                             <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                         </div>
                         <div class="code-content">
-                            <code>const item = client.findObject(0x40001234);
+                            <pre><code class="language-javascript">const item = client.findObject(0x40001234);
 if (item.amount > 5) {
     client.sysMsg(`amount of ${item.amount}`);
 }
@@ -2136,7 +2140,7 @@ for (const item of itemList) {
     if (item.contents && item.contents.length > 0) {
         console.log("this item is a backpack's sub-container!");
     }
-}</code>
+}</code></pre>
                         </div>
                     </div>
                 </div>
@@ -2198,7 +2202,7 @@ for (const item of itemList) {
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>add(serial: SerialOrEntity): boolean</code>
+                                <pre><code class="language-javascript">add(serial: SerialOrEntity): boolean</code></pre>
                             </div>
                         </div>
                         <p><strong>Descripción:</strong> Agrega un elemento a la lista de ignorados, causando que funciones como findType los ignoren.</p>
@@ -2209,12 +2213,12 @@ for (const item of itemList) {
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>let entity: Item | Mobile;
+                                <pre><code class="language-javascript">let entity: Item | Mobile;
                                     while ((entity = client.findType(0xeed))) {
                                     console.log(`Found item: ${entity.serial}`);
                                     ignoreList.add(entity);
                                     }
-                                    ignoreList.clear();</code>
+                                    ignoreList.clear();</code></pre>
                             </div>
                         </div>
                     </div>
@@ -2269,10 +2273,10 @@ for (const item of itemList) {
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>if (player.direction === Directions.North) {
+                                <pre><code class="language-javascript">if (player.direction === Directions.North) {
     player.say('Mirando al norte');
 }
-player.run(Directions.South);</code>
+player.run(Directions.South);</code></pre>
                             </div>
                         </div>
                     </div>
@@ -2290,6 +2294,7 @@ player.run(Directions.South);</code>
                                     <tr><td>System</td><td>1</td><td>Sistema</td></tr>
                                     <tr><td>Emote</td><td>2</td><td>Emote</td></tr>
                                     <tr><td>Limit3Spell</td><td>3</td><td>Spell Límite 3</td></tr>
+                                    <tr><td>Label</td><td>6</td><td>Etiquetas</td></tr>
                                     <tr><td>Focus</td><td>7</td><td>Focus</td></tr>
                                     <tr><td>Whisper</td><td>8</td><td>Susurro</td></tr>
                                     <tr><td>Yell</td><td>9</td><td>Grito</td></tr>
@@ -2388,7 +2393,7 @@ player.run(Directions.South);</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>function autoHeal() {
+                                <pre><code class="language-javascript">function autoHeal() {
     const healthPercent = (player.hits / player.maxHits) * 100;
     
     if (healthPercent < 70) {
@@ -2408,7 +2413,7 @@ player.run(Directions.South);</code>
             client.headMsg('Out of bandages!', player, 33);
         }
     }
-}</code>
+}</code></pre>
                             </div>
                         </div>
                     </div>
@@ -2421,7 +2426,7 @@ player.run(Directions.South);</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>function collectGold() {
+                                <pre><code class="language-javascript">function collectGold() {
     const goldType = 0xeed;
     ignoreList.clear();
     
@@ -2441,7 +2446,7 @@ player.run(Directions.South);</code>
     
     client.headMsg(`Collected ${goldCount} piles (${totalAmount} gold)`, player, 66);
     ignoreList.clear();
-}</code>
+}</code></pre>
                             </div>
                         </div>
                     </div>
@@ -2454,7 +2459,7 @@ player.run(Directions.South);</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>function autoSellWeapons() {
+                                <pre><code class="language-javascript">function autoSellWeapons() {
     player.say('vendor sell');
     const sellData = Gump.waitForVendorGumpData(5000);
     
@@ -2481,7 +2486,7 @@ player.run(Directions.South);</code>
 function isWeapon(graphic: number): boolean {
     const weaponTypes = [0x0f52, 0x0f49, 0x13b2, 0x0f5c, 0x0f61, 0x1441];
     return weaponTypes.includes(graphic);
-}</code>
+}</code></pre>
                             </div>
                         </div>
                     </div>
@@ -2494,7 +2499,7 @@ function isWeapon(graphic: number): boolean {
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>function trainAnatomy() {
+                                <pre><code class="language-javascript">function trainAnatomy() {
     const skill = player.getSkill(Skills.Anatomy);
     if (!skill) {
         exit('Cannot get anatomy skill info');
@@ -2542,7 +2547,7 @@ function isWeapon(graphic: number): boolean {
         client.headMsg('No targets found for training', player, 33);
         sleep(5000);
     }
-}</code>
+}</code></pre>
                             </div>
                         </div>
                     </div>
@@ -2563,7 +2568,7 @@ function isWeapon(graphic: number): boolean {
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>// Siempre validar existencia de objetos críticos
+                                <pre><code class="language-javascript">// Siempre validar existencia de objetos críticos
 if (!player.backpack) {
     exit('Cannot access backpack');
 }
@@ -2583,7 +2588,7 @@ if (!gump) {
 if (player.hits < player.maxHits * 0.3) {
     client.headMsg('Low health, pausing script', player, 33);
     sleep(5000);
-}</code>
+}</code></pre>
                             </div>
                         </div>
                     </div>
@@ -2596,7 +2601,7 @@ if (player.hits < player.maxHits * 0.3) {
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>// Limpiar lista antes de iniciar
+                                <pre><code class="language-javascript">// Limpiar lista antes de iniciar
 ignoreList.clear();
 
 let totalProcessed = 0;
@@ -2617,7 +2622,7 @@ while ((item = client.findType(0xeed) as Item) && totalProcessed < 100) {
 
 // IMPORTANTE: Limpiar después de usar
 ignoreList.clear();
-client.headMsg(`Processed ${totalProcessed} items`, player, 66);</code>
+client.headMsg(`Processed ${totalProcessed} items`, player, 66);</code></pre>
                             </div>
                         </div>
                     </div>
@@ -2630,7 +2635,7 @@ client.headMsg(`Processed ${totalProcessed} items`, player, 66);</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>// Limpiar journal antes de acciones críticas
+                                <pre><code class="language-javascript">// Limpiar journal antes de acciones críticas
 journal.clear();
 
 player.useType(0xe21); // Vendajes
@@ -2648,7 +2653,7 @@ if (healMessages.some(msg => result?.includes(msg))) {
     client.headMsg('Healing failed or interrupted', player, 33);
 } else {
     log('No healing message detected, possible timeout');
-}</code>
+}</code></pre>
                             </div>
                         </div>
                     </div>
@@ -2661,7 +2666,7 @@ if (healMessages.some(msg => result?.includes(msg))) {
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>/**
+                                <pre><code class="language-javascript">/**
  * Script Template Profesional para ClassicUO
  * Descripción: [Descripción del script]
  * Autor: [Tu nombre]
@@ -2738,7 +2743,7 @@ function cleanup() {
 }
 
 // Iniciar el script
-main();</code>
+main();</code></pre>
                             </div>
                         </div>
                     </div>
@@ -2780,7 +2785,7 @@ main();</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>// Target self
+                                <pre><code class="language-javascript">// Target self
 target.waitTargetSelf();
 
 // Target last attacked
@@ -2790,7 +2795,7 @@ target.entity(target.lastSerial);
 target.waitTargetType(0xe21); // Bandages
 
 // Target ground relative
-target.terrainWithOffset(1, 0, 0); // 1 step east</code>
+target.terrainWithOffset(1, 0, 0); // 1 step east</code></pre>
                             </div>
                         </div>
                     </div>
@@ -2841,7 +2846,7 @@ target.terrainWithOffset(1, 0, 0); // 1 step east</code>
                                 <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                             </div>
                             <div class="code-content">
-                                <code>// Mostrar coordenadas actuales
+                                <pre><code class="language-javascript">// Mostrar coordenadas actuales
 client.headMsg(`Pos: ${player.x}, ${player.y}, ${player.z}`, player, 66);
 
 // Verificar peso
@@ -2857,7 +2862,7 @@ Gump.closeAll();
 client.allNames();
 
 // Limpiar ignore list
-ignoreList.clear();</code>
+ignoreList.clear();</code></pre>
                             </div>
                         </div>
                     </div>
@@ -2932,6 +2937,11 @@ ignoreList.clear();</code>
             </footer>
         </div>
     </main>
+
+    <!-- Prism.js JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
 
     <script>
         function copyCode(button) {

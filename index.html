@@ -400,50 +400,56 @@
         
         <div class="sidebar-nav">
             <div class="nav-section">
-                <div class="nav-section-title">🔧 Elementos Globales</div>
+                <div class="nav-section-title">🚀 Introducción</div>
                 <ul class="nav-links">
-                    <li><a href="#functions" data-section="functions">Functions (3)</a></li>
-                    <li><a href="#variables" data-section="variables">Variables Globales (8)</a></li>
+                    <li><a href="#functions" data-section="functions">Funciones Globales</a></li>
+                    <li><a href="#variables" data-section="variables">Variables Globales</a></li>
                 </ul>
             </div>
             
             <div class="nav-section">
-                <div class="nav-section-title">🏗️ Namespaces Principales</div>
+                <div class="nav-section-title">🎮 API Principal</div>
                 <ul class="nav-links">
-                    <li><a href="#client" data-section="client">Client (30+ métodos)</a></li>
-                    <li><a href="#player" data-section="player">Player (50+ propiedades)</a></li>
-                    <li><a href="#target" data-section="target">Target (15+ métodos)</a></li>
-                    <li><a href="#gump" data-section="gump">Gump (15+ métodos)</a></li>
-                    <li><a href="#journal" data-section="journal">Journal (5 métodos)</a></li>
-                    <li><a href="#ignorelist" data-section="ignorelist">IgnoreList (5 métodos)</a></li>
-                    <li><a href="#popupmenu" data-section="popupmenu">PopupMenu (5 métodos)</a></li>
-                    <li><a href="#prompt" data-section="prompt">Prompt (2 métodos)</a></li>
-                    <li><a href="#worldmap" data-section="worldmap">WorldMap (4 métodos)</a></li>
+                    <li><a href="#client" data-section="client">Client</a></li>
+                    <li><a href="#player" data-section="player">Player</a></li>
+                    <li><a href="#target" data-section="target">Target</a></li>
                 </ul>
             </div>
             
             <div class="nav-section">
-                <div class="nav-section-title">📊 Estructuras de Datos</div>
+                <div class="nav-section-title">🖥️ Interfaz de Usuario</div>
                 <ul class="nav-links">
-                    <li><a href="#gameobject" data-section="gameobject">GameObject (Clase Base)</a></li>
-                    <li><a href="#entity" data-section="entity">Entity (Clase Base)</a></li>
-                    <li><a href="#mobile" data-section="mobile">Mobile (Criaturas)</a></li>
-                    <li><a href="#item" data-section="item">Item (Objetos)</a></li>
-                    <li><a href="#skill" data-section="skill">Skill (Interface)</a></li>
+                    <li><a href="#gump" data-section="gump">Gump</a></li>
+                    <li><a href="#journal" data-section="journal">Journal</a></li>
+                    <li><a href="#popupmenu" data-section="popupmenu">PopupMenu</a></li>
+                    <li><a href="#prompt" data-section="prompt">Prompt</a></li>
+                    <li><a href="#worldmap" data-section="worldmap">WorldMap</a></li>
                 </ul>
             </div>
             
             <div class="nav-section">
-                <div class="nav-section-title">🔢 Enumeraciones</div>
+                <div class="nav-section-title">🏷️ Tipos y Clases</div>
                 <ul class="nav-links">
-                    <li><a href="#enums" data-section="enums">Enums (8 completos)</a></li>
+                    <li><a href="#gameobject" data-section="gameobject">GameObject</a></li>
+                    <li><a href="#entity" data-section="entity">Entity</a></li>
+                    <li><a href="#mobile" data-section="mobile">Mobile</a></li>
+                    <li><a href="#item" data-section="item">Item</a></li>
+                    <li><a href="#skill" data-section="skill">Skill</a></li>
                 </ul>
             </div>
             
             <div class="nav-section">
-                <div class="nav-section-title">💡 Guías y Ejemplos</div>
+                <div class="nav-section-title">📋 Utilidades</div>
                 <ul class="nav-links">
-                    <li><a href="#examples" data-section="examples">Ejemplos Prácticos</a></li>
+                    <li><a href="#ignorelist" data-section="ignorelist">IgnoreList</a></li>
+                    <li><a href="#enums" data-section="enums">Enumeraciones</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">📚 Recursos</div>
+                <ul class="nav-links">
+                    <li><a href="#examples" data-section="examples">Ejemplos</a></li>
                     <li><a href="#best-practices" data-section="best-practices">Mejores Prácticas</a></li>
                     <li><a href="#reference" data-section="reference">Referencia Rápida</a></li>
                 </ul>
@@ -1705,73 +1711,6 @@ if (response.includes(successMessage)) {
                 </div>
             </section>
 
-            <section id="ignorelist" class="section">
-                <div class="section-header">
-                    <h2>🚫 Namespace: IgnoreList</h2>
-                    <p class="description">Administra una lista de entidades ignoradas en funciones de búsqueda</p>
-                </div>
-                <div class="section-content">
-                    <div class="subsection">
-                        <h3>Propiedades</h3>
-                        <div class="table-container">
-                            <table>
-                                <thead>
-                                    <tr><th>Propiedad</th><th>Tipo</th><th>Descripción</th></tr>
-                                </thead>
-                                <tbody>
-                                    <tr><td>values</td><td>number[]</td><td>Array con todos los serials en la lista de ignorados</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="subsection">
-                        <h3>add()</h3>
-                        <div class="code-block">
-                            <div class="code-header">
-                                <div class="code-header-left">Definición JavaScript</div>
-                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                            </div>
-                            <div class="code-content">
-                                <code>add(serial: SerialOrEntity): boolean</code>
-                            </div>
-                        </div>
-                        <p><strong>Descripción:</strong> Agrega un elemento a la lista de ignorados, causando que funciones como findType los ignoren.</p>
-                        <p><strong>Retorna:</strong> true si el valor fue agregado, false si ya existe.</p>
-                        <div class="code-block">
-                            <div class="code-header">
-                                <div class="code-header-left">Ejemplo</div>
-                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                            </div>
-                            <div class="code-content">
-                                <code>let entity: Item | Mobile;
-while ((entity = client.findType(0xeed))) {
-    console.log(`Found item: ${entity.serial}`);
-    ignoreList.add(entity);
-}
-ignoreList.clear();</code>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="subsection">
-                        <h3>Otros Métodos</h3>
-                        <div class="table-container">
-                            <table>
-                                <thead>
-                                    <tr><th>Método</th><th>Descripción</th><th>Retorna</th></tr>
-                                </thead>
-                                <tbody>
-                                    <tr><td>clear()</td><td>Limpia la lista completa</td><td>void</td></tr>
-                                    <tr><td>contains(serial)</td><td>Verifica si la entidad existe en la lista</td><td>boolean</td></tr>
-                                    <tr><td>remove(serial)</td><td>Remueve un elemento de la lista</td><td>boolean</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
             <section id="popupmenu" class="section">
                 <div class="section-header">
                     <h2>📋 Namespace: PopupMenu</h2>
@@ -2224,6 +2163,73 @@ for (const item of itemList) {
                                     <tr><td>lock</td><td>number</td><td>Estado de bloqueo del skill (Up, Down, Locked)</td></tr>
                                     <tr><td>name</td><td>string</td><td>Nombre del skill</td></tr>
                                     <tr><td>value</td><td>number</td><td>Valor actual del skill (incluyendo modificadores). Valor entero sin decimal. Ej: 74.6 se representa como 746</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="ignorelist" class="section">
+                <div class="section-header">
+                    <h2>🚫 Namespace: IgnoreList</h2>
+                    <p class="description">Administra una lista de entidades ignoradas en funciones de búsqueda</p>
+                </div>
+                <div class="section-content">
+                    <div class="subsection">
+                        <h3>Propiedades</h3>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                <tr><th>Propiedad</th><th>Tipo</th><th>Descripción</th></tr>
+                                </thead>
+                                <tbody>
+                                <tr><td>values</td><td>number[]</td><td>Array con todos los serials en la lista de ignorados</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>add()</h3>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <div class="code-header-left">Definición JavaScript</div>
+                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                            </div>
+                            <div class="code-content">
+                                <code>add(serial: SerialOrEntity): boolean</code>
+                            </div>
+                        </div>
+                        <p><strong>Descripción:</strong> Agrega un elemento a la lista de ignorados, causando que funciones como findType los ignoren.</p>
+                        <p><strong>Retorna:</strong> true si el valor fue agregado, false si ya existe.</p>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <div class="code-header-left">Ejemplo</div>
+                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                            </div>
+                            <div class="code-content">
+                                <code>let entity: Item | Mobile;
+                                    while ((entity = client.findType(0xeed))) {
+                                    console.log(`Found item: ${entity.serial}`);
+                                    ignoreList.add(entity);
+                                    }
+                                    ignoreList.clear();</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Otros Métodos</h3>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                <tr><th>Método</th><th>Descripción</th><th>Retorna</th></tr>
+                                </thead>
+                                <tbody>
+                                <tr><td>clear()</td><td>Limpia la lista completa</td><td>void</td></tr>
+                                <tr><td>contains(serial)</td><td>Verifica si la entidad existe en la lista</td><td>boolean</td></tr>
+                                <tr><td>remove(serial)</td><td>Remueve un elemento de la lista</td><td>boolean</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -2975,19 +2981,29 @@ ignoreList.clear();</code>
             
             // Intersection Observer para navegación activa
             const observer = new IntersectionObserver((entries) => {
+                // Encontrar la sección más visible (con mayor intersectionRatio)
+                let mostVisible = null;
+                let maxRatio = 0;
+                
                 entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const id = entry.target.id;
-                        navLinks.forEach(link => {
-                            link.classList.remove('active');
-                            if (link.getAttribute('data-section') === id) {
-                                link.classList.add('active');
-                            }
-                        });
+                    if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
+                        maxRatio = entry.intersectionRatio;
+                        mostVisible = entry.target;
                     }
                 });
+                
+                // Solo actualizar si hay una sección claramente más visible
+                if (mostVisible) {
+                    const id = mostVisible.id;
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('data-section') === id) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
             }, {
-                threshold: 0.1,
+                threshold: [0.1, 0.3, 0.5, 0.7, 0.9],
                 rootMargin: '-50px 0px 0px 0px'
             });
 

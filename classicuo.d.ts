@@ -1667,7 +1667,7 @@ declare const journal: typeof Journal;
 declare const ignoreList: typeof IgnoreList;
 
 /**
- * Sistema de menús contextuales (menús de clic derecho).
+ * Sistema de menús contextuales.
  * Maneja la interacción con menús popup del juego.
  */
 declare const popupMenu: typeof PopupMenu;

@@ -643,9 +643,17 @@
                                             </div>
                                             <div class="method-example">
                                                 <h5>Ejemplo:</h5>
-                                                <pre><code class="language-javascript">if (player.isDead) {
+                                                <div class="code-block">
+                                                    <div class="code-header">
+                                                        <div class="code-header-left">Ejemplo</div>
+                                                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                    </div>
+                                                    <div class="code-content">
+                                                        <pre><code class="language-javascript">if (player.isDead) {
     exit("Failed, I'm dead!");
 }</code></pre>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </td>
@@ -678,9 +686,17 @@
                                             </div>
                                             <div class="method-example">
                                                 <h5>Ejemplos:</h5>
-                                                <pre><code class="language-javascript">log('Hi there!');
+                                                <div class="code-block">
+                                                    <div class="code-header">
+                                                        <div class="code-header-left">Ejemplos</div>
+                                                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                    </div>
+                                                    <div class="code-content">
+                                                        <pre><code class="language-javascript">log('Hi there!');
 log(`My name is ${player.name}`);
 log(`My helmet is`, player.equippedItems.helmet);</code></pre>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </td>
@@ -716,9 +732,17 @@ log(`My helmet is`, player.equippedItems.helmet);</code></pre>
                                             </div>
                                             <div class="method-example">
                                                 <h5>Ejemplo:</h5>
-                                                <pre><code class="language-javascript">player.useSkill(Skills.Anatomy);
+                                                <div class="code-block">
+                                                    <div class="code-header">
+                                                        <div class="code-header-left">Ejemplo</div>
+                                                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                    </div>
+                                                    <div class="code-content">
+                                                        <pre><code class="language-javascript">player.useSkill(Skills.Anatomy);
 sleep(10000); // dormir 10 segundos
 player.useSkill(Skills.Meditation);</code></pre>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </td>
@@ -984,10 +1008,18 @@ if (bandages) {
                                                 </div>
                                                 <div class="method-example">
                                                     <h5>Ejemplo:</h5>
-                                                    <pre><code class="language-javascript">// Encontrar todos los vendajes en el backpack
+                                                    <div class="code-block">
+                                                        <div class="code-header">
+                                                            <div class="code-header-left">Ejemplo</div>
+                                                            <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                        </div>
+                                                        <div class="code-content">
+                                                            <pre><code class="language-javascript">// Encontrar todos los vendajes en el backpack
 const bandageType = 0xe21;
 const allBandages = client.findAllOfType(bandageType, null, player.backpack);
 client.sysMsg(`Encontrados ${allBandages.length} vendajes`);</code></pre>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </td>
@@ -1008,12 +1040,20 @@ client.sysMsg(`Encontrados ${allBandages.length} vendajes`);</code></pre>
                                                 </div>
                                                 <div class="method-example">
                                                     <h5>Ejemplo:</h5>
-                                                    <pre><code class="language-javascript">// Encontrar todas las pociones de heal
+                                                    <div class="code-block">
+                                                        <div class="code-header">
+                                                            <div class="code-header-left">Ejemplo</div>
+                                                            <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                        </div>
+                                                        <div class="code-content">
+                                                            <pre><code class="language-javascript">// Encontrar todas las pociones de heal
 const healPotionType = 0xf0c;
 const healPotions = client.findAllItemsOfType(healPotionType);
 healPotions.forEach(potion => {
     client.headMsg(`Poción: ${potion.serial}`, player);
 });</code></pre>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </td>
@@ -1034,13 +1074,21 @@ healPotions.forEach(potion => {
                                                 </div>
                                                 <div class="method-example">
                                                     <h5>Ejemplo:</h5>
-                                                    <pre><code class="language-javascript">// Encontrar todos los orcos en pantalla
+                                                    <div class="code-block">
+                                                        <div class="code-header">
+                                                            <div class="code-header-left">Ejemplo</div>
+                                                            <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                        </div>
+                                                        <div class="code-content">
+                                                            <pre><code class="language-javascript">// Encontrar todos los orcos en pantalla
 const orcType = 0x11;
 const orcs = client.findAllMobilesOfType(orcType);
 client.sysMsg(`${orcs.length} orcos detectados`);
 orcs.forEach(orc => {
     client.headMsg('¡Enemigo!', orc, 33);
 });</code></pre>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </td>

@@ -126,7 +126,7 @@
         }
 
         .container { 
-            max-width: 1000px; 
+            max-width: 80%;
             margin: 0 auto; 
             padding: 40px 20px; 
         }
@@ -387,6 +387,132 @@
                 scroll-behavior: smooth;
             }
         }
+
+        /* Tablas colapsables para métodos */
+        .methods-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .methods-table th,
+        .methods-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .methods-table th {
+            background: var(--bg-tertiary);
+            font-weight: 600;
+            color: var(--accent-green);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .method-row {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .method-row:hover {
+            background: var(--bg-accent);
+        }
+
+        .method-row.expanded {
+            background: var(--bg-tertiary);
+        }
+
+        .method-row td:first-child {
+            font-family: var(--font-mono);
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        .method-details {
+            background: var(--bg-primary);
+            display: none;
+        }
+
+        .method-details td {
+            border-bottom: none;
+            padding: 0;
+        }
+
+        /* Padding específico para tablas de parámetros dentro del contenido de métodos */
+        .method-content table td,
+        .method-content table th {
+            padding: 8px 12px;
+        }
+
+        .method-content {
+            padding: 20px;
+            border-left: 3px solid var(--accent-blue);
+            margin: 0 15px 15px 15px;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+        }
+
+        .method-signature,
+        .method-example {
+            margin-bottom: 15px;
+        }
+
+        .method-signature h5,
+        .method-example h5 {
+            margin: 0 0 8px 0;
+            color: var(--accent-orange);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .method-signature pre,
+        .method-example pre {
+            background: var(--bg-code);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 15px;
+            overflow-x: auto;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+        }
+
+        .expand-icon {
+            display: inline-block;
+            transition: transform 0.2s ease;
+            margin-right: 8px;
+            color: var(--accent-green);
+            vertical-align: middle;
+            font-size: 0.9rem;
+            width: 16px;
+            text-align: center;
+        }
+
+        .method-row.expanded .expand-icon {
+            transform: rotate(90deg);
+        }
+
+        .parameter-type {
+            color: var(--accent-purple);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+        }
+
+        .parameter-optional {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .method-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
     </style>
     
     <!-- Prism.js for syntax highlighting -->
@@ -401,7 +527,7 @@
             <h1>ClassicUO Scripting</h1>
             <p class="subtitle">Documentación Comunitaria</p>
             <div style="background: rgba(251, 133, 0, 0.1); padding: 10px; border-radius: 6px; margin-top: 15px; font-size: 0.85rem;">
-                <strong>⚠️ Aviso:</strong> Esta documentación es creada y mantenida por la comunidad hispanohablante. No está oficialmente afiliada con los desarrolladores de ClassicUO.
+                <strong>⚠️ Aviso:</strong> Esta documentación es creada y mantenida por la comunidad hispanohablante. Es un proyecto independiente no afiliado con los desarrolladores de ClassicUO.
             </div>
         </div>
         
@@ -409,14 +535,21 @@
             <div class="nav-section">
                 <div class="nav-section-title">🚀 Introducción</div>
                 <ul class="nav-links">
-                    <li><a href="#functions" data-section="functions">Funciones Globales</a></li>
-                    <li><a href="#variables" data-section="variables">Variables Globales</a></li>
+                    <li><a href="#functions" data-section="functions">Guía de Inicio</a></li>
                 </ul>
             </div>
             
             <div class="nav-section">
-                <div class="nav-section-title">🎮 API Principal</div>
+                <div class="nav-section-title">🌍 Funciones Globales</div>
                 <ul class="nav-links">
+                    <li><a href="#globals" data-section="globals">exit, log, sleep</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">🌐 Namespaces Core</div>
+                <ul class="nav-links">
+                    <li><a href="#variables" data-section="variables">Todos los Namespaces</a></li>
                     <li><a href="#client" data-section="client">Client</a></li>
                     <li><a href="#player" data-section="player">Player</a></li>
                     <li><a href="#target" data-section="target">Target</a></li>
@@ -424,32 +557,32 @@
             </div>
             
             <div class="nav-section">
-                <div class="nav-section-title">🖥️ Interfaz de Usuario</div>
+                <div class="nav-section-title">🏛️ Namespaces de Entidades</div>
+                <ul class="nav-links">
+                    <li><a href="#entity" data-section="entity">Entity</a></li>
+                    <li><a href="#gameobject" data-section="gameobject">GameObject</a></li>
+                    <li><a href="#item" data-section="item">Item</a></li>
+                    <li><a href="#mobile" data-section="mobile">Mobile</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">🖥️ Namespaces de Interfaz</div>
                 <ul class="nav-links">
                     <li><a href="#gump" data-section="gump">Gump</a></li>
                     <li><a href="#journal" data-section="journal">Journal</a></li>
                     <li><a href="#popupmenu" data-section="popupmenu">PopupMenu</a></li>
                     <li><a href="#prompt" data-section="prompt">Prompt</a></li>
-                    <li><a href="#worldmap" data-section="worldmap">WorldMap</a></li>
                 </ul>
             </div>
             
             <div class="nav-section">
-                <div class="nav-section-title">🏷️ Tipos y Clases</div>
-                <ul class="nav-links">
-                    <li><a href="#gameobject" data-section="gameobject">GameObject</a></li>
-                    <li><a href="#entity" data-section="entity">Entity</a></li>
-                    <li><a href="#mobile" data-section="mobile">Mobile</a></li>
-                    <li><a href="#item" data-section="item">Item</a></li>
-                    <li><a href="#skill" data-section="skill">Skill</a></li>
-                </ul>
-            </div>
-            
-            <div class="nav-section">
-                <div class="nav-section-title">📋 Utilidades</div>
+                <div class="nav-section-title">🛠️ Utilidades</div>
                 <ul class="nav-links">
                     <li><a href="#ignorelist" data-section="ignorelist">IgnoreList</a></li>
-                    <li><a href="#enums" data-section="enums">Enumeraciones</a></li>
+                    <li><a href="#worldmap" data-section="worldmap">WorldMap</a></li>
+                    <li><a href="#enums" data-section="enums">enums</a></li>
+                    <li><a href="#skill" data-section="skill">Skill</a></li>
                 </ul>
             </div>
             
@@ -466,129 +599,140 @@
 
     <main class="main-content">
         <div class="container">
-            <section id="functions" class="section">
+            <section id="globals" class="section">
                 <div class="section-header">
-                    <h2>⚡ Functions (Funciones Globales)</h2>
-                    <p class="description">Funciones utilitarias básicas disponibles en todos los scripts</p>
+                    <h2>🌍 Funciones Globales</h2>
+                    <p class="description">Funciones que están disponibles globalmente en todos los contextos de scripting</p>
                 </div>
                 <div class="section-content">
-                    <div class="subsection">
-                        <h3>exit()</h3>
-                        <div class="code-block">
-                            <div class="code-header">
-                                <div class="code-header-left">Definición JavaScript</div>
-                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                            </div>
-                            <div class="code-content">
-                                <pre><code class="language-javascript">function exit(reason?: string): void;</code></pre>
-                            </div>
-                        </div>
-                        <p><strong>Descripción:</strong> Termina la ejecución del script anticipadamente, útil para salir basado en ciertas condiciones.</p>
-                        <h4>Parámetros</h4>
-                        <div class="table-container">
-                            <table>
-                                <thead>
-                                    <tr><th>Parámetro</th><th>Tipo</th><th>Descripción</th></tr>
-                                </thead>
-                                <tbody>
-                                    <tr><td>reason?</td><td>string</td><td>Razón opcional del por qué falló el script, aparece en el área de consola</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="code-block">
-                            <div class="code-header">
-                                <div class="code-header-left">Ejemplo</div>
-                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                            </div>
-                            <div class="code-content">
-                                <pre><code class="language-javascript">if (player.isDead) {
+                    <div class="methods-table-container">
+                        <table class="methods-table">
+                            <thead>
+                                <tr>
+                                    <th>Función</th>
+                                    <th>Parámetros</th>
+                                    <th>Retorna</th>
+                                    <th>Descripción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="method-row" data-method="exit">
+                                    <td><code>exit()</code></td>
+                                    <td><span class="parameter-type">reason?: string</span></td>
+                                    <td><span class="parameter-type">void</span></td>
+                                    <td class="method-description">Termina la ejecución del script anticipadamente con una razón opcional</td>
+                                </tr>
+                                <tr class="method-details" data-method="exit" style="display: none;">
+                                    <td colspan="4">
+                                        <div class="method-content">
+                                            <div class="method-signature">
+                                                <h5>Definición:</h5>
+                                                <pre><code>function exit(reason?: string): void;</code></pre>
+                                            </div>
+                                            <p><strong>Descripción:</strong> Termina la ejecución del script anticipadamente, útil para salir basado en ciertas condiciones.</p>
+                                            <h5>Parámetros:</h5>
+                                            <div class="table-container">
+                                                <table>
+                                                    <thead>
+                                                        <tr><th>Parámetro</th><th>Tipo</th><th>Descripción</th></tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr><td>reason?</td><td>string</td><td>Razón opcional del por qué falló el script, aparece en el área de consola</td></tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="method-example">
+                                                <h5>Ejemplo:</h5>
+                                                <pre><code class="language-javascript">if (player.isDead) {
     exit("Failed, I'm dead!");
 }</code></pre>
-                            </div>
-                        </div>
-                    </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
 
-                    <div class="subsection">
-                        <h3>log()</h3>
-                        <div class="code-block">
-                            <div class="code-header">
-                                <div class="code-header-left">Definición JavaScript</div>
-                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                            </div>
-                            <div class="code-content">
-                                <pre><code class="language-javascript">function log(...args: any[]): void;</code></pre>
-                            </div>
-                        </div>
-                        <p><strong>Descripción:</strong> Registra los argumentos en el área de consola debajo de la ventana de scripting.</p>
-                        <h4>Parámetros</h4>
-                        <div class="table-container">
-                            <table>
-                                <thead>
-                                    <tr><th>Parámetro</th><th>Tipo</th><th>Descripción</th></tr>
-                                </thead>
-                                <tbody>
-                                    <tr><td>...args</td><td>any[]</td><td>Lista de objetos que se registrarán en la consola</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="code-block">
-                            <div class="code-header">
-                                <div class="code-header-left">Ejemplos</div>
-                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                            </div>
-                            <div class="code-content">
-                                <pre><code class="language-javascript">log('Hi there!');
+                                <tr class="method-row" data-method="log">
+                                    <td><code>log()</code></td>
+                                    <td><span class="parameter-type">...args: any[]</span></td>
+                                    <td><span class="parameter-type">void</span></td>
+                                    <td class="method-description">Registra mensajes en la consola para propósitos de debugging</td>
+                                </tr>
+                                <tr class="method-details" data-method="log" style="display: none;">
+                                    <td colspan="4">
+                                        <div class="method-content">
+                                            <div class="method-signature">
+                                                <h5>Definición:</h5>
+                                                <pre><code>function log(...args: any[]): void;</code></pre>
+                                            </div>
+                                            <p><strong>Descripción:</strong> Registra los argumentos en el área de consola debajo de la ventana de scripting.</p>
+                                            <h5>Parámetros:</h5>
+                                            <div class="table-container">
+                                                <table>
+                                                    <thead>
+                                                        <tr><th>Parámetro</th><th>Tipo</th><th>Descripción</th></tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr><td>...args</td><td>any[]</td><td>Lista de objetos que se registrarán en la consola</td></tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="method-example">
+                                                <h5>Ejemplos:</h5>
+                                                <pre><code class="language-javascript">log('Hi there!');
 log(`My name is ${player.name}`);
 log(`My helmet is`, player.equippedItems.helmet);</code></pre>
-                            </div>
-                        </div>
-                    </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
 
-                    <div class="subsection">
-                        <h3>sleep()</h3>
-                        <div class="code-block">
-                            <div class="code-header">
-                                <div class="code-header-left">Definición JavaScript</div>
-                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                            </div>
-                            <div class="code-content">
-                                <pre><code class="language-javascript">function sleep(ms: number): void;</code></pre>
-                            </div>
-                        </div>
-                        <p><strong>Descripción:</strong> Retrasa la ejecución del script durante un número específico de milisegundos.</p>
-                        <div class="alert alert-warning">
-                            <strong>⚠️ Nota:</strong> La precisión del retraso para duraciones largas no está garantizada.
-                        </div>
-                        <h4>Parámetros</h4>
-                        <div class="table-container">
-                            <table>
-                                <thead>
-                                    <tr><th>Parámetro</th><th>Tipo</th><th>Descripción</th></tr>
-                                </thead>
-                                <tbody>
-                                    <tr><td>ms</td><td>number</td><td>Retraso en milisegundos</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="code-block">
-                            <div class="code-header">
-                                <div class="code-header-left">Ejemplo</div>
-                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                            </div>
-                            <div class="code-content">
-                                <pre><code class="language-javascript">player.useSkill(Skills.Anatomy);
+                                <tr class="method-row" data-method="sleep">
+                                    <td><code>sleep()</code></td>
+                                    <td><span class="parameter-type">ms: number</span></td>
+                                    <td><span class="parameter-type">void</span></td>
+                                    <td class="method-description">Pausa la ejecución del script por un número específico de milisegundos</td>
+                                </tr>
+                                <tr class="method-details" data-method="sleep" style="display: none;">
+                                    <td colspan="4">
+                                        <div class="method-content">
+                                            <div class="method-signature">
+                                                <h5>Definición:</h5>
+                                                <pre><code>function sleep(ms: number): void;</code></pre>
+                                            </div>
+                                            <p><strong>Descripción:</strong> Retrasa la ejecución del script durante un número específico de milisegundos.</p>
+                                            <div class="alert alert-warning">
+                                                <strong>⚠️ Nota:</strong> La precisión del retraso para duraciones largas no está garantizada.
+                                            </div>
+                                            <h5>Parámetros:</h5>
+                                            <div class="table-container">
+                                                <table>
+                                                    <thead>
+                                                        <tr><th>Parámetro</th><th>Tipo</th><th>Descripción</th></tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr><td>ms</td><td>number</td><td>Retraso en milisegundos</td></tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="method-example">
+                                                <h5>Ejemplo:</h5>
+                                                <pre><code class="language-javascript">player.useSkill(Skills.Anatomy);
 sleep(10000); // dormir 10 segundos
 player.useSkill(Skills.Meditation);</code></pre>
-                            </div>
-                        </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </section>
 
             <section id="variables" class="section">
                 <div class="section-header">
-                    <h2>🌐 Variables Globales</h2>
-                    <p class="description">Objetos principales disponibles para interactuar con el juego</p>
+                    <h2>🌐 Namespaces Principales</h2>
+                    <p class="description">Namespaces principales que proporcionan acceso a las funcionalidades del juego</p>
                 </div>
                 <div class="section-content">
                     <div class="property-item">
@@ -668,6 +812,66 @@ player.useSkill(Skills.Meditation);</code></pre>
                         </div>
                         <div class="property-content">
                             <p>Controla las funcionalidades relacionadas con el mapa del mundo.</p>
+                        </div>
+                    </div>
+
+                    <div class="property-item">
+                        <div class="property-header">
+                            <span class="property-name">Entity</span>
+                            <span class="property-type">: Entity</span>
+                        </div>
+                        <div class="property-content">
+                            <p>Clase base para representar entidades en el mundo del juego.</p>
+                        </div>
+                    </div>
+
+                    <div class="property-item">
+                        <div class="property-header">
+                            <span class="property-name">GameObject</span>
+                            <span class="property-type">: GameObject</span>
+                        </div>
+                        <div class="property-content">
+                            <p>Representa objetos del juego que pueden ser interactuados.</p>
+                        </div>
+                    </div>
+
+                    <div class="property-item">
+                        <div class="property-header">
+                            <span class="property-name">Gump</span>
+                            <span class="property-type">: Gump</span>
+                        </div>
+                        <div class="property-content">
+                            <p>Maneja las interfaces gráficas y ventanas del juego.</p>
+                        </div>
+                    </div>
+
+                    <div class="property-item">
+                        <div class="property-header">
+                            <span class="property-name">Item</span>
+                            <span class="property-type">: Item</span>
+                        </div>
+                        <div class="property-content">
+                            <p>Representa items y objetos específicos en el mundo del juego.</p>
+                        </div>
+                    </div>
+
+                    <div class="property-item">
+                        <div class="property-header">
+                            <span class="property-name">Mobile</span>
+                            <span class="property-type">: Mobile</span>
+                        </div>
+                        <div class="property-content">
+                            <p>Representa criaturas móviles, NPCs y jugadores en el juego.</p>
+                        </div>
+                    </div>
+
+                    <div class="property-item">
+                        <div class="property-header">
+                            <span class="property-name">enums</span>
+                            <span class="property-type">: Enumerations</span>
+                        </div>
+                        <div class="property-content">
+                            <p>Conjunto de enumeraciones que definen constantes utilizadas en el scripting.</p>
                         </div>
                     </div>
                 </div>
@@ -754,16 +958,120 @@ if (bandages) {
                         </div>
 
                         <h4>Métodos de Búsqueda Múltiple</h4>
-                        <div class="table-container">
-                            <table>
+                        <div class="methods-table-container">
+                            <table class="methods-table">
                                 <thead>
-                                    <tr><th>Método</th><th>Descripción</th><th>Retorna</th></tr>
+                                    <tr>
+                                        <th>Método</th>
+                                        <th>Parámetros</th>
+                                        <th>Retorna</th>
+                                        <th>Descripción</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                    <tr><td>findAllOfType(graphic, hue?, source?, amount?, range?)</td><td>Encuentra todos los objetos de un tipo</td><td>any[]</td></tr>
-                                    <tr><td>findAllItemsOfType(graphic, hue?, source?, amount?, range?)</td><td>Encuentra todos los Items de un tipo</td><td>Item[]</td></tr>
-                                    <tr><td>findAllMobilesOfType(graphic, hue?, source?, amount?, range?)</td><td>Encuentra todos los Mobiles de un tipo</td><td>Mobile[]</td></tr>
-                                    <tr><td>findItemOnLayer(serial, layer)</td><td>Encuentra objeto en capa específica</td><td>any</td></tr>
+                                    <tr class="method-row" data-method="findAllOfType">
+                                        <td><code>Client.findAllOfType()</code></td>
+                                        <td><span class="parameter-type">graphic: number, hue?: number, source?: SerialOrEntity, amount?: number, range?: number</span></td>
+                                        <td><span class="parameter-type">any[]</span></td>
+                                        <td class="method-description">Encuentra todos los objetos de un tipo específico</td>
+                                    </tr>
+                                    <tr class="method-details" data-method="findAllOfType" style="display: none;">
+                                        <td colspan="4">
+                                            <div class="method-content">
+                                                <div class="method-signature">
+                                                    <h5>Definición:</h5>
+                                                    <pre><code>Client.findAllOfType(graphic: number, hue?: number, source?: SerialOrEntity, amount?: number, range?: number): any[]</code></pre>
+                                                </div>
+                                                <div class="method-example">
+                                                    <h5>Ejemplo:</h5>
+                                                    <pre><code class="language-javascript">// Encontrar todos los vendajes en el backpack
+const bandageType = 0xe21;
+const allBandages = client.findAllOfType(bandageType, null, player.backpack);
+client.sysMsg(`Encontrados ${allBandages.length} vendajes`);</code></pre>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="method-row" data-method="findAllItemsOfType">
+                                        <td><code>Client.findAllItemsOfType()</code></td>
+                                        <td><span class="parameter-type">graphic: number, hue?: number, source?: SerialOrEntity, amount?: number, range?: number</span></td>
+                                        <td><span class="parameter-type">Item[]</span></td>
+                                        <td class="method-description">Encuentra todos los Items de un tipo específico</td>
+                                    </tr>
+                                    <tr class="method-details" data-method="findAllItemsOfType" style="display: none;">
+                                        <td colspan="4">
+                                            <div class="method-content">
+                                                <div class="method-signature">
+                                                    <h5>Definición:</h5>
+                                                    <pre><code>Client.findAllItemsOfType(graphic: number, hue?: number, source?: SerialOrEntity, amount?: number, range?: number): Item[]</code></pre>
+                                                </div>
+                                                <div class="method-example">
+                                                    <h5>Ejemplo:</h5>
+                                                    <pre><code class="language-javascript">// Encontrar todas las pociones de heal
+const healPotionType = 0xf0c;
+const healPotions = client.findAllItemsOfType(healPotionType);
+healPotions.forEach(potion => {
+    client.headMsg(`Poción: ${potion.serial}`, player);
+});</code></pre>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="method-row" data-method="findAllMobilesOfType">
+                                        <td><code>Client.findAllMobilesOfType()</code></td>
+                                        <td><span class="parameter-type">graphic: number, hue?: number, source?: SerialOrEntity, amount?: number, range?: number</span></td>
+                                        <td><span class="parameter-type">Mobile[]</span></td>
+                                        <td class="method-description">Encuentra todos los Mobiles de un tipo específico</td>
+                                    </tr>
+                                    <tr class="method-details" data-method="findAllMobilesOfType" style="display: none;">
+                                        <td colspan="4">
+                                            <div class="method-content">
+                                                <div class="method-signature">
+                                                    <h5>Definición:</h5>
+                                                    <pre><code>Client.findAllMobilesOfType(graphic: number, hue?: number, source?: SerialOrEntity, amount?: number, range?: number): Mobile[]</code></pre>
+                                                </div>
+                                                <div class="method-example">
+                                                    <h5>Ejemplo:</h5>
+                                                    <pre><code class="language-javascript">// Encontrar todos los orcos en pantalla
+const orcType = 0x11;
+const orcs = client.findAllMobilesOfType(orcType);
+client.sysMsg(`${orcs.length} orcos detectados`);
+orcs.forEach(orc => {
+    client.headMsg('¡Enemigo!', orc, 33);
+});</code></pre>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="method-row" data-method="findItemOnLayer">
+                                        <td><code>Client.findItemOnLayer()</code></td>
+                                        <td><span class="parameter-type">serial: SerialOrEntity, layer: Layer</span></td>
+                                        <td><span class="parameter-type">any</span></td>
+                                        <td class="method-description">Encuentra un objeto en una capa específica de una entidad</td>
+                                    </tr>
+                                    <tr class="method-details" data-method="findItemOnLayer" style="display: none;">
+                                        <td colspan="4">
+                                            <div class="method-content">
+                                                <div class="method-signature">
+                                                    <h5>Definición:</h5>
+                                                    <pre><code>Client.findItemOnLayer(serial: SerialOrEntity, layer: Layer): any</code></pre>
+                                                </div>
+                                                <div class="method-example">
+                                                    <h5>Ejemplo:</h5>
+                                                    <pre><code class="language-javascript">// Verificar si el jugador tiene un arma equipada
+const weapon = client.findItemOnLayer(player, Layers.RightHand);
+if (weapon) {
+    client.sysMsg(`Arma equipada: ${weapon.graphic}`);
+} else {
+    client.sysMsg('No hay arma equipada');
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -817,16 +1125,16 @@ client.headMsg('A message in Green', player, 66);</code></pre>
                                     <tr><th>Método</th><th>Descripción</th><th>Ejemplo</th></tr>
                                 </thead>
                                 <tbody>
-                                    <tr><td>allNames()</td><td>Activa macro "All Names"</td><td>client.allNames()</td></tr>
-                                    <tr><td>openPaperdoll(serial?)</td><td>Abre paperdoll para un Mobile</td><td>client.openPaperdoll(player)</td></tr>
-                                    <tr><td>toggleAlwaysRun()</td><td>Alterna correr siempre</td><td>client.toggleAlwaysRun()</td></tr>
-                                    <tr><td>closeAllGumps()</td><td>Cierra todos los gumps excepto Top Bar, Buff bar, o World view</td><td>client.closeAllGumps()</td></tr>
-                                    <tr><td>closeAllHealthBars()</td><td>Cierra todas las barras de salud en pantalla</td><td>client.closeAllHealthBars()</td></tr>
-                                    <tr><td>closeInactiveHealthBars()</td><td>Cierra barras de salud inactivas (muertos/fuera de pantalla)</td><td>client.closeInactiveHealthBars()</td></tr>
-                                    <tr><td>toggleChatVisibility()</td><td>Alterna visibilidad del chat en la parte inferior</td><td>client.toggleChatVisibility()</td></tr>
-                                    <tr><td>toggleNameOverheads()</td><td>Alterna si las entidades tienen placas de nombres</td><td>client.toggleNameOverheads()</td></tr>
-                                    <tr><td>toggleAuras()</td><td>Alterna si los móviles tienen auras debajo</td><td>client.toggleAuras()</td></tr>
-                                    <tr><td>toggleCircleOfTransparency()</td><td>Alterna el Círculo de Transparencia entre estados</td><td>client.toggleCircleOfTransparency()</td></tr>
+                                    <tr><td>Client.allNames()</td><td>Activa macro "All Names"</td><td>client.allNames()</td></tr>
+                                    <tr><td>Client.openPaperdoll(serial?)</td><td>Abre paperdoll para un Mobile</td><td>client.openPaperdoll(player)</td></tr>
+                                    <tr><td>Client.toggleAlwaysRun()</td><td>Alterna correr siempre</td><td>client.toggleAlwaysRun()</td></tr>
+                                    <tr><td>Client.closeAllGumps()</td><td>Cierra todos los gumps excepto Top Bar, Buff bar, o World view</td><td>client.closeAllGumps()</td></tr>
+                                    <tr><td>Client.closeAllHealthBars()</td><td>Cierra todas las barras de salud en pantalla</td><td>client.closeAllHealthBars()</td></tr>
+                                    <tr><td>Client.closeInactiveHealthBars()</td><td>Cierra barras de salud inactivas (muertos/fuera de pantalla)</td><td>client.closeInactiveHealthBars()</td></tr>
+                                    <tr><td>Client.toggleChatVisibility()</td><td>Alterna visibilidad del chat en la parte inferior</td><td>client.toggleChatVisibility()</td></tr>
+                                    <tr><td>Client.toggleNameOverheads()</td><td>Alterna si las entidades tienen placas de nombres</td><td>client.toggleNameOverheads()</td></tr>
+                                    <tr><td>Client.toggleAuras()</td><td>Alterna si los móviles tienen auras debajo</td><td>client.toggleAuras()</td></tr>
+                                    <tr><td>Client.toggleCircleOfTransparency()</td><td>Alterna el Círculo de Transparencia entre estados</td><td>client.toggleCircleOfTransparency()</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -882,8 +1190,8 @@ client.selectEntity(
                                     <tr><th>Método</th><th>Descripción</th><th>Retorna</th></tr>
                                 </thead>
                                 <tbody>
-                                    <tr><td>sendBuyRequest(vendorSerial, items)</td><td>Envía solicitud de compra a vendedor</td><td>boolean</td></tr>
-                                    <tr><td>sendSellRequest(vendorSerial, items)</td><td>Envía solicitud de venta a vendedor</td><td>boolean</td></tr>
+                                    <tr><td>Client.sendBuyRequest(vendorSerial, items)</td><td>Envía solicitud de compra a vendedor</td><td>boolean</td></tr>
+                                    <tr><td>Client.sendSellRequest(vendorSerial, items)</td><td>Envía solicitud de venta a vendedor</td><td>boolean</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -897,12 +1205,12 @@ client.selectEntity(
                                     <tr><th>Método</th><th>Descripción</th><th>Retorna</th></tr>
                                 </thead>
                                 <tbody>
-                                    <tr><td>queryItemOPL(serialOrObject, timeout?)</td><td>Consulta lista de propiedades del objeto</td><td>object</td></tr>
-                                    <tr><td>queryItemSingleClickName(serialOrObject, timeout?)</td><td>Consulta nombre de single-click</td><td>string</td></tr>
-                                    <tr><td>getPing()</td><td>Obtiene ping actual al servidor</td><td>number</td></tr>
-                                    <tr><td>getStatic(graphic)</td><td>Obtiene información de objeto estático</td><td>object | undefined</td></tr>
-                                    <tr><td>getTile(graphic)</td><td>Obtiene información de tile</td><td>object | undefined</td></tr>
-                                    <tr><td>getTerrainList(x, y)</td><td>Obtiene lista de terreno en coordenadas</td><td>object[] | undefined</td></tr>
+                                    <tr><td>Client.queryItemOPL(serialOrObject, timeout?)</td><td>Consulta lista de propiedades del objeto</td><td>object</td></tr>
+                                    <tr><td>Client.queryItemSingleClickName(serialOrObject, timeout?)</td><td>Consulta nombre de single-click</td><td>string</td></tr>
+                                    <tr><td>Client.getPing()</td><td>Obtiene ping actual al servidor</td><td>number</td></tr>
+                                    <tr><td>Client.getStatic(graphic)</td><td>Obtiene información de objeto estático</td><td>object | undefined</td></tr>
+                                    <tr><td>Client.getTile(graphic)</td><td>Obtiene información de tile</td><td>object | undefined</td></tr>
+                                    <tr><td>Client.getTerrainList(x, y)</td><td>Obtiene lista de terreno en coordenadas</td><td>object[] | undefined</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -1150,14 +1458,14 @@ player.castTo(Spells.Heal, player);</code></pre>
                                     <tr><th>Método</th><th>Descripción</th><th>Retorna</th></tr>
                                 </thead>
                                 <tbody>
-                                    <tr><td>click(serial)</td><td>Simula hacer clic en un objeto</td><td>void</td></tr>
-                                    <tr><td>equip(serial)</td><td>Intenta equipar un item si es posible</td><td>void</td></tr>
-                                    <tr><td>openDoor()</td><td>Usa cualquier puerta directamente enfrente del jugador</td><td>void</td></tr>
-                                    <tr><td>run(direction)</td><td>Corre/gira un solo paso en una dirección</td><td>boolean</td></tr>
-                                    <tr><td>toggleFlying()</td><td>Alterna volar, siempre que seas una Gárgola</td><td>void</td></tr>
-                                    <tr><td>use(serial)</td><td>Intenta usar un objeto si es posible</td><td>void</td></tr>
-                                    <tr><td>useItemInHand()</td><td>Usa el item actualmente en tu mano</td><td>void</td></tr>
-                                    <tr><td>useLastObject()</td><td>Usa el último objeto sobre el que hiciste doble-click</td><td>void</td></tr>
+                                    <tr><td>Player.click(serial)</td><td>Simula hacer clic en un objeto</td><td>void</td></tr>
+                                    <tr><td>Player.equip(serial)</td><td>Intenta equipar un item si es posible</td><td>void</td></tr>
+                                    <tr><td>Player.openDoor()</td><td>Usa cualquier puerta directamente enfrente del jugador</td><td>void</td></tr>
+                                    <tr><td>Player.run(direction)</td><td>Corre/gira un solo paso en una dirección</td><td>boolean</td></tr>
+                                    <tr><td>Player.toggleFlying()</td><td>Alterna volar, siempre que seas una Gárgola</td><td>void</td></tr>
+                                    <tr><td>Player.use(serial)</td><td>Intenta usar un objeto si es posible</td><td>void</td></tr>
+                                    <tr><td>Player.useItemInHand()</td><td>Usa el item actualmente en tu mano</td><td>void</td></tr>
+                                    <tr><td>Player.useLastObject()</td><td>Usa el último objeto sobre el que hiciste doble-click</td><td>void</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -1171,10 +1479,10 @@ player.castTo(Spells.Heal, player);</code></pre>
                                     <tr><th>Método</th><th>Descripción</th><th>Retorna</th></tr>
                                 </thead>
                                 <tbody>
-                                    <tr><td>getAllSkills()</td><td>Obtiene un array de todos los valores de habilidades</td><td>object[] | undefined</td></tr>
-                                    <tr><td>getSkill(skill)</td><td>Obtiene un objeto con los valores de una habilidad</td><td>object | undefined</td></tr>
-                                    <tr><td>setSkillLock(skill, lock)</td><td>Establece el estado de bloqueo de una habilidad</td><td>void</td></tr>
-                                    <tr><td>useVirtue(virtue, target?, timeout?)</td><td>Usa una virtud</td><td>void</td></tr>
+                                    <tr><td>Player.getAllSkills()</td><td>Obtiene un array de todos los valores de habilidades</td><td>object[] | undefined</td></tr>
+                                    <tr><td>Player.getSkill(skill)</td><td>Obtiene un objeto con los valores de una habilidad</td><td>object | undefined</td></tr>
+                                    <tr><td>Player.setSkillLock(skill, lock)</td><td>Establece el estado de bloqueo de una habilidad</td><td>void</td></tr>
+                                    <tr><td>Player.useVirtue(virtue, target?, timeout?)</td><td>Usa una virtud</td><td>void</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -1188,10 +1496,10 @@ player.castTo(Spells.Heal, player);</code></pre>
                                     <tr><th>Método</th><th>Descripción</th><th>Parámetros</th></tr>
                                 </thead>
                                 <tbody>
-                                    <tr><td>moveItemOnGroundOffset()</td><td>Mueve un objeto en el suelo usando offset</td><td>serial, x?, y?, z?, amount?</td></tr>
-                                    <tr><td>moveType()</td><td>Mueve un objeto de tipo específico entre contenedores</td><td>graphic, src, dest, x?, y?, z?, hue?, amount?, range?</td></tr>
-                                    <tr><td>moveTypeOnGroundOffset()</td><td>Mueve un objeto de tipo específico al suelo</td><td>graphic, src, x?, y?, z?, hue?, amount?, range?</td></tr>
-                                    <tr><td>useType()</td><td>Intenta usar un objeto de un tipo específico</td><td>graphic, hue?, sourceSerial?, range?</td></tr>
+                                    <tr><td>Player.moveItemOnGroundOffset()</td><td>Mueve un objeto en el suelo usando offset</td><td>serial, x?, y?, z?, amount?</td></tr>
+                                    <tr><td>Player.moveType()</td><td>Mueve un objeto de tipo específico entre contenedores</td><td>graphic, src, dest, x?, y?, z?, hue?, amount?, range?</td></tr>
+                                    <tr><td>Player.moveTypeOnGroundOffset()</td><td>Mueve un objeto de tipo específico al suelo</td><td>graphic, src, x?, y?, z?, hue?, amount?, range?</td></tr>
+                                    <tr><td>Player.useType()</td><td>Intenta usar un objeto de un tipo específico</td><td>graphic, hue?, sourceSerial?, range?</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -1205,9 +1513,9 @@ player.castTo(Spells.Heal, player);</code></pre>
                                     <tr><th>Método</th><th>Descripción</th><th>Retorna</th></tr>
                                 </thead>
                                 <tbody>
-                                    <tr><td>hasBuffDebuff(buffID)</td><td>Verifica si el jugador tiene un buff/debuff específico</td><td>boolean</td></tr>
-                                    <tr><td>setAbility(primary, active)</td><td>Activa/desactiva habilidad especial</td><td>void</td></tr>
-                                    <tr><td>waitForBuffDebuff(buffId, timeoutMs?)</td><td>Espera a que aparezca/desaparezca un buff/debuff</td><td>null | boolean</td></tr>
+                                    <tr><td>Player.hasBuffDebuff(buffID)</td><td>Verifica si el jugador tiene un buff/debuff específico</td><td>boolean</td></tr>
+                                    <tr><td>Player.setAbility(primary, active)</td><td>Activa/desactiva habilidad especial</td><td>void</td></tr>
+                                    <tr><td>Player.waitForBuffDebuff(buffId, timeoutMs?)</td><td>Espera a que aparezca/desaparezca un buff/debuff</td><td>null | boolean</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -2892,7 +3200,7 @@ ignoreList.clear();</code></pre>
 
             <footer style="text-align: center; padding: 40px 0; border-top: 1px solid var(--border-color); margin-top: 50px;">
                 <div class="alert alert-info">
-                    <strong>📖 Documentación Comunitaria:</strong> Esta documentación se basa completamente en la API oficial de ClassicUO disponible en <a href="https://classicuo.org/scripting/" style="color: var(--accent-blue);">classicuo.org/scripting</a>
+                    <strong>📖 Documentación Comunitaria:</strong> Esta documentación se basa completamente en la API de ClassicUO disponible en <a href="https://classicuo.org/scripting/" style="color: var(--accent-blue);">classicuo.org/scripting</a>
                 </div>
                 
                 <div style="margin-top: 30px; padding: 20px; background: var(--bg-secondary); border-radius: 8px;">
@@ -2903,7 +3211,7 @@ ignoreList.clear();</code></pre>
                             <small style="color: var(--text-secondary);">exit, log, sleep</small>
                         </div>
                         <div>
-                            <strong style="color: var(--accent-green);">Variables Globales:</strong> 8<br>
+                            <strong style="color: var(--accent-green);">Namespaces Principales:</strong> 14<br>
                             <small style="color: var(--text-secondary);">client, player, target, journal, etc.</small>
                         </div>
                         <div>
@@ -2929,7 +3237,7 @@ ignoreList.clear();</code></pre>
                     <h4 style="color: var(--accent-blue); margin-bottom: 10px;">⚠️ Discrepancias Detectadas</h4>
                     <div style="color: var(--text-secondary); font-size: 0.9rem;">
                         • <strong>Gump.setCheckbox():</strong> Declarado como setCheckbox() pero ejemplo usa gumpSetCheckbox()<br>
-                        • <strong>Prompt.waitUntilOpen():</strong> Usado en ejemplo oficial pero método no documentado
+                        • <strong>Prompt.waitUntilOpen():</strong> Usado en ejemplo de la documentación pero método no documentado
                     </div>
                 </div>
 
@@ -2941,7 +3249,7 @@ ignoreList.clear();</code></pre>
                         Repositorio GitHub
                     </a><br>
                     Hecho con ❤️ para la comunidad hispana de UO por <strong>Foruno</strong><br>
-                    <small>Basado en documentación oficial de ClassicUO • Traducido al español manteniendo nombres técnicos originales</small>
+                    <small>Basado en documentación de ClassicUO • Traducido al español manteniendo nombres técnicos originales</small>
                 </p>
             </footer>
         </div>
@@ -3135,6 +3443,82 @@ ignoreList.clear();</code></pre>
                     }
                 });
             });
+
+            // Inicializar tablas colapsables para métodos
+            function initCollapsibleMethods() {
+                const methodRows = document.querySelectorAll('.method-row');
+                console.log('DEBUG: Encontrados', methodRows.length, 'elementos con clase method-row');
+                
+                methodRows.forEach(row => {
+                    // Agregar indicador visual de expansión
+                    const firstCell = row.querySelector('td:first-child');
+                    if (firstCell && !firstCell.querySelector('.expand-icon')) {
+                        firstCell.innerHTML = `<span class="expand-icon">▶</span>${firstCell.innerHTML}`;
+                    }
+                    
+                    // Event listener para expandir/colapsar
+                    row.addEventListener('click', function() {
+                        const methodName = this.getAttribute('data-method');
+                        if (!methodName) return;
+                        
+                        const detailsRow = document.querySelector(`[data-method="${methodName}"].method-details`);
+                        const expandIcon = this.querySelector('.expand-icon');
+                        
+                        if (detailsRow && expandIcon) {
+                            const isVisible = detailsRow.style.display !== 'none';
+                            
+                            // Toggle visibility
+                            detailsRow.style.display = isVisible ? 'none' : 'table-row';
+                            
+                            // Update icon and state
+                            expandIcon.textContent = isVisible ? '▶' : '▼';
+                            this.classList.toggle('expanded', !isVisible);
+                            
+                            // Save state in localStorage
+                            const key = `method-${methodName}-expanded`;
+                            localStorage.setItem(key, (!isVisible).toString());
+                        }
+                    });
+                    
+                    // Restore previous state from localStorage
+                    const methodName = row.getAttribute('data-method');
+                    if (methodName) {
+                        const key = `method-${methodName}-expanded`;
+                        const wasExpanded = localStorage.getItem(key) === 'true';
+                        
+                        if (wasExpanded) {
+                            const detailsRow = document.querySelector(`[data-method="${methodName}"].method-details`);
+                            const expandIcon = row.querySelector('.expand-icon');
+                            
+                            if (detailsRow && expandIcon) {
+                                detailsRow.style.display = 'table-row';
+                                expandIcon.textContent = '▼';
+                                row.classList.add('expanded');
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Inicializar las tablas colapsables
+            initCollapsibleMethods();
+            
+            // Re-inicializar cuando se agreguen nuevas tablas dinámicamente
+            const mutationObserver = new MutationObserver(function(mutations) {
+                let needsReinit = false;
+                mutations.forEach(function(mutation) {
+                    mutation.addedNodes.forEach(function(node) {
+                        if (node.nodeType === 1 && (node.classList.contains('methods-table') || node.querySelector('.methods-table'))) {
+                            needsReinit = true;
+                        }
+                    });
+                });
+                if (needsReinit) {
+                    setTimeout(initCollapsibleMethods, 100);
+                }
+            });
+            
+            mutationObserver.observe(document.body, { childList: true, subtree: true });
         });
     </script>
 </body>

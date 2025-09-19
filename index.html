@@ -398,6 +398,8 @@ player.useSkill(Skills.Meditation);</code></pre>
                 <p class="description">Conjunto más amplio de funcionalidades para interactuar con el cliente del juego</p>
             </div>
             <div class="section-content">
+
+                <!--Client Mensajería y Comunicación-->
                 <div class="subsection">
                     <h3>💬 Mensajería y Comunicación</h3>
                     <p>Estos métodos se utilizan para mostrar mensajes en el juego. Permiten enviar mensajes tanto al chat del sistema como mostrar mensajes flotantes sobre entidades específicas, facilitando la comunicación con el jugador durante la ejecución de scripts.</p>
@@ -530,9 +532,10 @@ client.headMsg('Script finalizado', 'world'); // Mensaje en el mundo</code></pre
                     </div>
                 </div>
 
+                <!--Client Búsqueda y Consulta de Objetos-->
                 <div class="subsection">
-                    <h3>Métodos de Búsqueda de Objetos</h3>
-                    <p>Métodos fundamentales para localizar objetos específicos en el mundo del juego por serial o tipo.</p>
+                    <h3>🔍 Búsqueda y Consulta de Objetos</h3>
+                    <p>Métodos fundamentales para localizar objetos específicos en el mundo del juego. Incluyen búsquedas por serial, tipo de gráfico, consultas de información detallada y selección de entidades con criterios específicos. Esenciales para la automatización de tareas que requieren interacción con objetos del juego.</p>
                     <div class="methods-table-container">
                         <table class="methods-table">
                             <thead>
@@ -546,8 +549,8 @@ client.headMsg('Script finalizado', 'world'); // Mensaje en el mundo</code></pre
                             <tbody>
                             <tr class="method-row" data-method="findObject">
                                 <td><code>Client.findObject()</code></td>
-                                <td><span class="parameter-type">serial: SerialOrEntity</span></td>
-                                <td><span class="parameter-type">GameObject | null</span></td>
+                                <td><span class="parameter-type">serial: SerialOrEntity, hue?: number, sourceSerial?: SerialOrEntity, amount?: number, range?: number</span></td>
+                                <td><span class="parameter-type">any</span></td>
                                 <td class="method-description">Busca un objeto específico por su serial</td>
                             </tr>
                             <tr class="method-details" data-method="findObject" style="display: none;">
@@ -561,11 +564,41 @@ client.headMsg('Script finalizado', 'world'); // Mensaje en el mundo</code></pre
                                                     <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                                                 </div>
                                                 <div class="code-content">
-                                                    <pre><code>Client.findObject(serial: SerialOrEntity): GameObject | null</code></pre>
+                                                    <pre><code>Client.findObject(serial: SerialOrEntity, hue?: number, sourceSerial?: SerialOrEntity, amount?: number, range?: number): any</code></pre>
                                                 </div>
                                             </div>
                                         </div>
                                         <p><strong>Descripción:</strong> Intenta verificar si un cierto objeto puede encontrarse en el juego.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">serial</code>
+                                                    <span class="parameter-type">SerialOrEntity</span>
+                                                    <div class="parameter-description">El serial del objeto a buscar</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">hue</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Color específico del objeto (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">sourceSerial</code>
+                                                    <span class="parameter-type parameter-optional">SerialOrEntity?</span>
+                                                    <div class="parameter-description">Contenedor donde buscar (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">amount</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Cantidad mínima requerida (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">range</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Rango de búsqueda o profundidad en contenedores (opcional)</div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="method-example">
                                             <h5>Ejemplo:</h5>
                                             <div class="code-block">
@@ -574,7 +607,7 @@ client.headMsg('Script finalizado', 'world'); // Mensaje en el mundo</code></pre
                                                     <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                                                 </div>
                                                 <div class="code-content">
-                                                            <pre><code class="language-javascript">const runebookSerial = 0x401c37fb;
+                                        <pre><code class="language-javascript">const runebookSerial = 0x401c37fb;
 const runebook = client.findObject(runebookSerial);
 if (runebook) {
     player.use(runebook);
@@ -590,9 +623,9 @@ if (runebook) {
 
                             <tr class="method-row" data-method="findType">
                                 <td><code>Client.findType()</code></td>
-                                <td><span class="parameter-type">graphic: number, hue?: number, source?: SerialOrEntity, range?: number</span></td>
+                                <td><span class="parameter-type">graphic: number, hue?: number, sourceSerial?: SerialOrEntity, amount?: number, range?: number</span></td>
                                 <td><span class="parameter-type">any</span></td>
-                                <td class="method-description">Encuentra un objeto del tipo especificado</td>
+                                <td class="method-description">Busca un objeto por su tipo de gráfico</td>
                             </tr>
                             <tr class="method-details" data-method="findType" style="display: none;">
                                 <td colspan="4">
@@ -605,13 +638,43 @@ if (runebook) {
                                                     <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                                                 </div>
                                                 <div class="code-content">
-                                                    <pre><code>Client.findType(graphic: number, hue?: number, source?: SerialOrEntity, range?: number): any</code></pre>
+                                                    <pre><code>Client.findType(graphic: number, hue?: number, sourceSerial?: SerialOrEntity, amount?: number, range?: number): any</code></pre>
                                                 </div>
                                             </div>
                                         </div>
                                         <p><strong>Descripción:</strong> Intenta encontrar un objeto en el mundo con los parámetros de búsqueda especificados, retornándolo si se encuentra.</p>
                                         <div class="alert alert-info">
-                                            <strong>ℹ️ Nota:</strong> El parámetro <code>range</code> cuando se combina con el parámetro de contenedor <code>source</code> especifica la profundidad de búsqueda.
+                                            <strong>ℹ️ Nota:</strong> El parámetro <code>range</code> cuando se combina con el parámetro de contenedor <code>sourceSerial</code> especifica la profundidad de búsqueda.
+                                        </div>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">graphic</code>
+                                                    <span class="parameter-type">number</span>
+                                                    <div class="parameter-description">ID del gráfico del tipo de objeto a buscar</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">hue</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Color específico del objeto (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">sourceSerial</code>
+                                                    <span class="parameter-type parameter-optional">SerialOrEntity?</span>
+                                                    <div class="parameter-description">Contenedor donde buscar (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">amount</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Cantidad mínima requerida (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">range</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Rango de búsqueda o profundidad en contenedores (opcional)</div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="method-example">
                                             <h5>Ejemplo:</h5>
@@ -621,7 +684,7 @@ if (runebook) {
                                                     <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                                                 </div>
                                                 <div class="code-content">
-                                                            <pre><code class="language-javascript">// Usar cualquier vendaje que se pueda encontrar
+                                        <pre><code class="language-javascript">// Usar cualquier vendaje que se pueda encontrar
 const bandageType = 0xe21;
 const bandages = client.findType(bandageType);
 if (bandages) {
@@ -636,13 +699,496 @@ if (bandages) {
                                     </div>
                                 </td>
                             </tr>
+
+                            <tr class="method-row" data-method="findAllOfType">
+                                <td><code>Client.findAllOfType()</code></td>
+                                <td><span class="parameter-type">graphic: number, hue?: number, sourceSerial?: SerialOrEntity, amount?: number, range?: number</span></td>
+                                <td><span class="parameter-type">any[]</span></td>
+                                <td class="method-description">Encuentra todos los objetos de un tipo específico</td>
+                            </tr>
+                            <tr class="method-details" data-method="findAllOfType" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.findAllOfType(graphic: number, hue?: number, sourceSerial?: SerialOrEntity, amount?: number, range?: number): any[]</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Intenta encontrar todos los objetos de un cierto tipo (gráfico), retornando los Items/Mobiles coincidentes.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">graphic</code>
+                                                    <span class="parameter-type">number</span>
+                                                    <div class="parameter-description">ID del gráfico del tipo de objeto a buscar</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">hue</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Color específico del objeto (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">sourceSerial</code>
+                                                    <span class="parameter-type parameter-optional">SerialOrEntity?</span>
+                                                    <div class="parameter-description">Contenedor donde buscar (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">amount</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Cantidad mínima requerida (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">range</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Rango de búsqueda o profundidad en contenedores (opcional)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">const goldPile = 0xeed;
+const piles = client.findAllOfType(goldPile, undefined, 'world');
+if (piles.length > 0) {
+    client.headMsg(`Encontradas ${piles.length} pilas de oro en el suelo`, player);
+} else {
+    client.headMsg('No hay pilas de oro en el rango', player);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="findAllItemsOfType">
+                                <td><code>Client.findAllItemsOfType()</code></td>
+                                <td><span class="parameter-type">graphic: number, hue?: number, sourceSerial?: SerialOrEntity, amount?: number, range?: number</span></td>
+                                <td><span class="parameter-type">Item[]</span></td>
+                                <td class="method-description">Encuentra todos los items de un tipo específico</td>
+                            </tr>
+                            <tr class="method-details" data-method="findAllItemsOfType" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.findAllItemsOfType(graphic: number, hue?: number, sourceSerial?: SerialOrEntity, amount?: number, range?: number): Item[]</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Intenta encontrar todos los <strong>Items</strong> de un cierto tipo (gráfico). Solo retorna items, no mobiles.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">graphic</code>
+                                                    <span class="parameter-type">number</span>
+                                                    <div class="parameter-description">ID del gráfico del tipo de item a buscar</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">hue</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Color específico del item (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">sourceSerial</code>
+                                                    <span class="parameter-type parameter-optional">SerialOrEntity?</span>
+                                                    <div class="parameter-description">Contenedor donde buscar (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">amount</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Cantidad mínima requerida (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">range</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Rango de búsqueda o profundidad en contenedores (opcional)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">const goldPile = 0xeed;
+const piles = client.findAllItemsOfType(goldPile, undefined, 'world');
+if (piles.length > 0) {
+    const total = piles.reduce((sum, item) => sum + item.amount, 0);
+    client.headMsg(`Encontradas ${piles.length} pilas, ${total} monedas de oro`, player);
+} else {
+    client.headMsg('No hay pilas de oro en el rango', player);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="findAllMobilesOfType">
+                                <td><code>Client.findAllMobilesOfType()</code></td>
+                                <td><span class="parameter-type">graphic: number, hue?: number, sourceSerial?: SerialOrEntity, amount?: number, range?: number</span></td>
+                                <td><span class="parameter-type">Mobile[]</span></td>
+                                <td class="method-description">Encuentra todos los mobiles de un tipo específico</td>
+                            </tr>
+                            <tr class="method-details" data-method="findAllMobilesOfType" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.findAllMobilesOfType(graphic: number, hue?: number, sourceSerial?: SerialOrEntity, amount?: number, range?: number): Mobile[]</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Intenta encontrar todos los <strong>Mobiles</strong> de un cierto tipo (gráfico). Solo retorna mobiles, no items.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">graphic</code>
+                                                    <span class="parameter-type">number</span>
+                                                    <div class="parameter-description">ID del gráfico del tipo de mobile a buscar</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">hue</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Color específico del mobile (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">sourceSerial</code>
+                                                    <span class="parameter-type parameter-optional">SerialOrEntity?</span>
+                                                    <div class="parameter-description">Área donde buscar (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">amount</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Cantidad mínima requerida (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">range</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Rango de búsqueda (opcional)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">const sheepGraphic = 0xcf;
+const sheep = client.findAllMobilesOfType(sheepGraphic);
+if (sheep.length > 0) {
+    client.headMsg(`Cuento ${sheep.length} ovejas`, player);
+} else {
+    client.headMsg('¡No hay ovejas aquí!', player);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="findItemOnLayer">
+                                <td><code>Client.findItemOnLayer()</code></td>
+                                <td><span class="parameter-type">serial: SerialOrEntity, layer: Layers</span></td>
+                                <td><span class="parameter-type">any</span></td>
+                                <td class="method-description">Busca un item equipado en una layer específica</td>
+                            </tr>
+                            <tr class="method-details" data-method="findItemOnLayer" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.findItemOnLayer(serial: SerialOrEntity, layer: Layers): any</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Intenta encontrar el objeto en la layer especificada, si existe.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">serial</code>
+                                                    <span class="parameter-type">SerialOrEntity</span>
+                                                    <div class="parameter-description">El serial del mobile al que consultar</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">layer</code>
+                                                    <span class="parameter-type">Layers</span>
+                                                    <div class="parameter-description">La layer específica donde buscar (ej: Layers.Helmet, Layers.Chest)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">const helm = client.findItemOnLayer(player.serial, Layers.Helmet);
+if (helm) {
+    client.headMsg('Quitando casco', player);
+    player.moveItem(helm, player.backpack);
+} else {
+    client.headMsg('No llevas casco puesto', player);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="selectEntity">
+                                <td><code>Client.selectEntity()</code></td>
+                                <td><span class="parameter-type">searchOpt: number, searchRangeOpt: number, searchTypeOpt: number, asFriend: boolean</span></td>
+                                <td><span class="parameter-type">any</span></td>
+                                <td class="method-description">Selecciona una entidad basada en criterios específicos</td>
+                            </tr>
+                            <tr class="method-details" data-method="selectEntity" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.selectEntity(searchOpt: number, searchRangeOpt: number, searchTypeOpt: number, asFriend: boolean): any</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Retorna la entidad basada en los criterios de búsqueda especificados.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">searchOpt</code>
+                                                    <span class="parameter-type">number</span>
+                                                    <div class="parameter-description">Opciones de búsqueda (SearchEntityOptions: Any, Enemy, Gray, etc.)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">searchRangeOpt</code>
+                                                    <span class="parameter-type">number</span>
+                                                    <div class="parameter-description">Opciones de rango (SearchEntityRangeOptions: Nearest, Next, Previous)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">searchTypeOpt</code>
+                                                    <span class="parameter-type">number</span>
+                                                    <div class="parameter-description">Opciones de tipo (SearchEntityTypeOptions: Any, Human, etc.)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">asFriend</code>
+                                                    <span class="parameter-type">boolean</span>
+                                                    <div class="parameter-description">Si se debe tratar como amigo</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Seleccionar enemigo o gris más cercano
+const enemy = client.selectEntity(
+    SearchEntityOptions.Enemy | SearchEntityOptions.Gray,
+    SearchEntityRangeOptions.Nearest,
+    SearchEntityTypeOptions.Any,
+    false
+);
+
+// Seleccionar humano inocente más cercano
+const innocent = client.selectEntity(
+    SearchEntityOptions.Innocent,
+    SearchEntityRangeOptions.Nearest,
+    SearchEntityTypeOptions.Human,
+    false
+);</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="queryItemOPL">
+                                <td><code>Client.queryItemOPL()</code></td>
+                                <td><span class="parameter-type">serialOrObject: SerialOrEntity, timeout?: number</span></td>
+                                <td><span class="parameter-type">object</span></td>
+                                <td class="method-description">Obtiene información detallada de un item (OPL)</td>
+                            </tr>
+                            <tr class="method-details" data-method="queryItemOPL" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.queryItemOPL(serialOrObject: SerialOrEntity, timeout?: number): object</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Consulta la información detallada de un item incluyendo propiedades, nombre, cantidad y otros datos.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">serialOrObject</code>
+                                                    <span class="parameter-type">SerialOrEntity</span>
+                                                    <div class="parameter-description">El item del cual obtener información</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">timeout</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Tiempo límite en milisegundos para la consulta (opcional)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="alert alert-info">
+                                            <strong>ℹ️ Retorna:</strong> Objeto con propiedades como: amount, data, graphic, hue, isPartialHue, name, properties, serial
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">const weapon = client.findType(0xf62); // Katana
+if (weapon) {
+    const itemInfo = client.queryItemOPL(weapon, 2000);
+    client.sysMsg(`Nombre: ${itemInfo.name}`);
+    client.sysMsg(`Gráfico: ${itemInfo.graphic}`);
+    client.sysMsg(`Color: ${itemInfo.hue}`);
+    if (itemInfo.properties) {
+        client.sysMsg(`Propiedades: ${itemInfo.properties.length}`);
+    }
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="queryItemSingleClickName">
+                                <td><code>Client.queryItemSingleClickName()</code></td>
+                                <td><span class="parameter-type">serialOrObject: SerialOrEntity, timeout?: number</span></td>
+                                <td><span class="parameter-type">string</span></td>
+                                <td class="method-description">Obtiene el nombre de un item por single-click</td>
+                            </tr>
+                            <tr class="method-details" data-method="queryItemSingleClickName" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.queryItemSingleClickName(serialOrObject: SerialOrEntity, timeout?: number): string</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Obtiene el nombre del item tal como aparece al hacer single-click sobre él en el juego.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">serialOrObject</code>
+                                                    <span class="parameter-type">SerialOrEntity</span>
+                                                    <div class="parameter-description">El item del cual obtener el nombre</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">timeout</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Tiempo límite en milisegundos para la consulta (opcional)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">const items = client.findAllItemsOfType(0xf3f); // Bread
+for (const item of items) {
+    const itemName = client.queryItemSingleClickName(item, 1000);
+    client.sysMsg(`Encontrado: ${itemName}`);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
+                <!--Client Gestión de Interfaz de Usuario-->
                 <div class="subsection">
-                    <h3>Métodos de Búsqueda Múltiple</h3>
+                    <h3>🖥️ Gestión de Interfaz de Usuario</h3>
+                    <p>Métodos para controlar y manipular los elementos de la interfaz gráfica del cliente. Incluyen funciones para abrir y cerrar ventanas, controlar la visibilidad de elementos de la UI, gestionar el zoom del viewport y configurar opciones de visualización. Esenciales para personalizar la experiencia visual del jugador.</p>
                     <div class="methods-table-container">
                         <table class="methods-table">
                             <thead>
@@ -654,18 +1200,37 @@ if (bandages) {
                             </tr>
                             </thead>
                             <tbody>
-                            <tr class="method-row" data-method="findAllOfType">
-                                <td><code>Client.findAllOfType()</code></td>
-                                <td><span class="parameter-type">graphic: number, hue?: number, source?: SerialOrEntity, amount?: number, range?: number</span></td>
-                                <td><span class="parameter-type">any[]</span></td>
-                                <td class="method-description">Encuentra todos los objetos de un tipo específico</td>
+                            <tr class="method-row" data-method="openPaperdoll">
+                                <td><code>Client.openPaperdoll()</code></td>
+                                <td><span class="parameter-type">serial?: SerialOrEntity</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Abre el paperdoll de un mobile</td>
                             </tr>
-                            <tr class="method-details" data-method="findAllOfType" style="display: none;">
+                            <tr class="method-details" data-method="openPaperdoll" style="display: none;">
                                 <td colspan="4">
                                     <div class="method-content">
                                         <div class="method-signature">
                                             <h5>Definición:</h5>
-                                            <pre><code>Client.findAllOfType(graphic: number, hue?: number, source?: SerialOrEntity, amount?: number, range?: number): any[]</code></pre>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.openPaperdoll(serial?: SerialOrEntity): void</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Abre el paperdoll (ventana de equipamiento) para un Mobile.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">serial</code>
+                                                    <span class="parameter-type parameter-optional">SerialOrEntity?</span>
+                                                    <div class="parameter-description">El mobile del cual abrir el paperdoll (opcional, por defecto el jugador)</div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="method-example">
                                             <h5>Ejemplo:</h5>
@@ -675,10 +1240,17 @@ if (bandages) {
                                                     <button class="copy-button" onclick="copyCode(this)">Copiar</button>
                                                 </div>
                                                 <div class="code-content">
-                                                            <pre><code class="language-javascript">// Encontrar todos los vendajes en el backpack
-const bandageType = 0xe21;
-const allBandages = client.findAllOfType(bandageType, null, player.backpack);
-client.sysMsg(`Encontrados ${allBandages.length} vendajes`);</code></pre>
+                                        <pre><code class="language-javascript">// Abrir el paperdoll del humano más cercano
+const nearestHuman = client.selectEntity(
+    SearchEntityOptions.Any,
+    SearchEntityRangeOptions.Nearest,
+    SearchEntityTypeOptions.Human,
+    false
+);
+client.openPaperdoll(nearestHuman);
+
+// Abrir nuestro propio paperdoll
+client.openPaperdoll();</code></pre>
                                                 </div>
                                             </div>
                                         </div>
@@ -686,97 +1258,481 @@ client.sysMsg(`Encontrados ${allBandages.length} vendajes`);</code></pre>
                                 </td>
                             </tr>
 
-                            <tr class="method-row" data-method="findAllItemsOfType">
-                                <td><code>Client.findAllItemsOfType()</code></td>
-                                <td><span class="parameter-type">graphic: number, hue?: number, source?: SerialOrEntity, amount?: number, range?: number</span></td>
-                                <td><span class="parameter-type">Item[]</span></td>
-                                <td class="method-description">Encuentra todos los Items de un tipo específico</td>
-                            </tr>
-                            <tr class="method-details" data-method="findAllItemsOfType" style="display: none;">
-                                <td colspan="4">
-                                    <div class="method-content">
-                                        <div class="method-signature">
-                                            <h5>Definición:</h5>
-                                            <pre><code>Client.findAllItemsOfType(graphic: number, hue?: number, source?: SerialOrEntity, amount?: number, range?: number): Item[]</code></pre>
-                                        </div>
-                                        <div class="method-example">
-                                            <h5>Ejemplo:</h5>
-                                            <div class="code-block">
-                                                <div class="code-header">
-                                                    <div class="code-header-left">Ejemplo</div>
-                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                                </div>
-                                                <div class="code-content">
-                                                            <pre><code class="language-javascript">// Encontrar todas las pociones de heal
-const healPotionType = 0xf0c;
-const healPotions = client.findAllItemsOfType(healPotionType);
-healPotions.forEach(potion => {
-    client.headMsg(`Poción: ${potion.serial}`, player);
-});</code></pre>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr class="method-row" data-method="findAllMobilesOfType">
-                                <td><code>Client.findAllMobilesOfType()</code></td>
-                                <td><span class="parameter-type">graphic: number, hue?: number, source?: SerialOrEntity, amount?: number, range?: number</span></td>
-                                <td><span class="parameter-type">Mobile[]</span></td>
-                                <td class="method-description">Encuentra todos los Mobiles de un tipo específico</td>
-                            </tr>
-                            <tr class="method-details" data-method="findAllMobilesOfType" style="display: none;">
-                                <td colspan="4">
-                                    <div class="method-content">
-                                        <div class="method-signature">
-                                            <h5>Definición:</h5>
-                                            <pre><code>Client.findAllMobilesOfType(graphic: number, hue?: number, source?: SerialOrEntity, amount?: number, range?: number): Mobile[]</code></pre>
-                                        </div>
-                                        <div class="method-example">
-                                            <h5>Ejemplo:</h5>
-                                            <div class="code-block">
-                                                <div class="code-header">
-                                                    <div class="code-header-left">Ejemplo</div>
-                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                                </div>
-                                                <div class="code-content">
-                                                            <pre><code class="language-javascript">// Encontrar todos los orcos en pantalla
-const orcType = 0x11;
-const orcs = client.findAllMobilesOfType(orcType);
-client.sysMsg(`${orcs.length} orcos detectados`);
-orcs.forEach(orc => {
-    client.headMsg('¡Enemigo!', orc, 33);
-});</code></pre>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr class="method-row" data-method="findItemOnLayer">
-                                <td><code>Client.findItemOnLayer()</code></td>
-                                <td><span class="parameter-type">serial: SerialOrEntity, layer: Layer</span></td>
+                            <tr class="method-row" data-method="closeAllGumps">
+                                <td><code>Client.closeAllGumps()</code></td>
+                                <td><span class="parameter-type">-</span></td>
                                 <td><span class="parameter-type">any</span></td>
-                                <td class="method-description">Encuentra un objeto en una capa específica de una entidad</td>
+                                <td class="method-description">Cierra todas las ventanas gump abiertas</td>
                             </tr>
-                            <tr class="method-details" data-method="findItemOnLayer" style="display: none;">
+                            <tr class="method-details" data-method="closeAllGumps" style="display: none;">
                                 <td colspan="4">
                                     <div class="method-content">
                                         <div class="method-signature">
                                             <h5>Definición:</h5>
-                                            <pre><code>Client.findItemOnLayer(serial: SerialOrEntity, layer: Layer): any</code></pre>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.closeAllGumps(): any</code></pre>
+                                                </div>
+                                            </div>
                                         </div>
+                                        <p><strong>Descripción:</strong> Cierra todas las gumps que no sean la barra superior, la barra de buffs o la vista del mundo (radar).</p>
                                         <div class="method-example">
                                             <h5>Ejemplo:</h5>
-                                            <pre><code class="language-javascript">// Verificar si el jugador tiene un arma equipada
-const weapon = client.findItemOnLayer(player, Layers.RightHand);
-if (weapon) {
-    client.sysMsg(`Arma equipada: ${weapon.graphic}`);
-} else {
-    client.sysMsg('No hay arma equipada');
-}</code></pre>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Limpiar la pantalla de ventanas al iniciar un script
+client.closeAllGumps();
+client.sysMsg('Todas las ventanas han sido cerradas');</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="closeCorpses">
+                                <td><code>Client.closeCorpses()</code></td>
+                                <td><span class="parameter-type">-</span></td>
+                                <td><span class="parameter-type">any</span></td>
+                                <td class="method-description">Cierra todas las ventanas de cadáveres</td>
+                            </tr>
+                            <tr class="method-details" data-method="closeCorpses" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.closeCorpses(): any</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Cierra todas las ventanas de cadáveres que estén abiertas en pantalla.</p>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Cerrar cadáveres después de lootear
+client.closeCorpses();
+client.sysMsg('Cadáveres cerrados');</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="closeAllHealthBars">
+                                <td><code>Client.closeAllHealthBars()</code></td>
+                                <td><span class="parameter-type">-</span></td>
+                                <td><span class="parameter-type">any</span></td>
+                                <td class="method-description">Cierra todas las barras de vida</td>
+                            </tr>
+                            <tr class="method-details" data-method="closeAllHealthBars" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.closeAllHealthBars(): any</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Cierra todas las barras de vida que estén visibles en pantalla.</p>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Limpiar todas las barras de vida
+client.closeAllHealthBars();
+client.sysMsg('Barras de vida cerradas');</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="closeInactiveHealthBars">
+                                <td><code>Client.closeInactiveHealthBars()</code></td>
+                                <td><span class="parameter-type">-</span></td>
+                                <td><span class="parameter-type">any</span></td>
+                                <td class="method-description">Cierra barras de vida inactivas</td>
+                            </tr>
+                            <tr class="method-details" data-method="closeInactiveHealthBars" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.closeInactiveHealthBars(): any</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Cierra todas las barras de vida inactivas (es decir, de entidades muertas o fuera de pantalla).</p>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Limpiar solo las barras de vida obsoletas
+client.closeInactiveHealthBars();
+client.sysMsg('Barras de vida inactivas cerradas');</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="toggleChatVisibility">
+                                <td><code>Client.toggleChatVisibility()</code></td>
+                                <td><span class="parameter-type">-</span></td>
+                                <td><span class="parameter-type">any</span></td>
+                                <td class="method-description">Alterna la visibilidad del chat</td>
+                            </tr>
+                            <tr class="method-details" data-method="toggleChatVisibility" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.toggleChatVisibility(): any</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Alterna la visibilidad del chat, es decir, la barra en la parte inferior del viewport del juego.</p>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Ocultar/mostrar el chat para tomar capturas de pantalla
+client.toggleChatVisibility();
+client.sysMsg('Visibilidad del chat alternada');</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="toggleNameOverheads">
+                                <td><code>Client.toggleNameOverheads()</code></td>
+                                <td><span class="parameter-type">-</span></td>
+                                <td><span class="parameter-type">any</span></td>
+                                <td class="method-description">Alterna la visibilidad de nombres sobre entidades</td>
+                            </tr>
+                            <tr class="method-details" data-method="toggleNameOverheads" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.toggleNameOverheads(): any</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Alterna si las entidades tienen placas de nombres visibles encima de ellas.</p>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Alternar nombres para mejor visibilidad
+client.toggleNameOverheads();
+client.sysMsg('Nombres sobre entidades alternados');</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="toggleAuras">
+                                <td><code>Client.toggleAuras()</code></td>
+                                <td><span class="parameter-type">-</span></td>
+                                <td><span class="parameter-type">any</span></td>
+                                <td class="method-description">Alterna la visibilidad de auras bajo mobiles</td>
+                            </tr>
+                            <tr class="method-details" data-method="toggleAuras" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.toggleAuras(): any</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Alterna si los mobiles tienen auras debajo de ellos.</p>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Alternar auras para mejor identificación de mobiles
+client.toggleAuras();
+client.sysMsg('Auras de mobiles alternadas');</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="toggleCircleOfTransparency">
+                                <td><code>Client.toggleCircleOfTransparency()</code></td>
+                                <td><span class="parameter-type">-</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Alterna el círculo de transparencia</td>
+                            </tr>
+                            <tr class="method-details" data-method="toggleCircleOfTransparency" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.toggleCircleOfTransparency(): void</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Alterna el círculo de transparencia entre estados.</p>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Alternar transparencia para mejor visibilidad
+client.toggleCircleOfTransparency();
+client.sysMsg('Círculo de transparencia alternado');</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="zoomReset">
+                                <td><code>Client.zoomReset()</code></td>
+                                <td><span class="parameter-type">-</span></td>
+                                <td><span class="parameter-type">any</span></td>
+                                <td class="method-description">Resetea el zoom del viewport al valor por defecto</td>
+                            </tr>
+                            <tr class="method-details" data-method="zoomReset" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.zoomReset(): any</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Restablece el zoom del viewport a su valor por defecto (1.1).</p>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Volver al zoom normal
+client.zoomReset();
+client.sysMsg('Zoom restablecido al valor por defecto');</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="zoomIn">
+                                <td><code>Client.zoomIn()</code></td>
+                                <td><span class="parameter-type">-</span></td>
+                                <td><span class="parameter-type">any</span></td>
+                                <td class="method-description">Acerca el zoom del viewport</td>
+                            </tr>
+                            <tr class="method-details" data-method="zoomIn" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.zoomIn(): any</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Acerca el zoom del viewport.</p>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Acercar la vista para ver mejor los detalles
+client.zoomIn();
+client.sysMsg('Zoom acercado');</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="zoomOut">
+                                <td><code>Client.zoomOut()</code></td>
+                                <td><span class="parameter-type">-</span></td>
+                                <td><span class="parameter-type">any</span></td>
+                                <td class="method-description">Aleja el zoom del viewport</td>
+                            </tr>
+                            <tr class="method-details" data-method="zoomOut" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.zoomOut(): any</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Aleja el zoom del viewport.</p>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Alejar la vista para ver más área
+client.zoomOut();
+client.sysMsg('Zoom alejado');</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="setGrabBag">
+                                <td><code>Client.setGrabBag()</code></td>
+                                <td><span class="parameter-type">-</span></td>
+                                <td><span class="parameter-type">any</span></td>
+                                <td class="method-description">Configura la bolsa de loot del Grid Loot</td>
+                            </tr>
+                            <tr class="method-details" data-method="setGrabBag" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.setGrabBag(): any</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Establece la bolsa de loot utilizada por el sistema Grid Loot.</p>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Configurar la bolsa de loot para Grid Loot
+client.setGrabBag();
+client.sysMsg('Bolsa de loot configurada');</code></pre>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </td>
@@ -785,6 +1741,8 @@ if (weapon) {
                         </table>
                     </div>
                 </div>
+
+                <!--Por Aquí-->
 
                 <div class="methods-table-container">
                     <table class="methods-table">

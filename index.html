@@ -1742,903 +1742,771 @@ client.sysMsg('Bolsa de loot configurada');</code></pre>
                     </div>
                 </div>
 
-                <!--Por Aquí-->
+                <!--Client Acciones e Información del Jugador-->
+                <div class="subsection">
+                    <h3>👤 Acciones e Información del Jugador</h3>
+                    <p>Estos métodos permiten obtener información del estado del jugador y controlar acciones específicas como el modo de correr, mostrar nombres y cerrar el juego. Son útiles para crear interfaces de usuario y automatizaciones que interactúan directamente con el comportamiento del personaje.</p>
+                    <div class="methods-table-container">
+                        <table class="methods-table">
+                            <thead>
+                            <tr>
+                                <th>Método</th>
+                                <th>Parámetros</th>
+                                <th>Retorna</th>
+                                <th>Descripción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="method-row" data-method="getPing">
+                                <td><code>Client.getPing()</code></td>
+                                <td><span class="parameter-type">ninguno</span></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="method-description">Obtiene el ping actual al servidor</td>
+                            </tr>
+                            <tr class="method-details" data-method="getPing" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.getPing(): number</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Obtiene el ping actual del cliente al servidor (tal como se muestra en la ventana de Conexión del juego).</p>
+                                        <div class="parameters-section">
+                                            <h5>Valor de retorno:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">number</code>
+                                                    <span class="parameter-type">number</span>
+                                                    <div class="parameter-description">El ping en milisegundos</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">const ping = client.getPing();
+client.sysMsg(`Ping actual: ${ping}ms`, 66);
 
-                <div class="methods-table-container">
-                    <table class="methods-table">
-                        <thead>
-                        <tr>
-                            <th>Método</th>
-                            <th>Parámetros</th>
-                            <th>Retorna</th>
-                            <th>Descripción</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr class="method-row" data-method="headMsg">
-                            <td><code>Client.headMsg()</code></td>
-                            <td><span class="parameter-type">message: string, serial: SerialOrEntity, hue?: number</span></td>
-                            <td><span class="parameter-type">void</span></td>
-                            <td class="method-description">Muestra un mensaje sobre la cabeza de la entidad objetivo</td>
-                        </tr>
-                        <tr class="method-details" data-method="headMsg" style="display: none;">
-                            <td colspan="4">
-                                <div class="method-content">
-                                    <div class="method-signature">
-                                        <h5>Definición:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Definición</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code>Client.headMsg(message: string, serial: SerialOrEntity, hue?: number): void</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p><strong>Descripción:</strong> Muestra un mensaje sobre la cabeza de la entidad objetivo.</p>
-                                    <h5>Parámetros:</h5>
-                                    <div class="table-container">
-                                        <table>
-                                            <thead>
-                                            <tr><th>Parámetro</th><th>Tipo</th><th>Descripción</th></tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr><td>message</td><td>string</td><td>Mensaje a mostrar</td></tr>
-                                            <tr><td>serial</td><td>SerialOrEntity</td><td>Entidad sobre la cual mostrar el mensaje</td></tr>
-                                            <tr><td>hue?</td><td>number</td><td>Color del mensaje (opcional)</td></tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="method-example">
-                                        <h5>Ejemplo:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Ejemplo</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                        <pre><code class="language-javascript">client.headMsg('A message in Red', player, 33);
-client.headMsg('A message in Green', player, 66);</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr class="method-row" data-method="sysMsg">
-                            <td><code>Client.sysMsg()</code></td>
-                            <td><span class="parameter-type">message: string, hue?: number</span></td>
-                            <td><span class="parameter-type">void</span></td>
-                            <td class="method-description">Muestra un mensaje en el chat de texto</td>
-                        </tr>
-                        <tr class="method-details" data-method="sysMsg" style="display: none;">
-                            <td colspan="4">
-                                <div class="method-content">
-                                    <div class="method-signature">
-                                        <h5>Definición:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Definición</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code>Client.sysMsg(message: string, hue?: number): void</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p><strong>Descripción:</strong> Muestra un mensaje en el chat de texto.</p>
-                                    <h5>Parámetros:</h5>
-                                    <div class="table-container">
-                                        <table>
-                                            <thead>
-                                            <tr><th>Parámetro</th><th>Tipo</th><th>Descripción</th></tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr><td>message</td><td>string</td><td>Mensaje a mostrar en el chat</td></tr>
-                                            <tr><td>hue?</td><td>number</td><td>Color del mensaje (opcional)</td></tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="method-example">
-                                        <h5>Ejemplo:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Ejemplo</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                        <pre><code class="language-javascript">client.sysMsg('Mensaje importante', 66);
-client.sysMsg('Error detectado', 33);</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr class="method-row" data-method="allNames">
-                            <td><code>Client.allNames()</code></td>
-                            <td><em>ninguno</em></td>
-                            <td><span class="parameter-type">void</span></td>
-                            <td class="method-description">Activa macro "All Names"</td>
-                        </tr>
-                        <tr class="method-details" data-method="allNames" style="display: none;">
-                            <td colspan="4">
-                                <div class="method-content">
-                                    <div class="method-signature">
-                                        <h5>Definición:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Definición</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code>Client.allNames(): void</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p><strong>Descripción:</strong> Activa macro "All Names".</p>
-                                    <div class="method-example">
-                                        <h5>Ejemplo:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Ejemplo</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code class="language-javascript">client.allNames();</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr class="method-row" data-method="openPaperdoll">
-                            <td><code>Client.openPaperdoll()</code></td>
-                            <td><span class="parameter-type">serial?: SerialOrEntity</span></td>
-                            <td><span class="parameter-type">void</span></td>
-                            <td class="method-description">Abre paperdoll para un Mobile</td>
-                        </tr>
-                        <tr class="method-details" data-method="openPaperdoll" style="display: none;">
-                            <td colspan="4">
-                                <div class="method-content">
-                                    <div class="method-signature">
-                                        <h5>Definición:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Definición</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code>Client.openPaperdoll(serial?: SerialOrEntity): void</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p><strong>Descripción:</strong> Abre paperdoll para un Mobile.</p>
-                                    <div class="method-example">
-                                        <h5>Ejemplo:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Ejemplo</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code class="language-javascript">client.openPaperdoll(player);</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr class="method-row" data-method="toggleAlwaysRun">
-                            <td><code>Client.toggleAlwaysRun()</code></td>
-                            <td><em>ninguno</em></td>
-                            <td><span class="parameter-type">void</span></td>
-                            <td class="method-description">Alterna correr siempre</td>
-                        </tr>
-                        <tr class="method-details" data-method="toggleAlwaysRun" style="display: none;">
-                            <td colspan="4">
-                                <div class="method-content">
-                                    <div class="method-signature">
-                                        <h5>Definición:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Definición</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code>Client.toggleAlwaysRun(): void</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p><strong>Descripción:</strong> Alterna correr siempre.</p>
-                                    <div class="method-example">
-                                        <h5>Ejemplo:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Ejemplo</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code class="language-javascript">client.toggleAlwaysRun();</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr class="method-row" data-method="closeAllGumps">
-                            <td><code>Client.closeAllGumps()</code></td>
-                            <td><em>ninguno</em></td>
-                            <td><span class="parameter-type">void</span></td>
-                            <td class="method-description">Cierra todos los gumps excepto Top Bar, Buff bar, o World view</td>
-                        </tr>
-                        <tr class="method-details" data-method="closeAllGumps" style="display: none;">
-                            <td colspan="4">
-                                <div class="method-content">
-                                    <div class="method-signature">
-                                        <h5>Definición:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Definición</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code>Client.closeAllGumps(): void</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p><strong>Descripción:</strong> Cierra todos los gumps excepto Top Bar, Buff bar, o World view.</p>
-                                    <div class="method-example">
-                                        <h5>Ejemplo:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Ejemplo</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code class="language-javascript">client.closeAllGumps();</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr class="method-row" data-method="closeAllHealthBars">
-                            <td><code>Client.closeAllHealthBars()</code></td>
-                            <td><em>ninguno</em></td>
-                            <td><span class="parameter-type">void</span></td>
-                            <td class="method-description">Cierra todas las barras de salud en pantalla</td>
-                        </tr>
-                        <tr class="method-details" data-method="closeAllHealthBars" style="display: none;">
-                            <td colspan="4">
-                                <div class="method-content">
-                                    <div class="method-signature">
-                                        <h5>Definición:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Definición</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code>Client.closeAllHealthBars(): void</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p><strong>Descripción:</strong> Cierra todas las barras de salud en pantalla.</p>
-                                    <div class="method-example">
-                                        <h5>Ejemplo:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Ejemplo</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code class="language-javascript">client.closeAllHealthBars();</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr class="method-row" data-method="closeInactiveHealthBars">
-                            <td><code>Client.closeInactiveHealthBars()</code></td>
-                            <td><em>ninguno</em></td>
-                            <td><span class="parameter-type">void</span></td>
-                            <td class="method-description">Cierra barras de salud inactivas (muertos/fuera de pantalla)</td>
-                        </tr>
-                        <tr class="method-details" data-method="closeInactiveHealthBars" style="display: none;">
-                            <td colspan="4">
-                                <div class="method-content">
-                                    <div class="method-signature">
-                                        <h5>Definición:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Definición</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code>Client.closeInactiveHealthBars(): void</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p><strong>Descripción:</strong> Cierra barras de salud inactivas (muertos/fuera de pantalla).</p>
-                                    <div class="method-example">
-                                        <h5>Ejemplo:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Ejemplo</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code class="language-javascript">client.closeInactiveHealthBars();</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr class="method-row" data-method="toggleChatVisibility">
-                            <td><code>Client.toggleChatVisibility()</code></td>
-                            <td><em>ninguno</em></td>
-                            <td><span class="parameter-type">void</span></td>
-                            <td class="method-description">Alterna visibilidad del chat en la parte inferior</td>
-                        </tr>
-                        <tr class="method-details" data-method="toggleChatVisibility" style="display: none;">
-                            <td colspan="4">
-                                <div class="method-content">
-                                    <div class="method-signature">
-                                        <h5>Definición:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Definición</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code>Client.toggleChatVisibility(): void</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p><strong>Descripción:</strong> Alterna visibilidad del chat en la parte inferior.</p>
-                                    <div class="method-example">
-                                        <h5>Ejemplo:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Ejemplo</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code class="language-javascript">client.toggleChatVisibility();</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr class="method-row" data-method="toggleNameOverheads">
-                            <td><code>Client.toggleNameOverheads()</code></td>
-                            <td><em>ninguno</em></td>
-                            <td><span class="parameter-type">void</span></td>
-                            <td class="method-description">Alterna si las entidades tienen placas de nombres</td>
-                        </tr>
-                        <tr class="method-details" data-method="toggleNameOverheads" style="display: none;">
-                            <td colspan="4">
-                                <div class="method-content">
-                                    <div class="method-signature">
-                                        <h5>Definición:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Definición</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code>Client.toggleNameOverheads(): void</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p><strong>Descripción:</strong> Alterna si las entidades tienen placas de nombres.</p>
-                                    <div class="method-example">
-                                        <h5>Ejemplo:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Ejemplo</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code class="language-javascript">client.toggleNameOverheads();</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr class="method-row" data-method="toggleAuras">
-                            <td><code>Client.toggleAuras()</code></td>
-                            <td><em>ninguno</em></td>
-                            <td><span class="parameter-type">void</span></td>
-                            <td class="method-description">Alterna si los móviles tienen auras debajo</td>
-                        </tr>
-                        <tr class="method-details" data-method="toggleAuras" style="display: none;">
-                            <td colspan="4">
-                                <div class="method-content">
-                                    <div class="method-signature">
-                                        <h5>Definición:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Definición</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code>Client.toggleAuras(): void</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p><strong>Descripción:</strong> Alterna si los móviles tienen auras debajo.</p>
-                                    <div class="method-example">
-                                        <h5>Ejemplo:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Ejemplo</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code class="language-javascript">client.toggleAuras();</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr class="method-row" data-method="toggleCircleOfTransparency">
-                            <td><code>Client.toggleCircleOfTransparency()</code></td>
-                            <td><em>ninguno</em></td>
-                            <td><span class="parameter-type">void</span></td>
-                            <td class="method-description">Alterna el Círculo de Transparencia entre estados</td>
-                        </tr>
-                        <tr class="method-details" data-method="toggleCircleOfTransparency" style="display: none;">
-                            <td colspan="4">
-                                <div class="method-content">
-                                    <div class="method-signature">
-                                        <h5>Definición:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Definición</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code>Client.toggleCircleOfTransparency(): void</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p><strong>Descripción:</strong> Alterna el Círculo de Transparencia entre estados.</p>
-                                    <div class="method-example">
-                                        <h5>Ejemplo:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Ejemplo</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code class="language-javascript">client.toggleCircleOfTransparency();</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="methods-table-container">
-                    <table class="methods-table">
-                        <thead>
-                        <tr>
-                            <th>Método</th>
-                            <th>Parámetros</th>
-                            <th>Retorna</th>
-                            <th>Descripción</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr class="method-row" data-method="selectEntity">
-                            <td><code>Client.selectEntity()</code></td>
-                            <td><span class="parameter-type">searchOpt: number, searchRangeOpt: number, searchTypeOpt: number, asFriend: boolean</span></td>
-                            <td><span class="parameter-type">any</span></td>
-                            <td class="method-description">Retorna la entidad basada en los criterios de búsqueda</td>
-                        </tr>
-                        <tr class="method-details" data-method="selectEntity" style="display: none;">
-                            <td colspan="4">
-                                <div class="method-content">
-                                    <div class="method-signature">
-                                        <h5>Definición:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Definición</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code>Client.selectEntity(searchOpt: number, searchRangeOpt: number, searchTypeOpt: number, asFriend: boolean): any</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p><strong>Descripción:</strong> Retorna la entidad basada en los criterios de búsqueda.</p>
-                                    <div class="method-example">
-                                        <h5>Ejemplo:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Ejemplo</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                        <pre><code class="language-javascript">client.selectEntity(
-    SearchEntityOptions.Enemy | SearchEntityOptions.Gray,
-    SearchEntityRangeOptions.Nearest,
-    SearchEntityTypeOptions.Any,
-    false
-);
-
-client.selectEntity(
-    SearchEntityOptions.Innocent,
-    SearchEntityRangeOptions.Nearest,
-    SearchEntityTypeOptions.Human,
-    false
-);</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr class="method-row" data-method="sendBuyRequest">
-                            <td><code>Client.sendBuyRequest()</code></td>
-                            <td><span class="parameter-type">vendorSerial: SerialOrEntity, items: any[]</span></td>
-                            <td><span class="parameter-type">boolean</span></td>
-                            <td class="method-description">Envía solicitud de compra a vendedor</td>
-                        </tr>
-                        <tr class="method-details" data-method="sendBuyRequest" style="display: none;">
-                            <td colspan="4">
-                                <div class="method-content">
-                                    <div class="method-signature">
-                                        <h5>Definición:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Definición</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code>Client.sendBuyRequest(vendorSerial: SerialOrEntity, items: any[]): boolean</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p><strong>Descripción:</strong> Envía solicitud de compra a vendedor.</p>
-                                    <div class="method-example">
-                                        <h5>Ejemplo:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Ejemplo</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                        <pre><code class="language-javascript">const vendor = client.findType(0x190);
-const items = [{ itemId: 0xe21, amount: 10 }];
-const success = client.sendBuyRequest(vendor, items);
-if (success) {
-    client.sysMsg('Compra realizada');
-}</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr class="method-row" data-method="sendSellRequest">
-                            <td><code>Client.sendSellRequest()</code></td>
-                            <td><span class="parameter-type">vendorSerial: SerialOrEntity, items: any[]</span></td>
-                            <td><span class="parameter-type">boolean</span></td>
-                            <td class="method-description">Envía solicitud de venta a vendedor</td>
-                        </tr>
-                        <tr class="method-details" data-method="sendSellRequest" style="display: none;">
-                            <td colspan="4">
-                                <div class="method-content">
-                                    <div class="method-signature">
-                                        <h5>Definición:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Definición</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code>Client.sendSellRequest(vendorSerial: SerialOrEntity, items: any[]): boolean</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p><strong>Descripción:</strong> Envía solicitud de venta a vendedor.</p>
-                                    <div class="method-example">
-                                        <h5>Ejemplo:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Ejemplo</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                        <pre><code class="language-javascript">const vendor = client.findType(0x190);
-const items = client.findAllOfType(0x1bf2); // Lingotes
-const success = client.sendSellRequest(vendor, items);
-if (success) {
-    client.sysMsg('Venta realizada');
-}</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr class="method-row" data-method="queryItemOPL">
-                            <td><code>Client.queryItemOPL()</code></td>
-                            <td><span class="parameter-type">serialOrObject: SerialOrEntity, timeout?: number</span></td>
-                            <td><span class="parameter-type">object</span></td>
-                            <td class="method-description">Consulta lista de propiedades del objeto</td>
-                        </tr>
-                        <tr class="method-details" data-method="queryItemOPL" style="display: none;">
-                            <td colspan="4">
-                                <div class="method-content">
-                                    <div class="method-signature">
-                                        <h5>Definición:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Definición</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code>Client.queryItemOPL(serialOrObject: SerialOrEntity, timeout?: number): object</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p><strong>Descripción:</strong> Consulta lista de propiedades del objeto.</p>
-                                    <div class="method-example">
-                                        <h5>Ejemplo:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Ejemplo</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                        <pre><code class="language-javascript">const weapon = player.equippedItems.weapon;
-if (weapon) {
-    const properties = client.queryItemOPL(weapon, 5000);
-    client.sysMsg(`Propiedades: ${JSON.stringify(properties)}`);
-}</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr class="method-row" data-method="queryItemSingleClickName">
-                            <td><code>Client.queryItemSingleClickName()</code></td>
-                            <td><span class="parameter-type">serialOrObject: SerialOrEntity, timeout?: number</span></td>
-                            <td><span class="parameter-type">string</span></td>
-                            <td class="method-description">Consulta nombre de single-click</td>
-                        </tr>
-                        <tr class="method-details" data-method="queryItemSingleClickName" style="display: none;">
-                            <td colspan="4">
-                                <div class="method-content">
-                                    <div class="method-signature">
-                                        <h5>Definición:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Definición</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code>Client.queryItemSingleClickName(serialOrObject: SerialOrEntity, timeout?: number): string</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p><strong>Descripción:</strong> Consulta nombre de single-click.</p>
-                                    <div class="method-example">
-                                        <h5>Ejemplo:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Ejemplo</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                        <pre><code class="language-javascript">const item = client.findType(0x1bf2);
-if (item) {
-    const name = client.queryItemSingleClickName(item, 3000);
-    client.headMsg(`Item: ${name}`, player);
-}</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr class="method-row" data-method="getPing">
-                            <td><code>Client.getPing()</code></td>
-                            <td><em>ninguno</em></td>
-                            <td><span class="parameter-type">number</span></td>
-                            <td class="method-description">Obtiene ping actual al servidor</td>
-                        </tr>
-                        <tr class="method-details" data-method="getPing" style="display: none;">
-                            <td colspan="4">
-                                <div class="method-content">
-                                    <div class="method-signature">
-                                        <h5>Definición:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Definición</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code>Client.getPing(): number</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p><strong>Descripción:</strong> Obtiene ping actual al servidor.</p>
-                                    <div class="method-example">
-                                        <h5>Ejemplo:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Ejemplo</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                        <pre><code class="language-javascript">const ping = client.getPing();
-client.sysMsg(`Ping: ${ping}ms`);
-if (ping > 200) {
+// Verificar calidad de conexión
+if (ping < 100) {
+    client.headMsg('Conexión excelente', player, 66);
+} else if (ping < 300) {
+    client.headMsg('Conexión buena', player, 85);
+} else {
     client.headMsg('Conexión lenta', player, 33);
 }</code></pre>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
 
-                        <tr class="method-row" data-method="getStatic">
-                            <td><code>Client.getStatic()</code></td>
-                            <td><span class="parameter-type">graphic: number</span></td>
-                            <td><span class="parameter-type">object | undefined</span></td>
-                            <td class="method-description">Obtiene información de objeto estático</td>
-                        </tr>
-                        <tr class="method-details" data-method="getStatic" style="display: none;">
-                            <td colspan="4">
-                                <div class="method-content">
-                                    <div class="method-signature">
-                                        <h5>Definición:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Definición</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code>Client.getStatic(graphic: number): object | undefined</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p><strong>Descripción:</strong> Obtiene información de objeto estático.</p>
-                                    <div class="method-example">
-                                        <h5>Ejemplo:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Ejemplo</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                        <pre><code class="language-javascript">const staticInfo = client.getStatic(0x0e43); // Cofre
-if (staticInfo) {
-    client.sysMsg(`Información: ${JSON.stringify(staticInfo)}`);
-}</code></pre>
+                            <tr class="method-row" data-method="toggleAlwaysRun">
+                                <td><code>Client.toggleAlwaysRun()</code></td>
+                                <td><span class="parameter-type">ninguno</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Alterna el modo de correr siempre</td>
+                            </tr>
+                            <tr class="method-details" data-method="toggleAlwaysRun" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.toggleAlwaysRun(): void</code></pre>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+                                        <p><strong>Descripción:</strong> Alterna el modo "correr siempre" del jugador, independientemente de la distancia del mouse respecto al personaje. Útil para automatizar movimientos o cambiar rápidamente el modo de desplazamiento.</p>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Alternar modo de correr
+client.toggleAlwaysRun();
+client.sysMsg('Modo de correr alternado', 85);
 
-                        <tr class="method-row" data-method="getTile">
-                            <td><code>Client.getTile()</code></td>
-                            <td><span class="parameter-type">graphic: number</span></td>
-                            <td><span class="parameter-type">object | undefined</span></td>
-                            <td class="method-description">Obtiene información de tile</td>
-                        </tr>
-                        <tr class="method-details" data-method="getTile" style="display: none;">
-                            <td colspan="4">
-                                <div class="method-content">
-                                    <div class="method-signature">
-                                        <h5>Definición:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Definición</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code>Client.getTile(graphic: number): object | undefined</code></pre>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p><strong>Descripción:</strong> Obtiene información de tile.</p>
-                                    <div class="method-example">
-                                        <h5>Ejemplo:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Ejemplo</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                        <pre><code class="language-javascript">const tileInfo = client.getTile(0x0006); // Tierra
-if (tileInfo) {
-    client.sysMsg(`Tile: ${JSON.stringify(tileInfo)}`);
+// Activar correr al inicio de un macro de viaje
+function iniciarViaje() {
+    client.toggleAlwaysRun(); // Activar correr
+    client.headMsg('Iniciando viaje rápido', player, 66);
+    // ... lógica de viaje
 }</code></pre>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
 
-                        <tr class="method-row" data-method="getTerrainList">
-                            <td><code>Client.getTerrainList()</code></td>
-                            <td><span class="parameter-type">x: number, y: number</span></td>
-                            <td><span class="parameter-type">object[] | undefined</span></td>
-                            <td class="method-description">Obtiene lista de terreno en coordenadas</td>
-                        </tr>
-                        <tr class="method-details" data-method="getTerrainList" style="display: none;">
-                            <td colspan="4">
-                                <div class="method-content">
-                                    <div class="method-signature">
-                                        <h5>Definición:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Definición</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                <pre><code>Client.getTerrainList(x: number, y: number): object[] | undefined</code></pre>
+                            <tr class="method-row" data-method="allNames">
+                                <td><code>Client.allNames()</code></td>
+                                <td><span class="parameter-type">ninguno</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Muestra los nombres de todas las entidades en pantalla</td>
+                            </tr>
+                            <tr class="method-details" data-method="allNames" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.allNames(): void</code></pre>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <p><strong>Descripción:</strong> Obtiene lista de terreno en coordenadas.</p>
-                                    <div class="method-example">
-                                        <h5>Ejemplo:</h5>
-                                        <div class="code-block">
-                                            <div class="code-header">
-                                                <div class="code-header-left">Ejemplo</div>
-                                                <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                                            </div>
-                                            <div class="code-content">
-                                                        <pre><code class="language-javascript">const terrain = client.getTerrainList(player.x, player.y);
-if (terrain) {
-    client.sysMsg(`Terrenos: ${terrain.length}`);
+                                        <p><strong>Descripción:</strong> Activa la macro "All Names" que muestra temporalmente los nombres flotantes de todas las entidades visibles en pantalla. Equivale a usar la tecla rápida configurada para mostrar nombres.</p>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Mostrar nombres de todas las entidades
+client.allNames();
+client.sysMsg('Mostrando nombres de entidades', 85);
+
+// Usar en un macro de reconocimiento
+function explorarArea() {
+    client.allNames(); // Mostrar nombres
+    client.sysMsg('Explorando área...', 66);
+
+    // Esperar un momento para ver los nombres
+    sleep(2000);
+
+    // Continuar con la lógica del macro
 }</code></pre>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="quitGame">
+                                <td><code>Client.quitGame()</code></td>
+                                <td><span class="parameter-type">ninguno</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Abre el diálogo para salir del juego</td>
+                            </tr>
+                            <tr class="method-details" data-method="quitGame" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.quitGame(): void</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Activa el diálogo "Quit Game" (Salir del Juego) del cliente. Este método muestra la ventana de confirmación estándar para cerrar el juego de forma segura.</p>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Salir del juego con confirmación
+client.quitGame();
+
+// Salir con mensaje previo
+function salirConMensaje() {
+    client.sysMsg('Finalizando sesión...', 33);
+    client.headMsg('Desconectando', player, 33);
+
+    // Esperar un momento antes de mostrar el diálogo
+    sleep(1000);
+    client.quitGame();
+}
+
+// Salir en caso de emergencia
+function salidaEmergencia() {
+    client.sysMsg('¡Salida de emergencia activada!', 33);
+    client.quitGame();
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
+                <!--Client Datos de Mundo y Terreno-->
+                <div class="subsection">
+                    <h3>🌍 Datos de Mundo y Terreno</h3>
+                    <p>Estos métodos proporcionan información detallada sobre el mundo del juego, incluyendo datos de gráficos estáticos, tiles y terreno. Son especialmente útiles para scripts de navegación, análisis de mapas y automatización que requiere conocimiento del entorno.</p>
+                    <div class="methods-table-container">
+                        <table class="methods-table">
+                            <thead>
+                            <tr>
+                                <th>Método</th>
+                                <th>Parámetros</th>
+                                <th>Retorna</th>
+                                <th>Descripción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="method-row" data-method="getStatic">
+                                <td><code>Client.getStatic()</code></td>
+                                <td><span class="parameter-type">graphic: number</span></td>
+                                <td><span class="parameter-type">undefined | object</span></td>
+                                <td class="method-description">Obtiene información de un gráfico estático</td>
+                            </tr>
+                            <tr class="method-details" data-method="getStatic" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.getStatic(graphic: number): undefined | object</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Obtiene información detallada de un gráfico estático del juego mediante su ID gráfico. Los estáticos son elementos fijos del mundo como edificios, árboles, rocas, etc.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">graphic</code>
+                                                    <span class="parameter-type">number</span>
+                                                    <div class="parameter-description">El ID gráfico del estático a consultar</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="parameters-section">
+                                            <h5>Valor de retorno:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">undefined | object</code>
+                                                    <span class="parameter-type">undefined | object</span>
+                                                    <div class="parameter-description">Objeto con información del estático, o undefined si no existe</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Obtener información de un árbol
+const arbolGraphic = 0x0ce3; // ID gráfico de un árbol
+const infoArbol = client.getStatic(arbolGraphic);
+
+if (infoArbol) {
+    client.sysMsg(`Información del árbol encontrada`, 66);
+    console.log(infoArbol); // Ver propiedades del estático
+} else {
+    client.sysMsg(`Gráfico ${arbolGraphic} no encontrado`, 33);
+}
+
+// Verificar propiedades de diferentes estáticos
+function analizarEstatico(graphic, nombre) {
+    const info = client.getStatic(graphic);
+    if (info) {
+        client.sysMsg(`${nombre}: datos obtenidos`, 85);
+        return info;
+    } else {
+        client.sysMsg(`${nombre}: no encontrado`, 33);
+        return null;
+    }
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="getTile">
+                                <td><code>Client.getTile()</code></td>
+                                <td><span class="parameter-type">graphic: number</span></td>
+                                <td><span class="parameter-type">undefined | object</span></td>
+                                <td class="method-description">Obtiene información de un tile del juego</td>
+                            </tr>
+                            <tr class="method-details" data-method="getTile" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.getTile(graphic: number): undefined | object</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Obtiene información detallada de un tile específico del juego mediante su ID gráfico. Los tiles incluyen elementos como suelos, paredes, puertas y otros objetos interactivos.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">graphic</code>
+                                                    <span class="parameter-type">number</span>
+                                                    <div class="parameter-description">El ID gráfico del tile a consultar</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="parameters-section">
+                                            <h5>Valor de retorno:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">undefined | object</code>
+                                                    <span class="parameter-type">undefined | object</span>
+                                                    <div class="parameter-description">Objeto con información del tile, o undefined si no existe</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Obtener información de una puerta
+const puertaGraphic = 0x06a5; // ID gráfico de una puerta
+const infoPuerta = client.getTile(puertaGraphic);
+
+if (infoPuerta) {
+    client.sysMsg(`Puerta: información obtenida`, 66);
+    console.log(infoPuerta); // Ver propiedades del tile
+} else {
+    client.sysMsg(`Tile ${puertaGraphic} no encontrado`, 33);
+}
+
+// Analizar diferentes tipos de tiles
+const tilesComunes = [
+    { id: 0x0071, nombre: 'Suelo de piedra' },
+    { id: 0x0002, nombre: 'Césped' },
+    { id: 0x006a, nombre: 'Agua' }
+];
+
+tilesComunes.forEach(tile => {
+    const info = client.getTile(tile.id);
+    if (info) {
+        client.sysMsg(`${tile.nombre}: datos cargados`, 85);
+    }
+});</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="getTerrainList">
+                                <td><code>Client.getTerrainList()</code></td>
+                                <td><span class="parameter-type">x: number, y: number</span></td>
+                                <td><span class="parameter-type">undefined | object[]</span></td>
+                                <td class="method-description">Obtiene lista del terreno en coordenadas específicas</td>
+                            </tr>
+                            <tr class="method-details" data-method="getTerrainList" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.getTerrainList(x: number, y: number): undefined | object[]</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Obtiene una lista con información del terreno en las coordenadas específicas (x, y). Incluye datos de todos los elementos presentes en esa ubicación del mapa.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">x</code>
+                                                    <span class="parameter-type">number</span>
+                                                    <div class="parameter-description">Coordenada X del mapa</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">y</code>
+                                                    <span class="parameter-type">number</span>
+                                                    <div class="parameter-description">Coordenada Y del mapa</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="parameters-section">
+                                            <h5>Valor de retorno:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">undefined | object[]</code>
+                                                    <span class="parameter-type">undefined | object[]</span>
+                                                    <div class="parameter-description">Array de objetos con información del terreno, o undefined si no hay datos</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Obtener terreno en la posición actual del jugador
+const terreno = client.getTerrainList(player.x, player.y);
+
+if (terreno && terreno.length > 0) {
+    client.sysMsg(`Terreno: ${terreno.length} elementos`, 66);
+    terreno.forEach((elemento, index) => {
+        console.log(`Elemento ${index}:`, elemento);
+    });
+} else {
+    client.sysMsg('No hay información de terreno aquí', 33);
+}
+
+// Analizar terreno en un área específica
+function analizarArea(centroX, centroY, radio) {
+    client.sysMsg(`Analizando área ${radio}x${radio}...`, 85);
+
+    for (let x = centroX - radio; x <= centroX + radio; x++) {
+        for (let y = centroY - radio; y <= centroY + radio; y++) {
+            const terreno = client.getTerrainList(x, y);
+            if (terreno && terreno.length > 0) {
+                client.sysMsg(`${x},${y}: ${terreno.length} elementos`, 66);
+            }
+        }
+    }
+}
+
+// Verificar si una posición es navegable
+function esNavegable(x, y) {
+    const terreno = client.getTerrainList(x, y);
+    if (!terreno) return false;
+
+    // Lógica personalizada para determinar navegabilidad
+    return terreno.some(elemento => {
+        // Verificar propiedades del terreno
+        return elemento.passable || elemento.walkable;
+    });
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!--ClientSistema de Comercio-->
+                <div class="subsection">
+                    <h3>💰 Sistema de Comercio</h3>
+                    <p>Estos métodos permiten realizar transacciones comerciales automatizadas con vendedores NPCs del juego. Son fundamentales para scripts de compra y venta masiva, gestión de inventario y automatización de comercio.</p>
+                    <div class="methods-table-container">
+                        <table class="methods-table">
+                            <thead>
+                            <tr>
+                                <th>Método</th>
+                                <th>Parámetros</th>
+                                <th>Retorna</th>
+                                <th>Descripción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="method-row" data-method="sendBuyRequest">
+                                <td><code>Client.sendBuyRequest()</code></td>
+                                <td><span class="parameter-type">vendorSerial: any, items: object[]</span></td>
+                                <td><span class="parameter-type">boolean</span></td>
+                                <td class="method-description">Envía una solicitud de compra a un vendedor</td>
+                            </tr>
+                            <tr class="method-details" data-method="sendBuyRequest" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.sendBuyRequest(vendorSerial: any, items: object[]): boolean</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Envía una solicitud de compra automatizada a un vendedor específico con una lista de items y cantidades. Permite realizar compras masivas sin intervención manual.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">vendorSerial</code>
+                                                    <span class="parameter-type">any</span>
+                                                    <div class="parameter-description">El serial o identificador del vendedor NPC</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">items</code>
+                                                    <span class="parameter-type">object[]</span>
+                                                    <div class="parameter-description">Array de objetos que definen los items a comprar y sus cantidades</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="parameters-section">
+                                            <h5>Valor de retorno:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">boolean</code>
+                                                    <span class="parameter-type">boolean</span>
+                                                    <div class="parameter-description">true si la solicitud fue enviada correctamente, false en caso contrario</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Encontrar un vendedor de reagentes
+const vendedor = client.findType(0x190, null, 'world'); // NPC humano
+
+if (vendedor) {
+    // Lista de items a comprar
+    const itemsAComprar = [
+        { graphic: 0xf7a, amount: 50 }, // Black Pearl - 50 unidades
+        { graphic: 0xf7b, amount: 30 }, // Blood Moss - 30 unidades
+        { graphic: 0xf84, amount: 25 }, // Garlic - 25 unidades
+        { graphic: 0xf85, amount: 40 }  // Ginseng - 40 unidades
+    ];
+
+    const exito = client.sendBuyRequest(vendedor.serial, itemsAComprar);
+
+    if (exito) {
+        client.sysMsg('Solicitud de compra enviada', 66);
+        client.headMsg('Comprando reagentes...', player, 85);
+    } else {
+        client.sysMsg('Error al enviar solicitud de compra', 33);
+    }
+} else {
+    client.sysMsg('No se encontró vendedor', 33);
+}
+
+// Función para compra automática de suministros
+function comprarSuministros(vendorSerial, listaCompras) {
+    client.sysMsg('Iniciando compra automática...', 85);
+
+    const resultado = client.sendBuyRequest(vendorSerial, listaCompras);
+
+    if (resultado) {
+        const totalItems = listaCompras.reduce((sum, item) => sum + item.amount, 0);
+        client.sysMsg(`Comprando ${totalItems} items`, 66);
+        return true;
+    } else {
+        client.sysMsg('Fallo en la transacción', 33);
+        return false;
+    }
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="sendSellRequest">
+                                <td><code>Client.sendSellRequest()</code></td>
+                                <td><span class="parameter-type">vendorSerial: any, items: object[]</span></td>
+                                <td><span class="parameter-type">boolean</span></td>
+                                <td class="method-description">Envía una solicitud de venta a un vendedor</td>
+                            </tr>
+                            <tr class="method-details" data-method="sendSellRequest" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Client.sendSellRequest(vendorSerial: any, items: object[]): boolean</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Envía una solicitud de venta automatizada a un vendedor específico con una lista de items del inventario del jugador. Facilita la venta masiva de items sin necesidad de interacción manual.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">vendorSerial</code>
+                                                    <span class="parameter-type">any</span>
+                                                    <div class="parameter-description">El serial o identificador del vendedor NPC</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">items</code>
+                                                    <span class="parameter-type">object[]</span>
+                                                    <div class="parameter-description">Array de objetos que definen los items a vender y sus cantidades</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="parameters-section">
+                                            <h5>Valor de retorno:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">boolean</code>
+                                                    <span class="parameter-type">boolean</span>
+                                                    <div class="parameter-description">true si la solicitud fue enviada correctamente, false en caso contrario</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Encontrar un vendedor y vender items específicos
+const vendedor = client.findType(0x190, null, 'world'); // NPC humano
+
+if (vendedor) {
+    // Buscar items en el inventario para vender
+    const oroPilas = client.findAllItemsOfType(0xeed, null, player.backpack);
+    const gemasVarias = client.findAllItemsOfType(0xf13, null, player.backpack);
+
+    if (oroPilas.length > 0 || gemasVarias.length > 0) {
+        // Preparar lista de venta
+        const itemsAVender = [];
+
+        // Agregar pilas de oro
+        oroPilas.forEach(pila => {
+            itemsAVender.push({
+                serial: pila.serial,
+                amount: pila.amount
+            });
+        });
+
+        // Agregar gemas
+        gemasVarias.forEach(gema => {
+            itemsAVender.push({
+                serial: gema.serial,
+                amount: gema.amount
+            });
+        });
+
+        const exito = client.sendSellRequest(vendedor.serial, itemsAVender);
+
+        if (exito) {
+            client.sysMsg('Solicitud de venta enviada', 66);
+            client.headMsg(`Vendiendo ${itemsAVender.length} items`, player, 85);
+        } else {
+            client.sysMsg('Error al enviar solicitud de venta', 33);
+        }
+    } else {
+        client.sysMsg('No hay items para vender', 85);
+    }
+} else {
+    client.sysMsg('No se encontró vendedor', 33);
+}
+
+// Función para venta automática de inventario completo
+function venderTodo(vendorSerial, tiposExcluir = []) {
+    client.sysMsg('Iniciando venta automática...', 85);
+
+    // Obtener todos los items del backpack
+    const todosLosItems = client.findAllItemsOfType(null, null, player.backpack);
+
+    // Filtrar items excluidos
+    const itemsParaVender = todosLosItems.filter(item =>
+        !tiposExcluir.includes(item.graphic)
+    );
+
+    if (itemsParaVender.length > 0) {
+        const listaVenta = itemsParaVender.map(item => ({
+            serial: item.serial,
+            amount: item.amount
+        }));
+
+        const resultado = client.sendSellRequest(vendorSerial, listaVenta);
+
+        if (resultado) {
+            client.sysMsg(`Vendiendo ${listaVenta.length} items`, 66);
+            return true;
+        } else {
+            client.sysMsg('Fallo en la venta', 33);
+            return false;
+        }
+    } else {
+        client.sysMsg('Inventario vacío o sin items vendibles', 85);
+        return false;
+    }
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
             </div>
         </section>
 

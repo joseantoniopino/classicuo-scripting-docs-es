@@ -400,7 +400,7 @@ player.useSkill(Skills.Meditation);</code></pre>
             <div class="section-content">
 
                 <!--Client Mensajería y Comunicación-->
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>💬 Mensajería y Comunicación</h3>
                     <p>Estos métodos se utilizan para mostrar mensajes en el juego. Permiten enviar mensajes tanto al chat del sistema como mostrar mensajes flotantes sobre entidades específicas, facilitando la comunicación con el jugador durante la ejecución de scripts.</p>
                     <div class="methods-table-container">
@@ -533,7 +533,7 @@ client.headMsg('Script finalizado', 'world'); // Mensaje en el mundo</code></pre
                 </div>
 
                 <!--Client Búsqueda y Consulta de Objetos-->
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>🔍 Búsqueda y Consulta de Objetos</h3>
                     <p>Métodos fundamentales para localizar objetos específicos en el mundo del juego. Incluyen búsquedas por serial, tipo de gráfico, consultas de información detallada y selección de entidades con criterios específicos. Esenciales para la automatización de tareas que requieren interacción con objetos del juego.</p>
                     <div class="methods-table-container">
@@ -1186,7 +1186,7 @@ for (const item of items) {
                 </div>
 
                 <!--Client Gestión de Interfaz de Usuario-->
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>🖥️ Gestión de Interfaz de Usuario</h3>
                     <p>Métodos para controlar y manipular los elementos de la interfaz gráfica del cliente. Incluyen funciones para abrir y cerrar ventanas, controlar la visibilidad de elementos de la UI, gestionar el zoom del viewport y configurar opciones de visualización. Esenciales para personalizar la experiencia visual del jugador.</p>
                     <div class="methods-table-container">
@@ -1743,7 +1743,7 @@ client.sysMsg('Bolsa de loot configurada');</code></pre>
                 </div>
 
                 <!--Client Acciones e Información del Jugador-->
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>👤 Acciones e Información del Jugador</h3>
                     <p>Estos métodos permiten obtener información del estado del jugador y controlar acciones específicas como el modo de correr, mostrar nombres y cerrar el juego. Son útiles para crear interfaces de usuario y automatizaciones que interactúan directamente con el comportamiento del personaje.</p>
                     <div class="methods-table-container">
@@ -1973,7 +1973,7 @@ function salidaEmergencia() {
                 </div>
 
                 <!--Client Datos de Mundo y Terreno-->
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>🌍 Datos de Mundo y Terreno</h3>
                     <p>Estos métodos proporcionan información detallada sobre el mundo del juego, incluyendo datos de gráficos estáticos, tiles y terreno. Son especialmente útiles para scripts de navegación, análisis de mapas y automatización que requiere conocimiento del entorno.</p>
                     <div class="methods-table-container">
@@ -2250,8 +2250,8 @@ function esNavegable(x, y) {
                     </div>
                 </div>
 
-                <!--ClientSistema de Comercio-->
-                <div class="subsection">
+                <!--Client Sistema de Comercio-->
+                <div class="subsection metodos">
                     <h3>💰 Sistema de Comercio</h3>
                     <p>Estos métodos permiten realizar transacciones comerciales automatizadas con vendedores NPCs del juego. Son fundamentales para scripts de compra y venta masiva, gestión de inventario y automatización de comercio.</p>
                     <div class="methods-table-container">
@@ -2516,109 +2516,524 @@ function venderTodo(vendorSerial, tiposExcluir = []) {
                 <p class="description">Representa al jugador actual y extiende la clase Mobile</p>
             </div>
             <div class="section-content">
-                <div class="subsection">
-                    <h3>Propiedades Principales</h3>
-                    <div class="table-container">
-                        <table>
+
+                <!--Player Stats y Atributos Básicos-->
+                <div class="subsection propiedades">
+                    <h3>📊 Stats y Atributos Básicos</h3>
+                    <p>Propiedades fundamentales que definen las características principales del jugador, incluyendo sus atributos primarios (fuerza, destreza, inteligencia), puntos vitales (vida, maná, aguante), capacidad de carga y recursos básicos como el oro. Estas propiedades son de solo lectura y se actualizan automáticamente según el estado del personaje en el juego.</p>
+                    <div class="properties-table-container">
+                        <table class="properties-table">
                             <thead>
-                            <tr><th>Propiedad</th><th>Tipo</th><th>Descripción</th></tr>
+                            <tr>
+                                <th>Propiedad</th>
+                                <th>Tipo</th>
+                                <th>Descripción</th>
+                            </tr>
                             </thead>
                             <tbody>
-                            <tr><td>backpack</td><td>Item</td><td>La mochila del jugador</td></tr>
-                            <tr><td>gold</td><td>number</td><td>Cantidad de oro del jugador</td></tr>
-                            <tr><td>weight</td><td>number</td><td>Peso actual del jugador</td></tr>
-                            <tr><td>weightMax</td><td>number</td><td>Peso máximo del jugador</td></tr>
-                            <tr><td>strength</td><td>number</td><td>Fuerza del jugador</td></tr>
-                            <tr><td>dexterity</td><td>number</td><td>Destreza del jugador</td></tr>
-                            <tr><td>intelligence</td><td>number</td><td>Inteligencia del jugador</td></tr>
-                            <tr><td>map</td><td>number</td><td>Mapa actual del jugador</td></tr>
-                            <tr><td>statsCap</td><td>number</td><td>Límite de estadísticas del jugador</td></tr>
-                            <tr><td>tithingPoints</td><td>number</td><td>Puntos de diezmo del jugador</td></tr>
+                            <tr class="property-row" data-property="strength">
+                                <td><code>Player.strength</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Valor de fuerza (STR) del jugador</td>
+                            </tr>
+                            <tr class="property-details" data-property="strength" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Valor de fuerza (STR) del jugador. Este atributo afecta directamente al daño que infliges en combate cuerpo a cuerpo y a tu capacidad de carga máxima. Valores más altos de fuerza permiten llevar más peso sin sufrir penalizaciones de movimiento.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Verificar fuerza para determinar capacidad de combate
+if (player.strength >= 100) {
+    client.sysMsg('Fuerza alta - excelente para combate cuerpo a cuerpo', 66);
+} else if (player.strength >= 50) {
+    client.sysMsg('Fuerza media - adecuada para combate básico', 85);
+} else {
+    client.sysMsg('Fuerza baja - considera usar armas a distancia', 33);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="dexterity">
+                                <td><code>Player.dexterity</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Valor de destreza (DEX) del jugador</td>
+                            </tr>
+                            <tr class="property-details" data-property="dexterity" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Valor de destreza (DEX) del jugador. Este atributo determina tu velocidad de ataque y la rapidez con la que regeneras stamina. Una destreza alta es crucial para arqueros y personajes que dependen de ataques rápidos y continuos.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Evaluar destreza para estilo de combate
+const dexPercent = (player.dexterity / 100) * 100;
+client.headMsg(`Destreza: ${player.dexterity} (${dexPercent.toFixed(0)}% de cap)`, player, 66);
+
+if (player.dexterity >= 80) {
+    client.sysMsg('Destreza óptima para arquería y esgrima', 66);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="intelligence">
+                                <td><code>Player.intelligence</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Valor de inteligencia (INT) del jugador</td>
+                            </tr>
+                            <tr class="property-details" data-property="intelligence" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Valor de inteligencia (INT) del jugador. Este atributo determina tu maná máximo y el poder de tus hechizos. Los magos y personajes que usan magia intensivamente necesitan valores altos de inteligencia para ser efectivos.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Verificar inteligencia antes de intentar lanzar hechizos complejos
+if (player.intelligence >= 100) {
+    client.sysMsg(`INT: ${player.intelligence} - Mana máximo: ${player.maxMana}`, 66);
+    player.cast(Spells.EnergyVortex);
+} else {
+    client.sysMsg('Inteligencia insuficiente para hechizos avanzados', 33);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="hits">
+                                <td><code>Player.hits</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Puntos de vida actuales del jugador</td>
+                            </tr>
+                            <tr class="property-details" data-property="hits" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Puntos de vida actuales del jugador. Este valor representa cuánta salud te queda y disminuye cuando recibes daño. Cuando llega a cero, el personaje muere.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Sistema de auto-curación basado en porcentaje de vida
+const healthPercent = (player.hits / player.maxHits) * 100;
+
+if (healthPercent < 30) {
+    client.headMsg('¡VIDA CRÍTICA!', player, 33);
+    // Intentar usar poción o vendaje
+} else if (healthPercent < 60) {
+    client.headMsg('Vida baja, considera curarte', player, 85);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="maxHits">
+                                <td><code>Player.maxHits</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Puntos de vida máximos del jugador</td>
+                            </tr>
+                            <tr class="property-details" data-property="maxHits" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Puntos de vida máximos del jugador. Este valor determina cuánta vida puedes tener como máximo y está influenciado principalmente por tu valor de fuerza (STR).</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Mostrar información de salud completa
+client.sysMsg(`Salud: ${player.hits}/${player.maxHits} (${((player.hits/player.maxHits)*100).toFixed(1)}%)`, 66);
+
+// Determinar si está en condiciones óptimas para combate
+if (player.hits === player.maxHits) {
+    client.headMsg('Salud al máximo - listo para combate', player, 66);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="mana">
+                                <td><code>Player.mana</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Puntos de maná actuales del jugador</td>
+                            </tr>
+                            <tr class="property-details" data-property="mana" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Puntos de maná actuales del jugador. El maná es necesario para lanzar hechizos y usar ciertas habilidades especiales. Se regenera automáticamente con el tiempo.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Verificar maná antes de lanzar hechizo
+const manaCostEnergyBolt = 20;
+
+if (player.mana >= manaCostEnergyBolt) {
+    player.cast(Spells.EnergyBolt);
+    client.sysMsg(`Maná restante: ${player.mana - manaCostEnergyBolt}`, 85);
+} else {
+    client.headMsg('Maná insuficiente', player, 33);
+    player.useSkill(Skills.Meditation);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="maxMana">
+                                <td><code>Player.maxMana</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Puntos de maná máximos del jugador</td>
+                            </tr>
+                            <tr class="property-details" data-property="maxMana" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Puntos de maná máximos del jugador. Este valor está determinado principalmente por tu inteligencia (INT) y define cuánto maná puedes tener como máximo.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Sistema de gestión de maná
+const manaPercent = (player.mana / player.maxMana) * 100;
+
+if (manaPercent < 20) {
+    client.headMsg('¡Maná crítico! Meditando...', player, 33);
+    player.useSkill(Skills.Meditation);
+} else if (manaPercent >= 90) {
+    client.sysMsg('Maná casi completo - listo para combate mágico', 66);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="stamina">
+                                <td><code>Player.stamina</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Puntos de aguante actuales del jugador</td>
+                            </tr>
+                            <tr class="property-details" data-property="stamina" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Puntos de aguante (stamina) actuales del jugador. El stamina se consume al correr y durante el combate físico. Cuando se agota, no puedes correr y tu efectividad en combate disminuye.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Monitorear stamina durante combate o viajes
+const staminaPercent = (player.stamina / player.maxStamina) * 100;
+
+if (staminaPercent < 25) {
+    client.headMsg('Stamina baja - reduciendo velocidad', player, 33);
+    // Considerar descansar o usar refresh potion
+} else if (player.stamina === player.maxStamina) {
+    client.sysMsg('Stamina al máximo', 66);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="maxStamina">
+                                <td><code>Player.maxStamina</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Puntos de aguante máximos del jugador</td>
+                            </tr>
+                            <tr class="property-details" data-property="maxStamina" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Puntos de aguante (stamina) máximos del jugador. Este valor está principalmente influenciado por tu destreza (DEX) y determina cuánto puedes correr o luchar antes de agotarte.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Información completa de stamina
+client.sysMsg(`Stamina: ${player.stamina}/${player.maxStamina}`, 85);
+
+// Evaluar capacidad para viajes largos
+if (player.maxStamina >= 100) {
+    client.sysMsg('Stamina máximo excelente para viajes largos', 66);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="weight">
+                                <td><code>Player.weight</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Peso actual que está cargando el jugador</td>
+                            </tr>
+                            <tr class="property-details" data-property="weight" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Peso actual que está cargando el jugador en stones. Este valor cambia constantemente según lo que llevas en tu inventario y afecta tu capacidad de movimiento.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Sistema de advertencia de sobrecarga
+const weightPercent = (player.weight / player.weightMax) * 100;
+
+if (weightPercent >= 100) {
+    client.headMsg('¡SOBRECARGADO! No puedes moverte', player, 33);
+    exit('Peso excedido - script detenido');
+} else if (weightPercent >= 80) {
+    client.headMsg(`Carga pesada: ${player.weight}/${player.weightMax}`, player, 85);
+} else {
+    client.sysMsg(`Peso: ${player.weight}/${player.weightMax} stones`, 66);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="weightMax">
+                                <td><code>Player.weightMax</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Peso máximo que puede cargar el jugador</td>
+                            </tr>
+                            <tr class="property-details" data-property="weightMax" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Peso máximo que puede cargar el jugador antes de quedar completamente sobrecargado e incapaz de moverse. Este valor está determinado por tu fuerza (STR).</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Calcular espacio disponible antes de recolectar items
+const spaceAvailable = player.weightMax - player.weight;
+
+client.sysMsg(`Capacidad disponible: ${spaceAvailable} stones`, 66);
+
+if (spaceAvailable < 50) {
+    client.headMsg('Poco espacio - considera guardar items en banco', player, 85);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="gold">
+                                <td><code>Player.gold</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Cantidad total de oro que posee el jugador</td>
+                            </tr>
+                            <tr class="property-details" data-property="gold" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Cantidad total de oro que posee el jugador. Este valor incluye el oro en tu inventario, banco y todas las ubicaciones accesibles.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Verificar oro antes de comprar
+const precioItem = 5000;
+
+if (player.gold >= precioItem) {
+    client.sysMsg(`Oro disponible: ${player.gold}gp - puedes comprarlo`, 66);
+    // Proceder con la compra
+} else {
+    const faltante = precioItem - player.gold;
+    client.headMsg(`Oro insuficiente - faltan ${faltante}gp`, player, 33);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="backpack">
+                                <td><code>Player.backpack</code></td>
+                                <td><span class="parameter-type">undefined | Item</span></td>
+                                <td class="property-description">Referencia al objeto Item que representa la mochila</td>
+                            </tr>
+                            <tr class="property-details" data-property="backpack" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Referencia al objeto Item que representa la mochila principal del jugador. Esta propiedad permite acceder directamente al contenedor de inventario para realizar operaciones con items.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Acceder a la mochila del jugador
+if (!player.backpack) {
+    exit('No se puede acceder a la mochila');
+}
+
+// Buscar items en la mochila
+const vendajes = client.findType(0xe21, null, player.backpack);
+if (vendajes) {
+    client.sysMsg(`Vendajes encontrados en mochila: ${vendajes.amount}`, 66);
+}
+
+// Contar items totales en mochila
+const itemsEnMochila = player.backpack.contents?.length || 0;
+client.sysMsg(`Items en mochila: ${itemsEnMochila}`, 85);</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="statsCap">
+                                <td><code>Player.statsCap</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Límite de la suma total de los tres atributos</td>
+                            </tr>
+                            <tr class="property-details" data-property="statsCap" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Límite de la suma total de los tres atributos principales (STR + DEX + INT). Este valor determina cuántos puntos de stats puedes tener en total, típicamente 225 o 250 según la configuración del servidor.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Mostrar información completa de stats
+const statsActuales = player.strength + player.dexterity + player.intelligence;
+const statsDisponibles = player.statsCap - statsActuales;
+
+client.sysMsg(`Stats: ${statsActuales}/${player.statsCap}`, 66);
+client.sysMsg(`Puntos disponibles: ${statsDisponibles}`, 85);
+
+if (statsActuales === player.statsCap) {
+    client.headMsg('Stats al máximo del cap', player, 66);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="tithingPoints">
+                                <td><code>Player.tithingPoints</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Puntos de diezmo acumulados</td>
+                            </tr>
+                            <tr class="property-details" data-property="tithingPoints" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Puntos de diezmo (tithing points) acumulados, utilizados para el sistema de virtudes en Ultima Online. Estos puntos se obtienen donando oro en santuarios y se gastan al usar ciertas habilidades de virtud.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Verificar puntos de diezmo antes de usar virtud
+const puntosNecesarios = 10;
+
+if (player.tithingPoints >= puntosNecesarios) {
+    client.sysMsg(`Puntos de diezmo: ${player.tithingPoints}`, 66);
+    player.useVirtue(Virtues.Honor);
+} else {
+    client.headMsg('Puntos de diezmo insuficientes', player, 33);
+    client.sysMsg('Dona oro en un santuario para obtener más puntos', 85);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                <div class="subsection">
-                    <h3>Propiedades de Resistencia</h3>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                            <tr><th>Propiedad</th><th>Tipo</th><th>Descripción</th></tr>
-                            </thead>
-                            <tbody>
-                            <tr><td>coldResistance</td><td>number</td><td>Resistencia al frío del jugador</td></tr>
-                            <tr><td>energyResistance</td><td>number</td><td>Resistencia a la energía del jugador</td></tr>
-                            <tr><td>fireResistance</td><td>number</td><td>Resistencia al fuego del jugador</td></tr>
-                            <tr><td>physicalResistance</td><td>number</td><td>Resistencia física del jugador</td></tr>
-                            <tr><td>poisonResistance</td><td>number</td><td>Resistencia al veneno del jugador</td></tr>
-                            <tr><td>maxColdResistence</td><td>number</td><td>Máxima resistencia al frío del jugador</td></tr>
-                            <tr><td>maxEnergyResistence</td><td>number</td><td>Máxima resistencia a la energía del jugador</td></tr>
-                            <tr><td>maxFireResistence</td><td>number</td><td>Máxima resistencia al fuego del jugador</td></tr>
-                            <tr><td>maxPhysicResistence</td><td>number</td><td>Máxima resistencia física del jugador</td></tr>
-                            <tr><td>maxPoisonResistence</td><td>number</td><td>Máxima resistencia al veneno del jugador</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
 
-                <div class="subsection">
-                    <h3>Propiedades de Combate</h3>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                            <tr><th>Propiedad</th><th>Tipo</th><th>Descripción</th></tr>
-                            </thead>
-                            <tbody>
-                            <tr><td>damageIncrease</td><td>number</td><td>Incremento de daño del jugador</td></tr>
-                            <tr><td>damageMax</td><td>number</td><td>Daño máximo del jugador</td></tr>
-                            <tr><td>damageMin</td><td>number</td><td>Daño mínimo del jugador</td></tr>
-                            <tr><td>defenseChanceIncrease</td><td>number</td><td>Incremento de oportunidad de defensa del jugador</td></tr>
-                            <tr><td>hitChanceIncrease</td><td>number</td><td>Incremento de oportunidad de golpe del jugador</td></tr>
-                            <tr><td>luck</td><td>number</td><td>Suerte del jugador</td></tr>
-                            <tr><td>maxDefenseChanceIncrease</td><td>number</td><td>Máximo incremento de oportunidad de defensa del jugador</td></tr>
-                            <tr><td>primaryAbility</td><td>Abilities</td><td>Habilidad primaria del jugador</td></tr>
-                            <tr><td>secondaryAbility</td><td>Abilities</td><td>Habilidad secundaria del jugador</td></tr>
-                            <tr><td>swingSpeedIncrease</td><td>number</td><td>Incremento de velocidad de ataque del jugador</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
 
-                <div class="subsection">
-                    <h3>Propiedades Mágicas</h3>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                            <tr><th>Propiedad</th><th>Tipo</th><th>Descripción</th></tr>
-                            </thead>
-                            <tbody>
-                            <tr><td>fasterCastRecovery</td><td>number</td><td>Recuperación de casteo más rápida del jugador</td></tr>
-                            <tr><td>fasterCasting</td><td>number</td><td>Casteo más rápido del jugador</td></tr>
-                            <tr><td>lowerManaCost</td><td>number</td><td>Reducción de costo de mana del jugador</td></tr>
-                            <tr><td>lowerReagentCost</td><td>number</td><td>Reducción de costo de reactivos del jugador</td></tr>
-                            <tr><td>spellDamageIncrease</td><td>number</td><td>Incremento de daño de hechizos del jugador</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="subsection">
-                    <h3>Propiedades de Seguidores</h3>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                            <tr><th>Propiedad</th><th>Tipo</th><th>Descripción</th></tr>
-                            </thead>
-                            <tbody>
-                            <tr><td>followers</td><td>number</td><td>Número de seguidores del jugador</td></tr>
-                            <tr><td>maxFollowers</td><td>number</td><td>Máximo número de seguidores del jugador</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Métodos Principales</h3>
 
                     <h4>attack()</h4>
@@ -2742,7 +3157,7 @@ player.castTo(Spells.Heal, player);</code></pre>
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Métodos de Interacción y Movimiento</h3>
                     <div class="table-container">
                         <table>
@@ -2763,7 +3178,7 @@ player.castTo(Spells.Heal, player);</code></pre>
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Métodos de Habilidades y Skills</h3>
                     <div class="table-container">
                         <table>
@@ -2780,7 +3195,7 @@ player.castTo(Spells.Heal, player);</code></pre>
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Métodos de Manipulación de Items</h3>
                     <div class="table-container">
                         <table>
@@ -2797,7 +3212,7 @@ player.castTo(Spells.Heal, player);</code></pre>
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Métodos de Buff/Debuff y Habilidades Especiales</h3>
                     <div class="table-container">
                         <table>
@@ -2839,7 +3254,7 @@ if (anatomySkill) {
                 <p class="description">Controla el sistema de targeting del juego</p>
             </div>
             <div class="section-content">
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Propiedades</h3>
                     <div class="table-container">
                         <table>
@@ -2857,7 +3272,7 @@ if (anatomySkill) {
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Métodos Principales</h3>
 
                     <h4>wait()</h4>
@@ -2918,7 +3333,7 @@ target.waitTargetSelf();</code></pre>
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Métodos de Control de Target</h3>
                     <div class="table-container">
                         <table>
@@ -2936,7 +3351,7 @@ target.waitTargetSelf();</code></pre>
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Métodos de Targeting de Terreno</h3>
                     <div class="table-container">
                         <table>
@@ -2952,7 +3367,7 @@ target.waitTargetSelf();</code></pre>
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Métodos de Conveniencia</h3>
                     <div class="table-container">
                         <table>
@@ -3002,7 +3417,7 @@ target.terrainRelativeToEntity(mob, 5, true);</code></pre>
                     <strong>⚠️ Discrepancia en Documentación Oficial:</strong> El método se declara como <code>setCheckbox()</code> pero en el ejemplo oficial aparece como <code>gumpSetCheckbox()</code>. Verificar implementación real antes de usar.
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Propiedades Estáticas</h3>
                     <div class="table-container">
                         <table>
@@ -3019,7 +3434,7 @@ target.terrainRelativeToEntity(mob, 5, true);</code></pre>
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Métodos Principales</h3>
 
                     <h4>findOrWait()</h4>
@@ -3105,7 +3520,7 @@ if (data && data.type === 'sell') {
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Métodos Estáticos</h3>
                     <div class="table-container">
                         <table>
@@ -3120,7 +3535,7 @@ if (data && data.type === 'sell') {
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Métodos de Interacción</h3>
                     <div class="table-container">
                         <table>
@@ -3138,7 +3553,7 @@ if (data && data.type === 'sell') {
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Métodos de Formularios</h3>
                     <div class="table-container">
                         <table>
@@ -3179,7 +3594,7 @@ if (data && data.type === 'buy') {
                 <p class="description">Proporciona acceso al sistema de journal del juego para activar partes de tu script</p>
             </div>
             <div class="section-content">
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>clear()</h3>
                     <div class="code-block">
                         <div class="code-header">
@@ -3205,7 +3620,7 @@ journal.waitForText('Hello there'); // Timeout, string limpiado</code></pre>
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>containsText()</h3>
                     <div class="code-block">
                         <div class="code-header">
@@ -3220,7 +3635,7 @@ journal.waitForText('Hello there'); // Timeout, string limpiado</code></pre>
                     <p><strong>Retorna:</strong> true/false si el texto existe en el journal.</p>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>waitForText()</h3>
                     <div class="code-block">
                         <div class="code-header">
@@ -3251,7 +3666,7 @@ if (journal.waitForText('You healed', 'System', 8000)) {
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>waitForTextAny()</h3>
                     <div class="code-block">
                         <div class="code-header">
@@ -3284,7 +3699,7 @@ switch (response) {
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>waitForTextEvery()</h3>
                     <div class="code-block">
                         <div class="code-header">
@@ -3324,7 +3739,7 @@ if (response.includes(successMessage)) {
                 <p class="description">Para interactuar con menús contextuales (single click)</p>
             </div>
             <div class="section-content">
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Propiedades</h3>
                     <div class="table-container">
                         <table>
@@ -3339,7 +3754,7 @@ if (response.includes(successMessage)) {
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>request()</h3>
                     <div class="code-block">
                         <div class="code-header">
@@ -3364,7 +3779,7 @@ popupMenu.reply(0); // 0 es primer item</code></pre>
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Otros Métodos</h3>
                     <div class="table-container">
                         <table>
@@ -3392,7 +3807,7 @@ popupMenu.reply(0); // 0 es primer item</code></pre>
                     <strong>⚠️ Discrepancia en Documentación Oficial:</strong> El ejemplo oficial usa <pre><code class="language-javascript">prompt.waitUntilOpen()</code></pre> pero este método no está documentado en la API.
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>exists</h3>
                     <div class="code-block">
                         <div class="code-header">
@@ -3417,7 +3832,7 @@ popupMenu.reply(0); // 0 es primer item</code></pre>
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>reply()</h3>
                     <div class="code-block">
                         <div class="code-header">
@@ -3455,7 +3870,7 @@ prompt.reply('My Awesome runebook');</code></pre>
                 <p class="description">Controla funcionalidades del mapa del mundo y marcadores</p>
             </div>
             <div class="section-content">
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>markers</h3>
                     <div class="code-block">
                         <div class="code-header">
@@ -3469,7 +3884,7 @@ prompt.reply('My Awesome runebook');</code></pre>
                     <p><strong>Descripción:</strong> Obtiene la lista de marcadores del Mapa del Mundo. Lista de solo lectura.</p>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>addMarker()</h3>
                     <div class="code-block">
                         <div class="code-header">
@@ -3503,7 +3918,7 @@ const marker = worldMap.addMarker({
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Otros Métodos</h3>
                     <div class="table-container">
                         <table>
@@ -3519,7 +3934,7 @@ const marker = worldMap.addMarker({
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Interface: WorldMapMarker</h3>
                     <div class="table-container">
                         <table>
@@ -3546,7 +3961,7 @@ const marker = worldMap.addMarker({
                 <p class="description">Clase base simple para objetos del juego que implementa SerialObject</p>
             </div>
             <div class="section-content">
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Propiedades</h3>
                     <div class="table-container">
                         <table>
@@ -3560,7 +3975,7 @@ const marker = worldMap.addMarker({
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Type Aliases</h3>
                     <div class="code-block">
                         <div class="code-header">
@@ -3582,7 +3997,7 @@ const marker = worldMap.addMarker({
                 <p class="description">Clase base para todas las entidades en el juego (Items, Mobiles, Player). Extiende GameObject</p>
             </div>
             <div class="section-content">
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Propiedades</h3>
                     <div class="table-container">
                         <table>
@@ -3631,7 +4046,7 @@ if (entity) {
                 <p class="description">Representa entidades móviles como jugadores, NPCs o criaturas. Extiende Entity</p>
             </div>
             <div class="section-content">
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Propiedades Principales</h3>
                     <div class="table-container">
                         <table>
@@ -3657,7 +4072,7 @@ if (entity) {
                     <p><em>Hereda todas las propiedades de Entity: direction, graphic, hits, hue, isHidden, maxHits, name, serial, x, y, z</em></p>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>equippedItems (Mobile)</h3>
                     <p><strong>Descripción:</strong> Los items actualmente equipados del móvil (humanoides/jugadores).</p>
                     <div class="table-container">
@@ -3703,7 +4118,7 @@ if (entity) {
                 <p class="description">Representa objetos en el juego. Extiende Entity</p>
             </div>
             <div class="section-content">
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Propiedades</h3>
                     <div class="table-container">
                         <table>
@@ -3755,7 +4170,7 @@ for (const item of itemList) {
                 <p class="description">Define la estructura de un objeto Skill individual en ClassicUO</p>
             </div>
             <div class="section-content">
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Propiedades</h3>
                     <div class="table-container">
                         <table>
@@ -3783,7 +4198,7 @@ for (const item of itemList) {
                 <p class="description">Administra una lista de entidades ignoradas en funciones de búsqueda</p>
             </div>
             <div class="section-content">
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Propiedades</h3>
                     <div class="table-container">
                         <table>
@@ -3797,7 +4212,7 @@ for (const item of itemList) {
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>add()</h3>
                     <div class="code-block">
                         <div class="code-header">
@@ -3826,7 +4241,7 @@ for (const item of itemList) {
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Otros Métodos</h3>
                     <div class="table-container">
                         <table>
@@ -3850,7 +4265,7 @@ for (const item of itemList) {
                 <p class="description">Constantes nombradas para facilitar el desarrollo</p>
             </div>
             <div class="section-content">
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Directions</h3>
                     <p><strong>Descripción:</strong> Enumeración de direcciones.</p>
                     <div class="table-container">
@@ -3884,7 +4299,7 @@ player.run(Directions.South);</code></pre>
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>MessageType</h3>
                     <p><strong>Descripción:</strong> Enumeración de tipos de mensajes en el juego.</p>
                     <div class="table-container">
@@ -3913,7 +4328,7 @@ player.run(Directions.South);</code></pre>
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Notorieties</h3>
                     <p><strong>Descripción:</strong> Enumeración de estados de notoriedad de móviles.</p>
                     <div class="table-container">
@@ -3935,7 +4350,7 @@ player.run(Directions.South);</code></pre>
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>SearchEntityOptions</h3>
                     <p><strong>Descripción:</strong> Enumeración de opciones para buscar entidades.</p>
                     <div class="table-container">
@@ -3958,7 +4373,7 @@ player.run(Directions.South);</code></pre>
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>SearchEntityRangeOptions</h3>
                     <p><strong>Descripción:</strong> Enumeración de opciones de rango para buscar entidades.</p>
                     <div class="table-container">
@@ -3988,7 +4403,7 @@ player.run(Directions.South);</code></pre>
                 <p class="description">Patrones comunes y mejores prácticas para scripting en ClassicUO</p>
             </div>
             <div class="section-content">
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Auto-curación con Vendajes</h3>
                     <div class="code-block">
                         <div class="code-header">
@@ -4021,7 +4436,7 @@ player.run(Directions.South);</code></pre>
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Recolección Automatizada de Oro</h3>
                     <div class="code-block">
                         <div class="code-header">
@@ -4054,7 +4469,7 @@ player.run(Directions.South);</code></pre>
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Sistema de Trading Automatizado</h3>
                     <div class="code-block">
                         <div class="code-header">
@@ -4094,7 +4509,7 @@ function isWeapon(graphic: number): boolean {
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>Script de Entrenamiento de Skills</h3>
                     <div class="code-block">
                         <div class="code-header">
@@ -4163,7 +4578,7 @@ function isWeapon(graphic: number): boolean {
                 <p class="description">Guías para escribir scripts robustos y mantenibles</p>
             </div>
             <div class="section-content">
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>🛡️ Gestión de Errores</h3>
                     <div class="code-block">
                         <div class="code-header">
@@ -4196,7 +4611,7 @@ if (player.hits < player.maxHits * 0.3) {
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>🔄 Uso Eficiente del IgnoreList</h3>
                     <div class="code-block">
                         <div class="code-header">
@@ -4230,7 +4645,7 @@ client.headMsg(`Processed ${totalProcessed} items`, player, 66);</code></pre>
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>📝 Manejo Robusto del Journal</h3>
                     <div class="code-block">
                         <div class="code-header">
@@ -4261,7 +4676,7 @@ if (healMessages.some(msg => result?.includes(msg))) {
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>🏗️ Plantilla de Script Profesional</h3>
                     <div class="code-block">
                         <div class="code-header">
@@ -4359,7 +4774,7 @@ main();</code></pre>
                 <p class="description">Resumen de elementos más utilizados para consulta rápida</p>
             </div>
             <div class="section-content">
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>🔥 Métodos Más Comunes</h3>
                     <div class="table-container">
                         <table>
@@ -4380,7 +4795,7 @@ main();</code></pre>
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>🎯 Patrones de Targeting Rápidos</h3>
                     <div class="code-block">
                         <div class="code-header">
@@ -4403,7 +4818,7 @@ target.terrainWithOffset(1, 0, 0); // 1 step east</code></pre>
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>📊 Enums de Uso Frecuente</h3>
                     <div class="table-container">
                         <table>
@@ -4420,7 +4835,7 @@ target.terrainWithOffset(1, 0, 0); // 1 step east</code></pre>
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>🛠️ IDs de Gráficos Comunes</h3>
                     <div class="table-container">
                         <table>
@@ -4441,7 +4856,7 @@ target.terrainWithOffset(1, 0, 0); // 1 step east</code></pre>
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>⚡ Scripts de Una Línea Útiles</h3>
                     <div class="code-block">
                         <div class="code-header">
@@ -4470,7 +4885,7 @@ ignoreList.clear();</code></pre>
                     </div>
                 </div>
 
-                <div class="subsection">
+                <div class="subsection metodos">
                     <h3>⚠️ Errores Comunes y Soluciones</h3>
                     <div class="table-container">
                         <table>

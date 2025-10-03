@@ -181,13 +181,22 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Inicializar tablas colapsables para métodos
-    function initCollapsibleMethods() {
-        const methodRows = document.querySelectorAll('.method-row');
-        console.log('DEBUG: Encontrados', methodRows.length, 'elementos con clase method-row');
+    // ============================================================
+    // SISTEMA DE TABLAS COLAPSABLES - GENÉRICO
+    // Funciona tanto para métodos como para propiedades
+    // ============================================================
 
-        methodRows.forEach(row => {
-            // Agregar indicador visual de expansión
+    /**
+     * Función genérica para inicializar filas colapsables
+     * @param {string} rowSelector - Selector CSS para las filas clicables (ej: '.method-row')
+     * @param {string} detailsSelector - Selector CSS para las filas de detalles (ej: '.method-details')
+     * @param {string} dataAttribute - Nombre del atributo data a usar (ej: 'data-method')
+     */
+    function initCollapsibleRows(rowSelector, detailsSelector, dataAttribute) {
+        const rows = document.querySelectorAll(rowSelector);
+
+        rows.forEach(row => {
+            // Agregar indicador visual de expansión solo si no existe
             const firstCell = row.querySelector('td:first-child');
             if (firstCell && !firstCell.querySelector('.expand-icon')) {
                 firstCell.innerHTML = `<span class="expand-icon">▶</span>${firstCell.innerHTML}`;
@@ -195,10 +204,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Event listener para expandir/colapsar
             row.addEventListener('click', function () {
-                const methodName = this.getAttribute('data-method');
-                if (!methodName) return;
+                // Obtener el identificador único del item
+                const itemName = this.getAttribute(dataAttribute);
+                if (!itemName) return;
 
-                const detailsRow = document.querySelector(`[data-method="${methodName}"].method-details`);
+                // Buscar la fila de detalles correspondiente
+                const detailsRow = document.querySelector(`[${dataAttribute}="${itemName}"]${detailsSelector}`);
                 const expandIcon = this.querySelector('.expand-icon');
 
                 if (detailsRow && expandIcon) {
@@ -212,19 +223,19 @@ document.addEventListener('DOMContentLoaded', function () {
                     this.classList.toggle('expanded', !isVisible);
 
                     // Save state in localStorage
-                    const key = `method-${methodName}-expanded`;
-                    localStorage.setItem(key, (!isVisible).toString());
+                    const storageKey = `${dataAttribute}-${itemName}-expanded`;
+                    localStorage.setItem(storageKey, (!isVisible).toString());
                 }
             });
 
-            // Restore previous state from localStorage
-            const methodName = row.getAttribute('data-method');
-            if (methodName) {
-                const key = `method-${methodName}-expanded`;
-                const wasExpanded = localStorage.getItem(key) === 'true';
+            // Restaurar el estado previo desde localStorage
+            const itemName = row.getAttribute(dataAttribute);
+            if (itemName) {
+                const storageKey = `${dataAttribute}-${itemName}-expanded`;
+                const wasExpanded = localStorage.getItem(storageKey) === 'true';
 
                 if (wasExpanded) {
-                    const detailsRow = document.querySelector(`[data-method="${methodName}"].method-details`);
+                    const detailsRow = document.querySelector(`[${dataAttribute}="${itemName}"]${detailsSelector}`);
                     const expandIcon = row.querySelector('.expand-icon');
 
                     if (detailsRow && expandIcon) {
@@ -237,21 +248,45 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Inicializar las tablas colapsables
+    /**
+     * Inicializar tablas colapsables para MÉTODOS
+     */
+    function initCollapsibleMethods() {
+        initCollapsibleRows('.method-row', '.method-details', 'data-method');
+    }
+
+    /**
+     * Inicializar tablas colapsables para PROPIEDADES
+     */
+    function initCollapsibleProperties() {
+        initCollapsibleRows('.property-row', '.property-details', 'data-property');
+    }
+
+    // Inicializar ambos tipos de tablas colapsables
     initCollapsibleMethods();
+    initCollapsibleProperties();
 
     // Re-inicializar cuando se agreguen nuevas tablas dinámicamente
     const mutationObserver = new MutationObserver(function (mutations) {
         let needsReinit = false;
         mutations.forEach(function (mutation) {
             mutation.addedNodes.forEach(function (node) {
-                if (node.nodeType === 1 && (node.classList.contains('methods-table') || node.querySelector('.methods-table'))) {
-                    needsReinit = true;
+                if (node.nodeType === 1) {
+                    // Detectar si se agregó una tabla de métodos o propiedades
+                    if (node.classList.contains('methods-table') ||
+                        node.classList.contains('properties-table') ||
+                        node.querySelector('.methods-table') ||
+                        node.querySelector('.properties-table')) {
+                        needsReinit = true;
+                    }
                 }
             });
         });
         if (needsReinit) {
-            setTimeout(initCollapsibleMethods, 100);
+            setTimeout(() => {
+                initCollapsibleMethods();
+                initCollapsibleProperties();
+            }, 100);
         }
     });
 

@@ -5899,6 +5899,84 @@ function desactivarVuelo() {
                                     </div>
                                 </td>
                             </tr>
+
+                            <tr class="method-row" data-method="say">
+                                <td><code>Player.say()</code></td>
+                                <td><span class="parameter-type">message: string, hue?: number</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Envía un mensaje de chat como el jugador</td>
+                            </tr>
+                            <tr class="method-details" data-method="say" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Player.say(message: string, hue?: number): void</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Envía un mensaje en el chat del juego como si el jugador lo hubiera escrito manualmente. El mensaje será visible para otros jugadores cercanos y puede incluir un color personalizado opcional. A diferencia de Client.sysMsg() que solo muestra mensajes localmente, este método comunica al mundo del juego.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">message</code>
+                                                    <span class="parameter-type">string</span>
+                                                    <div class="parameter-description">El texto del mensaje que el jugador dirá en el chat del juego</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">hue</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">El color del mensaje (valor numérico de color). Si no se especifica, usa el color por defecto del chat</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Mensaje simple en chat
+player.say('Hello there!');
+
+// Sistema de avisos de salud en grupo
+while (true) {
+    if (player.hits < 50) {
+        player.say('I need healing!', 33); // Mensaje en rojo
+        sleep(10000); // Esperar 10 segundos antes de volver a avisar
+    }
+    sleep(500);
+}
+
+// Comunicación con NPCs o comandos del servidor
+player.say('bank'); // Abrir banco
+sleep(1000);
+player.say('guards'); // Llamar guardias
+
+// Sistema de macros de comunicación
+const enemyCount = client.findNotoriety(Notorieties.Enemy, 12).length;
+if (enemyCount > 0) {
+    player.say(`${enemyCount} enemies nearby!`, 33);
+}
+
+// Activar habilidades mediante comandos de voz
+player.say('[meditate'); // Comando para meditar
+sleep(500);</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -6482,6 +6560,1653 @@ function usarUltimoSiExiste() {
 
     // Nota: No hay forma directa de verificar si existe
     // el último objeto, así que este método siempre intentará usarlo
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!--Player Manipulación de Items-->
+                <div class="subsection metodos">
+                    <h3>📦 Manipulación de Items</h3>
+                    <p>Métodos para mover y organizar items entre contenedores y en el suelo. Estos métodos son fundamentales para gestión automática de inventario, organización de cofres, looting automático, y sistemas de almacenamiento. Permiten mover items específicos o por tipo, tanto entre contenedores como en el mundo.</p>
+                    <div class="methods-table-container">
+                        <table class="methods-table">
+                            <thead>
+                            <tr>
+                                <th>Método</th>
+                                <th>Parámetros</th>
+                                <th>Retorna</th>
+                                <th>Descripción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="method-row" data-method="moveItem">
+                                <td><code>Player.moveItem()</code></td>
+                                <td><span class="parameter-type">serial: SerialOrEntity, container: SerialOrEntity, x?: number, y?: number, z?: number, amount?: number</span></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="method-description">Mueve un objeto entre contenedores</td>
+                            </tr>
+                            <tr class="method-details" data-method="moveItem" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Player.moveItem(serial: SerialOrEntity, container: SerialOrEntity, x?: number, y?: number, z?: number, amount?: number): number</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Intenta mover un objeto específico entre contenedores (mochilas, cofres, bolsas, etc.). Puede especificar opcionalmente la posición exacta dentro del contenedor y la cantidad a mover si es un stack.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">serial</code>
+                                                    <span class="parameter-type">SerialOrEntity</span>
+                                                    <div class="parameter-description">El serial del objeto a mover</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">container</code>
+                                                    <span class="parameter-type">SerialOrEntity</span>
+                                                    <div class="parameter-description">El contenedor de destino</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">x</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Posición X dentro del contenedor (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">y</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Posición Y dentro del contenedor (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">z</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Posición Z/capa dentro del contenedor (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">amount</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Cantidad a mover si es un stack (opcional)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="parameters-section">
+                                            <h5>Retorna:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <span class="parameter-type">number</span>
+                                                    <div class="parameter-description">Número que indica el resultado de la operación</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Desequipar túnica y guardarla en mochila
+if (player.equippedItems.robe && player.backpack) {
+    player.moveItem(player.equippedItems.robe, player.backpack);
+    client.sysMsg('Túnica guardada en mochila', 66);
+    sleep(500);
+}
+
+// Mover un item específico a un cofre
+const item = client.findType(0x0f52); // Dagger
+const cofre = client.findType(0x0e43); // Chest
+
+if (item && cofre) {
+    player.moveItem(item, cofre);
+    client.sysMsg('Item movido al cofre', 66);
+    sleep(600);
+}
+
+// Mover solo 50 unidades de un stack
+const oro = client.findType(0x0eed, -1, player.backpack); // Gold pile
+const bolsa = client.findType(0x0e76, -1, player.backpack); // Bag
+
+if (oro && bolsa && oro.amount >= 50) {
+    player.moveItem(oro, bolsa, 0, 0, 0, 50);
+    client.sysMsg('50 oro movido a la bolsa', 66);
+    sleep(500);
+}
+
+// Sistema de organización automática
+function organizarMochila() {
+    if (!player.backpack) return;
+
+    // Buscar bolsa de reactivos
+    const bolsaReactivos = client.findType(0x0e76, 0x0481, player.backpack);
+
+    if (!bolsaReactivos) {
+        client.sysMsg('No hay bolsa de reactivos', 33);
+        return;
+    }
+
+    // Lista de reactivos comunes
+    const reactivos = [
+        { tipo: 0x0f7a, nombre: 'Black Pearl' },
+        { tipo: 0x0f7b, nombre: 'Blood Moss' },
+        { tipo: 0x0f86, nombre: 'Mandrake Root' },
+        { tipo: 0x0f88, nombre: 'Nightshade' },
+        { tipo: 0x0f8c, nombre: 'Sulfurous Ash' },
+        { tipo: 0x0f8d, nombre: 'Spider Silk' },
+        { tipo: 0x0f84, nombre: 'Garlic' },
+        { tipo: 0x0f85, nombre: 'Ginseng' }
+    ];
+
+    client.sysMsg('Organizando reactivos...', 66);
+
+    reactivos.forEach(reactivo => {
+        const item = client.findType(reactivo.tipo, -1, player.backpack);
+        if (item) {
+            player.moveItem(item, bolsaReactivos);
+            client.sysMsg(`Movido: ${reactivo.nombre}`, 85);
+            sleep(300);
+        }
+    });
+
+    client.headMsg('Reactivos organizados', player, 66);
+}
+
+// Mover todos los items de un contenedor a otro
+function vaciarContenedor(origen, destino) {
+    const origenObj = client.findObject(origen);
+    if (!origenObj || !origenObj.contents) {
+        client.sysMsg('Contenedor origen no válido', 33);
+        return;
+    }
+
+    client.sysMsg(`Vaciando contenedor (${origenObj.contents.length} items)...`, 66);
+
+    origenObj.contents.forEach(item => {
+        player.moveItem(item, destino);
+        sleep(200);
+    });
+
+    client.headMsg('Contenedor vaciado', player, 66);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="moveItemOnGroundOffset">
+                                <td><code>Player.moveItemOnGroundOffset()</code></td>
+                                <td><span class="parameter-type">serial: SerialOrEntity, x?: number, y?: number, z?: number, amount?: number</span></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="method-description">Mueve un objeto en el suelo usando offset</td>
+                            </tr>
+                            <tr class="method-details" data-method="moveItemOnGroundOffset" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Player.moveItemOnGroundOffset(serial: SerialOrEntity, x?: number, y?: number, z?: number, amount?: number): number</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Mueve un objeto en el suelo usando coordenadas de offset relativas a su posición actual. Útil para reorganizar items en el mundo sin tener que calcular coordenadas absolutas.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">serial</code>
+                                                    <span class="parameter-type">SerialOrEntity</span>
+                                                    <div class="parameter-description">El serial del objeto a mover</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">x</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Offset X (positivo = este, negativo = oeste) (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">y</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Offset Y (positivo = sur, negativo = norte) (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">z</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Offset Z (altura) (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">amount</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Cantidad a mover si es un stack (opcional)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="parameters-section">
+                                            <h5>Retorna:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <span class="parameter-type">number</span>
+                                                    <div class="parameter-description">Número que indica el resultado de la operación</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Mover item 1 tile al este
+const targetInfo = target.queryTarget();
+if (targetInfo) {
+    player.moveItemOnGroundOffset(targetInfo, 1, 0, 0);
+    client.sysMsg('Item movido 1 tile al este', 66);
+}
+
+// Mover item 2 tiles al norte
+const item = client.findType(0x0eed, -1, null, 2); // Buscar oro cerca
+if (item) {
+    player.moveItemOnGroundOffset(item, 0, -2, 0);
+    client.sysMsg('Item movido 2 tiles al norte', 85);
+    sleep(500);
+}
+
+// Sistema de organización de items en el suelo
+function organizarItemsEnSuelo() {
+    client.sysMsg('Selecciona primer item a organizar...', 66);
+
+    // Crear una fila de items
+    for (let i = 0; i < 5; i++) {
+        const item = target.queryTarget();
+        if (!item) break;
+
+        // Mover cada item 1 tile al este del anterior
+        player.moveItemOnGroundOffset(item, i, 0, 0);
+        client.sysMsg(`Item ${i + 1} colocado`, 85);
+        sleep(300);
+    }
+
+    client.headMsg('Organización completada', player, 66);
+}
+
+// Mover item hacia el jugador
+function traerItemCercano() {
+    const item = target.queryTarget();
+    if (!item) return;
+
+    const itemObj = client.findObject(item);
+    if (!itemObj) return;
+
+    // Calcular offset hacia el jugador
+    const offsetX = player.x - itemObj.x;
+    const offsetY = player.y - itemObj.y;
+
+    player.moveItemOnGroundOffset(item, offsetX, offsetY, 0);
+    client.sysMsg('Item traído a tu posición', 66);
+}
+
+// Apilar items en una pila vertical
+function apilarItems(cantidad) {
+    for (let i = 0; i < cantidad; i++) {
+        const item = target.queryTarget();
+        if (!item) break;
+
+        // Aumentar Z para apilar
+        player.moveItemOnGroundOffset(item, 0, 0, i * 5);
+        client.sysMsg(`Item apilado nivel ${i + 1}`, 85);
+        sleep(300);
+    }
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="moveType">
+                                <td><code>Player.moveType()</code></td>
+                                <td><span class="parameter-type">graphic: number, src: SerialOrEntity, dest: SerialOrEntity, x?: number, y?: number, z?: number, hue?: number, amount?: number, range?: number</span></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="method-description">Mueve objetos de cierto tipo entre contenedores</td>
+                            </tr>
+                            <tr class="method-details" data-method="moveType" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Player.moveType(graphic: number, src: SerialOrEntity, dest: SerialOrEntity, x?: number, y?: number, z?: number, hue?: number, amount?: number, range?: number): number</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Busca y mueve objetos de un tipo gráfico específico entre contenedores. Muy útil para looting automático, organización de recursos, y transferencia masiva de items del mismo tipo.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">graphic</code>
+                                                    <span class="parameter-type">number</span>
+                                                    <div class="parameter-description">ID gráfico del tipo de objeto a mover</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">src</code>
+                                                    <span class="parameter-type">SerialOrEntity</span>
+                                                    <div class="parameter-description">Contenedor de origen</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">dest</code>
+                                                    <span class="parameter-type">SerialOrEntity</span>
+                                                    <div class="parameter-description">Contenedor de destino</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">x</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Posición X en destino (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">y</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Posición Y en destino (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">z</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Posición Z en destino (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">hue</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Color específico del objeto, -1 para cualquier color (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">amount</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Cantidad a mover (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">range</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Rango de búsqueda (opcional)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="parameters-section">
+                                            <h5>Retorna:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <span class="parameter-type">number</span>
+                                                    <div class="parameter-description">Cantidad de items movidos</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Mover daggers de mochila a bolsa
+const bag = client.findType(0x0e76, -1, player.backpack);
+if (bag && player.backpack) {
+    const moved = player.moveType(0x0f52, player.backpack, bag);
+    client.sysMsg(`${moved} daggers movidas`, 66);
+}
+
+// Sistema de looting automático
+function lootearCadaver(cadaver) {
+    if (!cadaver || !player.backpack) return;
+
+    // Lista de items valiosos a lootear
+    const itemsValiosos = [
+        { tipo: 0x0eed, nombre: 'Gold' },
+        { tipo: 0x0f0e, nombre: 'Gems' },
+        { tipo: 0x0f10, nombre: 'Jewels' },
+        { tipo: 0x0e21, nombre: 'Bandages' },
+        { tipo: 0x0f0c, nombre: 'Potions' }
+    ];
+
+    client.sysMsg('Looteando cadáver...', 66);
+    let totalItems = 0;
+
+    itemsValiosos.forEach(item => {
+        const cantidad = player.moveType(item.tipo, cadaver, player.backpack, 0, 0, 0, -1);
+        if (cantidad > 0) {
+            totalItems += cantidad;
+            client.sysMsg(`Looteado: ${item.nombre} (${cantidad})`, 85);
+            sleep(300);
+        }
+    });
+
+    client.headMsg(`Total items looteados: ${totalItems}`, player, 66);
+}
+
+// Organizar recursos en cofres específicos
+function organizarRecursos() {
+    const cofreMinerales = client.findType(0x0e43, 0x0481); // Cofre azul
+    const cofreMaderas = client.findType(0x0e43, 0x0489); // Cofre verde
+
+    if (!cofreMinerales || !cofreMaderas || !player.backpack) {
+        client.sysMsg('Faltan cofres de almacenamiento', 33);
+        return;
+    }
+
+    // Mover minerales
+    const minerales = [
+        { tipo: 0x19b9, nombre: 'Iron Ore' },
+        { tipo: 0x19ba, nombre: 'Gold Ore' }
+    ];
+
+    minerales.forEach(mineral => {
+        const moved = player.moveType(mineral.tipo, player.backpack, cofreMinerales);
+        if (moved > 0) {
+            client.sysMsg(`${moved} ${mineral.nombre} al cofre`, 85);
+            sleep(400);
+        }
+    });
+
+    // Mover maderas
+    const moved = player.moveType(0x1bd7, player.backpack, cofreMaderas, 0, 0, 0, -1);
+    if (moved > 0) {
+        client.sysMsg(`${moved} logs al cofre de maderas`, 85);
+    }
+
+    client.headMsg('Recursos organizados', player, 66);
+}
+
+// Transferir todo el oro al banco
+function depositarOroEnBanco() {
+    const bancoSerial = 0x12345678; // Serial del banker
+    const oro = player.moveType(0x0eed, player.backpack, bancoSerial, 0, 0, 0, -1);
+
+    if (oro > 0) {
+        client.headMsg(`${oro} oro depositado en banco`, player, 66);
+    } else {
+        client.sysMsg('No hay oro para depositar', 85);
+    }
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="moveTypeOnGroundOffset">
+                                <td><code>Player.moveTypeOnGroundOffset()</code></td>
+                                <td><span class="parameter-type">graphic: number, src: SerialOrEntity, x?: number, y?: number, z?: number, hue?: number, amount?: number, range?: number</span></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="method-description">Mueve objetos de cierto tipo al suelo</td>
+                            </tr>
+                            <tr class="method-details" data-method="moveTypeOnGroundOffset" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Player.moveTypeOnGroundOffset(graphic: number, src: SerialOrEntity, x?: number, y?: number, z?: number, hue?: number, amount?: number, range?: number): number</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Busca y mueve objetos de un tipo específico desde un contenedor al suelo, usando coordenadas de offset relativas a la posición del jugador. Útil para descargar inventario o crear pilas de recursos en ubicaciones específicas.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">graphic</code>
+                                                    <span class="parameter-type">number</span>
+                                                    <div class="parameter-description">ID gráfico del tipo de objeto a mover</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">src</code>
+                                                    <span class="parameter-type">SerialOrEntity</span>
+                                                    <div class="parameter-description">Contenedor de origen</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">x</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Offset X desde el jugador (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">y</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Offset Y desde el jugador (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">z</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Offset Z/altura (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">hue</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Color específico, -1 para cualquier color (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">amount</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Cantidad a mover (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">range</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Rango de búsqueda en el contenedor (opcional)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="parameters-section">
+                                            <h5>Retorna:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <span class="parameter-type">number</span>
+                                                    <div class="parameter-description">Cantidad de items movidos</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Tirar items al suelo delante tuyo
+if (player.backpack) {
+    player.moveTypeOnGroundOffset(0x0f52, player.backpack); // Daggers
+    client.sysMsg('Daggers tiradas al suelo', 66);
+}
+
+// Descargar minerales en pilas organizadas
+function descargarMinerales() {
+    if (!player.backpack) return;
+
+    const minerales = [
+        { tipo: 0x19b9, nombre: 'Iron Ore', offsetX: 0 },
+        { tipo: 0x19ba, nombre: 'Gold Ore', offsetX: 1 },
+        { tipo: 0x19b8, nombre: 'Copper Ore', offsetX: 2 }
+    ];
+
+    client.sysMsg('Descargando minerales...', 66);
+
+    minerales.forEach(mineral => {
+        const moved = player.moveTypeOnGroundOffset(
+            mineral.tipo,
+            player.backpack,
+            mineral.offsetX,
+            0,
+            0,
+            -1
+        );
+
+        if (moved > 0) {
+            client.sysMsg(`${moved} ${mineral.nombre} descargado`, 85);
+            sleep(300);
+        }
+    });
+
+    client.headMsg('Minerales descargados', player, 66);
+}
+
+// Crear almacén temporal en el suelo
+function crearAlmacenTemporal() {
+    if (!player.backpack) return;
+
+    client.sysMsg('Creando almacén temporal...', 66);
+
+    // Colocar diferentes recursos en posiciones específicas
+    const recursos = [
+        { tipo: 0x1bd7, nombre: 'Logs', x: 0, y: 1 },
+        { tipo: 0x19b9, nombre: 'Ore', x: 1, y: 1 },
+        { tipo: 0x1bf2, nombre: 'Ingots', x: 2, y: 1 },
+        { tipo: 0x0e21, nombre: 'Bandages', x: 0, y: 2 },
+        { tipo: 0x0f0c, nombre: 'Potions', x: 1, y: 2 }
+    ];
+
+    recursos.forEach(rec => {
+        const moved = player.moveTypeOnGroundOffset(
+            rec.tipo,
+            player.backpack,
+            rec.x,
+            rec.y,
+            0,
+            -1
+        );
+
+        if (moved > 0) {
+            client.sysMsg(`${rec.nombre} colocado`, 85);
+            sleep(200);
+        }
+    });
+
+    client.headMsg('Almacén creado', player, 66);
+}
+
+// Tirar todo excepto items esenciales
+function limpiarMochila() {
+    if (!player.backpack) return;
+
+    // Items a conservar (no tirar)
+    const itemsEsenciales = [0x0e21, 0x0f0c, 0x0f07]; // Bandages, potions
+
+    client.sysMsg('Limpiando mochila...', 66);
+
+    // Obtener todos los items
+    if (player.backpack.contents) {
+        player.backpack.contents.forEach(item => {
+            // Si no es esencial, tirar
+            if (!itemsEsenciales.includes(item.graphic)) {
+                player.moveTypeOnGroundOffset(item.graphic, player.backpack, 0, 1, 0, -1);
+                sleep(200);
+            }
+        });
+    }
+
+    client.headMsg('Mochila limpiada', player, 66);
+}
+
+// Apilar recursos al norte del jugador
+function apilarRecursos(tipoGraphic, cantidad) {
+    const moved = player.moveTypeOnGroundOffset(
+        tipoGraphic,
+        player.backpack,
+        0,
+        -1, // 1 tile al norte
+        0,
+        -1,
+        cantidad
+    );
+
+    client.sysMsg(`${moved} items apilados al norte`, 66);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!--Player Skills y Habilidades-->
+                <div class="subsection metodos">
+                    <h3>🎯 Skills y Habilidades</h3>
+                    <p>Métodos para usar skills, consultar sus valores, gestionar el sistema de locks, y activar virtudes. Estos métodos son fundamentales para crear bots de training, sistemas de auto-skill, y scripts que interactúan con el sistema de habilidades de Ultima Online.</p>
+                    <div class="methods-table-container">
+                        <table class="methods-table">
+                            <thead>
+                            <tr>
+                                <th>Método</th>
+                                <th>Parámetros</th>
+                                <th>Retorna</th>
+                                <th>Descripción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="method-row" data-method="useSkill">
+                                <td><code>Player.useSkill()</code></td>
+                                <td><span class="parameter-type">skill: any, target?: SerialOrEntity, timeout?: number</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Usa una habilidad/skill</td>
+                            </tr>
+                            <tr class="method-details" data-method="useSkill" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Player.useSkill(skill: any, target?: SerialOrEntity, timeout?: number): void</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Usa una skill específica del jugador. Algunas skills requieren un target (como Anatomy, Animal Lore), mientras que otras se activan directamente (como Meditation, Hiding). El método puede esperar un target automáticamente si se proporciona.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">skill</code>
+                                                    <span class="parameter-type">any</span>
+                                                    <div class="parameter-description">La skill a usar del enum Skills (ejemplo: Skills.Meditation, Skills.Hiding)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">target</code>
+                                                    <span class="parameter-type parameter-optional">SerialOrEntity?</span>
+                                                    <div class="parameter-description">Target opcional para skills que lo requieren (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">timeout</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Tiempo máximo de espera para el target en milisegundos (opcional)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Usar Meditation (no requiere target)
+player.useSkill(Skills.Meditation);
+client.sysMsg('Meditando para recuperar maná...', 66);
+
+// Usar Anatomy en un objetivo (requiere target)
+player.useSkill(Skills.Anatomy, target.lastSerial);
+client.sysMsg('Examinando objetivo...', 85);
+
+// Usar skill con target y timeout
+player.useSkill(Skills.AnimalLore, target.lastSerial, 5000);
+
+// Sistema de regeneración de maná
+function regenerarMana() {
+    const manaPercent = (player.mana / player.maxMana) * 100;
+
+    if (manaPercent < 50) {
+        client.sysMsg('Maná bajo, iniciando meditación...', 85);
+        player.useSkill(Skills.Meditation);
+
+        // Esperar hasta recuperar maná
+        while (player.mana < player.maxMana * 0.9) {
+            sleep(1000);
+            client.sysMsg(`Maná: ${player.mana}/${player.maxMana}`, 85);
+        }
+
+        client.headMsg('Maná restaurado', player, 66);
+    }
+}
+
+// Sistema de hiding automático cuando hay peligro
+function esconderseSiPeligro() {
+    const enemigoCercano = client.findType(0x0001, 10); // Buscar enemigos cerca
+
+    if (enemigoCercano && enemigoCercano.notoriety === Notorieties.Enemy) {
+        client.headMsg('¡Peligro! Ocultándose...', player, 33);
+        player.useSkill(Skills.Hiding);
+        sleep(1000);
+
+        // Verificar si se ocultó exitosamente
+        client.sysMsg('Oculto - esperando...', 66);
+    }
+}
+
+// Training de skills automático
+function entrenarSkill(skill, targetSerial, repeticiones) {
+    client.sysMsg(`Iniciando training de ${Skills[skill]}...`, 66);
+
+    for (let i = 0; i < repeticiones; i++) {
+        player.useSkill(skill, targetSerial);
+        client.sysMsg(`Intento ${i + 1}/${repeticiones}`, 85);
+        sleep(11000); // Cooldown típico de skills
+    }
+
+    client.headMsg('Training completado', player, 66);
+}
+
+// Entrenar Anatomy en uno mismo
+entrenarSkill(Skills.Anatomy, player, 50);
+
+// Usar Remove Trap
+player.useSkill(Skills.RemoveTrap);
+target.wait(5000);
+target.entity(trampaSerial);
+
+// Sistema de skill checking
+function verificarSkill(enemigo) {
+    if (enemigo) {
+        player.useSkill(Skills.Anatomy, enemigo, 3000);
+        sleep(2000);
+        player.useSkill(Skills.EvaluatingIntelligence, enemigo, 3000);
+        client.sysMsg('Información del enemigo revelada', 66);
+    }
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="useVirtue">
+                                <td><code>Player.useVirtue()</code></td>
+                                <td><span class="parameter-type">virtue: any, target?: SerialOrEntity, timeout?: number</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Usa una virtud</td>
+                            </tr>
+                            <tr class="method-details" data-method="useVirtue" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Player.useVirtue(virtue: any, target?: SerialOrEntity, timeout?: number): void</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Activa una virtud específica del sistema de virtudes de Ultima Online. Las virtudes proporcionan bonificaciones temporales y efectos especiales. Algunas requieren target (como Honor en un enemigo) mientras otras se activan directamente.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">virtue</code>
+                                                    <span class="parameter-type">any</span>
+                                                    <div class="parameter-description">La virtud a activar del enum Virtues (ejemplo: Virtues.Honor, Virtues.Sacrifice)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">target</code>
+                                                    <span class="parameter-type parameter-optional">SerialOrEntity?</span>
+                                                    <div class="parameter-description">Target opcional para virtudes que lo requieren (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">timeout</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Tiempo máximo de espera para el target en milisegundos (opcional)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Usar Honor en ti mismo
+player.useVirtue(Virtues.Honor, player);
+client.sysMsg('Honor activado', 66);
+
+// Usar Honor en enemigo antes de combate
+const enemigo = client.findType(0x0001, 10);
+if (enemigo) {
+    player.useVirtue(Virtues.Honor, enemigo);
+    client.headMsg('Honor aplicado al enemigo', player, 66);
+    sleep(1000);
+    player.attack(enemigo);
+}
+
+// Sistema de combate con Honor automático
+function combatirConHonor(enemigoSerial) {
+    // Verificar puntos de tithing
+    if (player.tithingPoints < 10) {
+        client.headMsg('Sin puntos de tithing para Honor', player, 33);
+        return false;
+    }
+
+    // Aplicar Honor
+    player.useVirtue(Virtues.Honor, enemigoSerial);
+    client.sysMsg('Honor activado en enemigo', 66);
+    sleep(500);
+
+    // Atacar
+    player.attack(enemigoSerial);
+    client.sysMsg('Combate iniciado con Honor', 85);
+
+    return true;
+}
+
+// Usar Sacrifice en aliado
+function sacrificarPorAliado(aliadoSerial) {
+    const aliado = client.findObject(aliadoSerial);
+    if (!aliado) {
+        client.sysMsg('Aliado no encontrado', 33);
+        return;
+    }
+
+    // Verificar que el aliado necesita ayuda
+    const aliadoVida = (aliado.hits / aliado.maxHits) * 100;
+
+    if (aliadoVida < 50) {
+        player.useVirtue(Virtues.Sacrifice, aliadoSerial);
+        client.headMsg('Sacrifice usado en aliado', player, 66);
+    } else {
+        client.sysMsg('El aliado no necesita Sacrifice', 85);
+    }
+}
+
+// Activar virtud con verificación de cooldown
+function usarVirtudConCooldown(virtue, target) {
+    // Intentar usar la virtud
+    player.useVirtue(virtue, target);
+    client.sysMsg(`Virtud ${Virtues[virtue]} activada`, 66);
+
+    // Esperar cooldown típico (varía según virtud)
+    const cooldownSegundos = 60;
+    client.sysMsg(`Cooldown: ${cooldownSegundos}s`, 85);
+
+    return cooldownSegundos;
+}
+
+// Preparación pre-combate con virtudes
+function prepararCombate() {
+    client.sysMsg('Preparando para combate...', 66);
+
+    // Verificar tithing points
+    if (player.tithingPoints >= 10) {
+        player.useVirtue(Virtues.Honor, player);
+        client.sysMsg('Honor activado', 85);
+        sleep(1000);
+    } else {
+        client.headMsg('Recarga tithing points en un santuario', player, 33);
+    }
+}
+
+// Sistema de curación de grupo con Sacrifice
+function curarGrupo(miembrosGrupo) {
+    miembrosGrupo.forEach(miembro => {
+        const mob = client.findObject(miembro);
+        if (mob && mob.hits < mob.maxHits * 0.6) {
+            player.useVirtue(Virtues.Sacrifice, miembro);
+            client.sysMsg(`Sacrifice en ${mob.name}`, 66);
+            sleep(2000);
+        }
+    });
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="getSkill">
+                                <td><code>Player.getSkill()</code></td>
+                                <td><span class="parameter-type">skill: Skills</span></td>
+                                <td><span class="parameter-type">undefined | object</span></td>
+                                <td class="method-description">Obtiene objeto con valores de una skill</td>
+                            </tr>
+                            <tr class="method-details" data-method="getSkill" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Player.getSkill(skill: Skills): undefined | object</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Obtiene un objeto con información detallada de una skill específica. El valor de la skill se representa como entero sin decimal (ejemplo: 74.6 se retorna como 746). Útil para verificar valores de skills antes de usarlas o para sistemas de training.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">skill</code>
+                                                    <span class="parameter-type">Skills</span>
+                                                    <div class="parameter-description">La skill a consultar del enum Skills</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="parameters-section">
+                                            <h5>Retorna:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <span class="parameter-type">undefined | object</span>
+                                                    <div class="parameter-description">Objeto con información de la skill (value, base, cap, lock) o undefined si no está disponible</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Obtener valor de Anatomy (nota: el valor es sin decimal)
+const anatomySkill = player.getSkill(Skills.Anatomy);
+if (anatomySkill) {
+    // Valor 746 = 74.6 real
+    const valorReal = anatomySkill.value / 10;
+    client.sysMsg(`Anatomy: ${valorReal.toFixed(1)}`, 66);
+}
+
+// Verificar si una skill está al máximo
+function skillAlMaximo(skill) {
+    const skillData = player.getSkill(skill);
+    if (!skillData) return false;
+
+    const valorReal = skillData.value / 10;
+    const capReal = skillData.cap / 10;
+
+    if (valorReal >= capReal) {
+        client.headMsg(`${Skills[skill]} al máximo (${valorReal.toFixed(1)})`, player, 66);
+        return true;
+    } else {
+        const falta = capReal - valorReal;
+        client.sysMsg(`${Skills[skill]}: ${valorReal.toFixed(1)}/${capReal.toFixed(1)} (falta ${falta.toFixed(1)})`, 85);
+        return false;
+    }
+}
+
+// Verificar Magery
+skillAlMaximo(Skills.Magery);
+
+// Mostrar información completa de una skill
+function mostrarInfoSkill(skill) {
+    const skillData = player.getSkill(skill);
+    if (!skillData) {
+        client.sysMsg('Skill no disponible', 33);
+        return;
+    }
+
+    const valor = (skillData.value / 10).toFixed(1);
+    const base = (skillData.base / 10).toFixed(1);
+    const cap = (skillData.cap / 10).toFixed(1);
+    const lock = skillData.lock; // 0=Up, 1=Down, 2=Locked
+
+    const lockNames = ['Up', 'Down', 'Locked'];
+
+    client.sysMsg(`═══ ${Skills[skill]} ═══`, 66);
+    client.sysMsg(`Valor: ${valor}`, 85);
+    client.sysMsg(`Base: ${base}`, 85);
+    client.sysMsg(`Cap: ${cap}`, 85);
+    client.sysMsg(`Lock: ${lockNames[lock]}`, 85);
+}
+
+// Mostrar Magery completa
+mostrarInfoSkill(Skills.Magery);
+
+// Verificar si tienes skill suficiente para una acción
+function tieneSkillSuficiente(skill, minimoRequerido) {
+    const skillData = player.getSkill(skill);
+    if (!skillData) return false;
+
+    const valorReal = skillData.value / 10;
+
+    if (valorReal >= minimoRequerido) {
+        client.sysMsg(`${Skills[skill]}: ${valorReal.toFixed(1)} ✓`, 66);
+        return true;
+    } else {
+        client.headMsg(`${Skills[skill]} insuficiente (necesitas ${minimoRequerido})`, player, 33);
+        return false;
+    }
+}
+
+// Verificar si puedes usar Greater Heal (requiere Magery 60+)
+if (tieneSkillSuficiente(Skills.Magery, 60.0)) {
+    player.castTo(Spells.GreaterHeal, player);
+} else {
+    client.sysMsg('Usa Heal en su lugar', 85);
+    player.castTo(Spells.Heal, player);
+}
+
+// Sistema de training inteligente
+function entrenarHastaValor(skill, valorObjetivo) {
+    const skillData = player.getSkill(skill);
+    if (!skillData) return;
+
+    const valorActual = skillData.value / 10;
+
+    if (valorActual >= valorObjetivo) {
+        client.headMsg(`${Skills[skill]} ya está en ${valorActual.toFixed(1)}`, player, 66);
+        return;
+    }
+
+    client.sysMsg(`Training ${Skills[skill]} de ${valorActual.toFixed(1)} a ${valorObjetivo}...`, 66);
+
+    // Loop de training
+    while (true) {
+        const current = player.getSkill(skill);
+        const currentValue = current.value / 10;
+
+        if (currentValue >= valorObjetivo) {
+            client.headMsg(`¡Objetivo alcanzado! ${Skills[skill]}: ${currentValue.toFixed(1)}`, player, 66);
+            break;
+        }
+
+        player.useSkill(skill, player);
+        client.sysMsg(`${Skills[skill]}: ${currentValue.toFixed(1)}`, 85);
+        sleep(11000);
+    }
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="getAllSkills">
+                                <td><code>Player.getAllSkills()</code></td>
+                                <td><span class="parameter-type">ninguno</span></td>
+                                <td><span class="parameter-type">undefined | object[]</span></td>
+                                <td class="method-description">Obtiene array con todas las skills</td>
+                            </tr>
+                            <tr class="method-details" data-method="getAllSkills" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Player.getAllSkills(): undefined | object[]</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Obtiene un array con información de todas las skills del jugador. Cada elemento del array contiene los datos de una skill (valor, base, cap, lock). Útil para análisis completo del personaje, reports, y sistemas de gestión de skills.</p>
+                                        <div class="parameters-section">
+                                            <h5>Retorna:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <span class="parameter-type">undefined | object[]</span>
+                                                    <div class="parameter-description">Array de objetos con información de todas las skills, o undefined si no está disponible</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Obtener todas las skills
+const skills = player.getAllSkills();
+if (skills) {
+    client.sysMsg(`Total de skills: ${skills.length}`, 66);
+    // Mostrar primera skill
+    const valorPrimera = skills[0].value / 10;
+    client.sysMsg(`Primera skill: ${valorPrimera.toFixed(1)}`, 85);
+}
+
+// Listar todas las skills sobre 50.0
+function listarSkillsAltas() {
+    const skills = player.getAllSkills();
+    if (!skills) return;
+
+    client.sysMsg('═══ SKILLS SOBRE 50.0 ═══', 66);
+
+    skills.forEach((skill, index) => {
+        const valor = skill.value / 10;
+        if (valor >= 50.0) {
+            client.sysMsg(`${Skills[index]}: ${valor.toFixed(1)}`, 85);
+        }
+    });
+}
+
+listarSkillsAltas();
+
+// Calcular total de skill points usados
+function calcularSkillPointsTotal() {
+    const skills = player.getAllSkills();
+    if (!skills) return 0;
+
+    let total = 0;
+    skills.forEach(skill => {
+        total += skill.value / 10;
+    });
+
+    client.sysMsg(`═══ SKILL POINTS ═══`, 66);
+    client.sysMsg(`Total usado: ${total.toFixed(1)}`, 85);
+    client.sysMsg(`Cap del servidor: 720.0 (típico)`, 85);
+    client.sysMsg(`Disponible: ${(720 - total).toFixed(1)}`, total < 720 ? 66 : 33);
+
+    return total;
+}
+
+calcularSkillPointsTotal();
+
+// Encontrar skills que están en "Up" (subiendo)
+function listarSkillsEnUp() {
+    const skills = player.getAllSkills();
+    if (!skills) return;
+
+    client.sysMsg('═══ SKILLS EN UP ═══', 66);
+
+    skills.forEach((skill, index) => {
+        if (skill.lock === 0) { // 0 = Up
+            const valor = skill.value / 10;
+            const cap = skill.cap / 10;
+            client.sysMsg(`${Skills[index]}: ${valor.toFixed(1)}/${cap.toFixed(1)}`, 85);
+        }
+    });
+}
+
+// Reportar todas las skills al máximo
+function reportarSkillsMaximas() {
+    const skills = player.getAllSkills();
+    if (!skills) return;
+
+    client.sysMsg('═══ SKILLS AL MÁXIMO ═══', 66);
+    let count = 0;
+
+    skills.forEach((skill, index) => {
+        const valor = skill.value / 10;
+        const cap = skill.cap / 10;
+
+        if (valor >= cap) {
+            client.sysMsg(`${Skills[index]}: ${valor.toFixed(1)}`, 85);
+            count++;
+        }
+    });
+
+    client.headMsg(`Total skills al máximo: ${count}`, player, 66);
+}
+
+reportarSkillsMaximas();
+
+// Exportar skills a formato legible
+function exportarSkills() {
+    const skills = player.getAllSkills();
+    if (!skills) return;
+
+    client.sysMsg('═══ EXPORT DE SKILLS ═══', 66);
+
+    skills.forEach((skill, index) => {
+        const valor = (skill.value / 10).toFixed(1);
+        const base = (skill.base / 10).toFixed(1);
+        const cap = (skill.cap / 10).toFixed(1);
+        const lockNames = ['Up', 'Down', 'Locked'];
+        const lock = lockNames[skill.lock];
+
+        // Formato: Nombre | Valor | Base | Cap | Lock
+        client.sysMsg(`${Skills[index]} | ${valor} | ${base} | ${cap} | ${lock}`, 85);
+    });
+}
+
+// Encontrar la skill más alta
+function encontrarSkillMasAlta() {
+    const skills = player.getAllSkills();
+    if (!skills) return;
+
+    let maxSkill = { index: 0, value: 0 };
+
+    skills.forEach((skill, index) => {
+        if (skill.value > maxSkill.value) {
+            maxSkill = { index, value: skill.value };
+        }
+    });
+
+    const valorReal = maxSkill.value / 10;
+    client.headMsg(`Skill más alta: ${Skills[maxSkill.index]} (${valorReal.toFixed(1)})`, player, 66);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="setSkillLock">
+                                <td><code>Player.setSkillLock()</code></td>
+                                <td><span class="parameter-type">skill: Skills, lock: SkillLock</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Establece el lock de una skill</td>
+                            </tr>
+                            <tr class="method-details" data-method="setSkillLock" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Player.setSkillLock(skill: Skills, lock: SkillLock): void</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Establece el estado de lock de una skill específica. Los estados disponibles son: Up (la skill puede subir), Down (la skill puede bajar para dar espacio a otras), y Locked (la skill no cambia). Esencial para gestionar el cap de 720 skill points y optimizar el template del personaje.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">skill</code>
+                                                    <span class="parameter-type">Skills</span>
+                                                    <div class="parameter-description">La skill a modificar del enum Skills</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">lock</code>
+                                                    <span class="parameter-type">SkillLock</span>
+                                                    <div class="parameter-description">Estado del lock: SkillLock.Up (0), SkillLock.Down (1), o SkillLock.Locked (2)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Poner Anatomy en Down (puede bajar)
+player.setSkillLock(Skills.Anatomy, SkillLock.Down);
+client.sysMsg('Anatomy configurada en Down', 85);
+
+// Lockear Magery (no puede cambiar)
+player.setSkillLock(Skills.Magery, SkillLock.Locked);
+client.headMsg('Magery bloqueada', player, 66);
+
+// Permitir que Meditation suba
+player.setSkillLock(Skills.Meditation, SkillLock.Up);
+client.sysMsg('Meditation puede subir', 66);
+
+// Configuración de template de mago
+function configurarTemplateMago() {
+    client.sysMsg('Configurando template de mago...', 66);
+
+    // Skills principales en Up
+    const skillsPrincipales = [
+        Skills.Magery,
+        Skills.EvaluatingIntelligence,
+        Skills.Meditation,
+        Skills.ResistingSpells,
+        Skills.Wrestling,
+        Skills.Anatomy,
+        Skills.Healing
+    ];
+
+    skillsPrincipales.forEach(skill => {
+        player.setSkillLock(skill, SkillLock.Up);
+        client.sysMsg(`${Skills[skill]}: Up`, 85);
+        sleep(100);
+    });
+
+    client.headMsg('Template configurado', player, 66);
+}
+
+configurarTemplateMago();
+
+// Bloquear todas las skills al máximo
+function lockearSkillsMaximas() {
+    const skills = player.getAllSkills();
+    if (!skills) return;
+
+    let locked = 0;
+
+    skills.forEach((skill, index) => {
+        const valor = skill.value / 10;
+        const cap = skill.cap / 10;
+
+        // Si está al máximo, lockear
+        if (valor >= cap) {
+            player.setSkillLock(index, SkillLock.Locked);
+            client.sysMsg(`${Skills[index]} bloqueada`, 85);
+            locked++;
+            sleep(100);
+        }
+    });
+
+    client.headMsg(`${locked} skills bloqueadas`, player, 66);
+}
+
+// Bajar todas las skills no esenciales
+function bajarSkillsNoEsenciales(skillsEsenciales) {
+    const skills = player.getAllSkills();
+    if (!skills) return;
+
+    client.sysMsg('Bajando skills no esenciales...', 66);
+
+    skills.forEach((skill, index) => {
+        if (!skillsEsenciales.includes(index)) {
+            player.setSkillLock(index, SkillLock.Down);
+            client.sysMsg(`${Skills[index]}: Down`, 85);
+            sleep(100);
+        }
+    });
+
+    client.headMsg('Configuración completada', player, 66);
+}
+
+// Ejemplo: Solo mantener skills de combate
+const skillsCombate = [
+    Skills.Swordsmanship,
+    Skills.Tactics,
+    Skills.Anatomy,
+    Skills.Healing,
+    Skills.Parrying
+];
+
+bajarSkillsNoEsenciales(skillsCombate);
+
+// Sistema automático de gestión de locks
+function gestionarLocksAutomatica() {
+    const skills = player.getAllSkills();
+    if (!skills) return;
+
+    skills.forEach((skill, index) => {
+        const valor = skill.value / 10;
+        const cap = skill.cap / 10;
+
+        if (valor >= cap) {
+            // Ya está al máximo, lockear
+            player.setSkillLock(index, SkillLock.Locked);
+        } else if (valor >= cap * 0.9) {
+            // Cerca del máximo, mantener en Up
+            player.setSkillLock(index, SkillLock.Up);
+        } else if (valor < 10) {
+            // Muy baja, permitir que baje
+            player.setSkillLock(index, SkillLock.Down);
+        }
+
+        sleep(50);
+    });
+
+    client.headMsg('Locks optimizados', player, 66);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!--Player Buffs y Estados-->
+                <div class="subsection metodos">
+                    <h3>⭐ Buffs y Estados</h3>
+                    <p>Métodos relacionados con la gestión de buffs, debuffs y comunicación del jugador. Permiten verificar estados activos, esperar por efectos específicos y enviar mensajes de chat desde el personaje. Estos métodos son esenciales para scripts que necesitan reaccionar a condiciones temporales o comunicar acciones al entorno del juego.</p>
+                    <div class="methods-table-container">
+                        <table class="methods-table">
+                            <thead>
+                            <tr>
+                                <th>Método</th>
+                                <th>Parámetros</th>
+                                <th>Retorna</th>
+                                <th>Descripción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="method-row" data-method="hasBuffDebuff">
+                                <td><code>Player.hasBuffDebuff()</code></td>
+                                <td><span class="parameter-type">buffID: BuffDebuffs</span></td>
+                                <td><span class="parameter-type">boolean</span></td>
+                                <td class="method-description">Comprueba si el jugador tiene un buff o debuff activo</td>
+                            </tr>
+                            <tr class="method-details" data-method="hasBuffDebuff" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Player.hasBuffDebuff(buffID: BuffDebuffs): boolean</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Verifica si el jugador tiene actualmente un buff o debuff específico aplicado. Útil para detectar estados temporales como envenenamientos, parálisis, bendiciones u otros efectos que puedan afectar al personaje.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">buffID</code>
+                                                    <span class="parameter-type">BuffDebuffs</span>
+                                                    <div class="parameter-description">El identificador del buff o debuff a verificar. Debe ser un valor del enum BuffDebuffs</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Verificar si el jugador está envenenado
+if (player.hasBuffDebuff(BuffDebuffs.Poison)) {
+    client.headMsg('¡Estás envenenado! Usando antídoto...', player, 33);
+    player.useType(0x0f07); // Usar poción de cura
+}
+
+// Comprobar si tiene buff de agilidad activo antes de castear
+if (!player.hasBuffDebuff(BuffDebuffs.Agility)) {
+    player.cast(Spells.Agility);
+    client.sysMsg('Casteando Agilidad', 66);
+} else {
+    client.sysMsg('Agilidad ya activa', 85);
+}
+
+// Sistema de protección automática
+if (player.hasBuffDebuff(BuffDebuffs.Curse)) {
+    client.headMsg('Maldición detectada - removiendo...', player, 33);
+    player.cast(Spells.RemoveCurse);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="waitForBuffDebuff">
+                                <td><code>Player.waitForBuffDebuff()</code></td>
+                                <td><span class="parameter-type">buffId: BuffDebuffs, timeoutMs?: number</span></td>
+                                <td><span class="parameter-type">null | boolean</span></td>
+                                <td class="method-description">Espera hasta que aparezca un buff o debuff específico</td>
+                            </tr>
+                            <tr class="method-details" data-method="waitForBuffDebuff" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Player.waitForBuffDebuff(buffId: BuffDebuffs, timeoutMs?: number): null | boolean</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Pausa la ejecución del script hasta que el buff o debuff especificado esté activo en el jugador, o hasta que se alcance el tiempo límite opcional. Retorna true si el buff apareció, null si se agotó el tiempo de espera.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">buffId</code>
+                                                    <span class="parameter-type">BuffDebuffs</span>
+                                                    <div class="parameter-description">El identificador del buff o debuff a esperar. Debe ser un valor del enum BuffDebuffs</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">timeoutMs</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Tiempo máximo de espera en milisegundos. Si no se especifica, esperará indefinidamente</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Esperar confirmación de que el hechizo de protección está activo
+player.cast(Spells.Protection);
+const protectionActive = player.waitForBuffDebuff(BuffDebuffs.Protection, 5000);
+
+if (protectionActive) {
+    client.sysMsg('Protección activa - continuando combate', 66);
+} else {
+    client.headMsg('Fallo al aplicar protección', player, 33);
+    exit('Error en buff de protección');
+}
+
+// Esperar a que termine el efecto de parálisis antes de continuar
+if (player.isParalyzed) {
+    client.headMsg('Paralizado - esperando recuperación...', player, 85);
+    player.waitForBuffDebuff(BuffDebuffs.Paralyze, 10000);
+    client.sysMsg('Parálisis finalizada', 66);
+}
+
+// Sistema de buff automático con verificación
+player.cast(Spells.Bless);
+if (player.waitForBuffDebuff(BuffDebuffs.Bless, 3000)) {
+    client.sysMsg('Bendición aplicada correctamente', 66);
+    // Continuar con siguiente buff
+    player.cast(Spells.Agility);
 }</code></pre>
                                                 </div>
                                             </div>

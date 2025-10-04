@@ -776,6 +776,69 @@ tr:hover {
 }
 
 /* ============================================================
+   CONTROL DE ANCHOS DE COLUMNAS - TABLAS DE MÉTODOS
+   ============================================================ */
+
+/* Anchos específicos para columnas de métodos */
+.methods-table thead th:nth-child(1) {
+    width: 22%; /* MÉTODO - más espacio */
+}
+
+.methods-table thead th:nth-child(2) {
+    width: 43%; /* PARÁMETROS - reducido */
+}
+
+.methods-table thead th:nth-child(3) {
+    width: 10%; /* RETORNA */
+}
+
+.methods-table thead th:nth-child(4) {
+    width: 25%; /* DESCRIPCIÓN */
+}
+
+/* Aplicar los mismos anchos a las celdas del body */
+.methods-table tbody td:nth-child(1) {
+    width: 22%;
+}
+
+.methods-table tbody td:nth-child(2) {
+    width: 43%;
+}
+
+.methods-table tbody td:nth-child(3) {
+    width: 10%;
+}
+
+.methods-table tbody td:nth-child(4) {
+    width: 25%;
+}
+
+/* Anchos específicos para columnas de propiedades (para mantener consistencia) */
+.properties-table thead th:nth-child(1) {
+    width: 25%; /* PROPIEDAD */
+}
+
+.properties-table thead th:nth-child(2) {
+    width: 15%; /* TIPO */
+}
+
+.properties-table thead th:nth-child(3) {
+    width: 60%; /* DESCRIPCIÓN */
+}
+
+.properties-table tbody td:nth-child(1) {
+    width: 25%;
+}
+
+.properties-table tbody td:nth-child(2) {
+    width: 15%;
+}
+
+.properties-table tbody td:nth-child(3) {
+    width: 60%;
+}
+
+/* ============================================================
    SMOOTH SCROLL
    ============================================================ */
 @media (prefers-reduced-motion: no-preference) {

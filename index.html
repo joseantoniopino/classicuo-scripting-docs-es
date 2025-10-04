@@ -9643,6 +9643,437 @@ if (enemigoMasCercano && player.hits < player.maxHits * 0.3) {
                     </div>
                 </div>
 
+                <!--Target Target Avanzado-->
+                <div class="subsection metodos">
+                    <h3>🎯 Target Avanzado</h3>
+                    <p>Métodos avanzados que proporcionan funcionalidad especializada para casos de uso complejos. Incluyen la capacidad de obtener información detallada del target mediante consulta interactiva, repetir operaciones de targeting previas, y buscar automáticamente objetos específicos por tipo gráfico. Estos métodos son fundamentales para crear scripts inteligentes y adaptativos.</p>
+                    <div class="methods-table-container">
+                        <table class="methods-table">
+                            <thead>
+                            <tr>
+                                <th>Método</th>
+                                <th>Parámetros</th>
+                                <th>Retorna</th>
+                                <th>Descripción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="method-row" data-method="query">
+                                <td><code>Target.query()</code></td>
+                                <td><span class="parameter-type">isGround?: boolean</span></td>
+                                <td><span class="parameter-type">TargetInfo</span></td>
+                                <td class="method-description">Crea un cursor de target y retorna información detallada sobre el resultado</td>
+                            </tr>
+                            <tr class="method-details" data-method="query" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Target.query(isGround?: boolean): TargetInfo</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Crea un cursor de targeting y espera a que el usuario seleccione un objetivo, retornando un objeto <code>TargetInfo</code> con información detallada sobre lo que fue seleccionado. Este método es único porque permite obtener información completa del target (serial, coordenadas x/y/z, graphic) en un solo objeto de retorno. Es especialmente útil para scripts que necesitan analizar el objetivo seleccionado antes de decidir qué acción tomar.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">isGround</code>
+                                                    <span class="parameter-type parameter-optional">boolean?</span>
+                                                    <div class="parameter-description">Si es <code>true</code>, permite targetear el suelo/terreno. Si es <code>false</code> o se omite, solo permite targetear entidades (Mobiles/Items)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="parameters-section">
+                                            <h5>Valor de retorno:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <span class="parameter-type">TargetInfo</span>
+                                                    <div class="parameter-description">Objeto que contiene información completa del target: <code>serial</code> (number), <code>x</code> (number), <code>y</code> (number), <code>z</code> (number), <code>graphic</code> (number)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+<pre><code class="language-javascript">// Obtener información completa del target seleccionado
+client.sysMsg('Selecciona un objetivo...', 66);
+const targetInfo = target.query();
+
+client.sysMsg(`Serial: ${targetInfo.serial}`, 85);
+client.sysMsg(`Posición: X=${targetInfo.x}, Y=${targetInfo.y}, Z=${targetInfo.z}`, 85);
+client.sysMsg(`Gráfico: 0x${targetInfo.graphic.toString(16)}`, 85);
+
+// Analizar el objetivo antes de actuar
+client.sysMsg('Selecciona enemigo para analizar', 66);
+const enemyInfo = target.query();
+
+const enemyObj = client.findObject(enemyInfo.serial);
+if (enemyObj) {
+    client.sysMsg(`Nombre: ${enemyObj.name}`, 66);
+    client.sysMsg(`Distancia: ${player.distanceTo(enemyObj)} tiles`, 85);
+
+    if (enemyObj.hits && enemyObj.maxHits) {
+        const health = (enemyObj.hits / enemyObj.maxHits) * 100;
+        client.sysMsg(`Salud: ${health.toFixed(0)}%`, health > 50 ? 66 : 33);
+    }
+}
+
+// Permitir targeting de terreno y guardar coordenadas
+client.sysMsg('Selecciona ubicación en el mapa', 66);
+const locationInfo = target.query(true); // Permitir terreno
+
+// Guardar waypoint
+const waypoint = {
+    nombre: 'Punto de interés',
+    x: locationInfo.x,
+    y: locationInfo.y,
+    z: locationInfo.z,
+    graphic: locationInfo.graphic
+};
+
+client.sysMsg(`Waypoint guardado: ${waypoint.x}, ${waypoint.y}, ${waypoint.z}`, 66);
+
+// Sistema interactivo de identificación
+function identificarObjeto() {
+    client.sysMsg('¿Qué es esto? Selecciona el objeto', 85);
+    const info = target.query();
+
+    const obj = client.findObject(info.serial);
+    if (obj) {
+        client.headMsg(`Objeto: ${obj.name}`, obj, 66);
+        client.sysMsg(`Tipo gráfico: 0x${info.graphic.toString(16)}`, 85);
+
+        if (obj.amount) {
+            client.sysMsg(`Cantidad: ${obj.amount}`, 66);
+        }
+    } else {
+        client.sysMsg(`Terreno en ${info.x}, ${info.y}, ${info.z}`, 85);
+    }
+}
+
+// Capturar información para teleportación posterior
+client.sysMsg('Marca destino de teleport', 66);
+const destino = target.query(true);
+
+// Después, teleportarse a esas coordenadas
+client.castSpell(Spells.Teleport);
+target.wait();
+target.terrain(destino.x, destino.y, destino.z);
+client.sysMsg('Teleportado a ubicación marcada', 66);</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="repeatLast">
+                                <td><code>Target.repeatLast()</code></td>
+                                <td><span class="parameter-type">ninguno</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Repite la última operación de targeting basándose en el tipo de cursor</td>
+                            </tr>
+                            <tr class="method-details" data-method="repeatLast" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Target.repeatLast(): void</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Repite la última información de targeting basándose en el tipo de cursor utilizado (Entity, Position, etc.). Este método es inteligente: si el último target fue una entidad, volverá a targetear esa entidad; si fue una posición/terreno, volverá a targetear esas coordenadas. Es extremadamente útil para lanzar múltiples hechizos o acciones sobre el mismo objetivo sin tener que especificarlo cada vez. Requiere que se haya realizado al menos un target previo en la sesión.</p>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+<pre><code class="language-javascript">// Ejemplos básicos de la documentación oficial
+
+// Repetir curación sobre el mismo objetivo
+client.castSpell(Spells.Heal);
+target.wait();
+target.repeatLast(); // Usa el último target (probablemente el jugador)
+
+// Repetir teleport a la misma posición
+client.castSpell(Spells.Teleport);
+target.wait();
+target.repeatLast(); // Teleporta a las mismas coordenadas que antes
+
+// Combo de hechizos sobre el mismo enemigo
+const enemy = client.findType(0x0001);
+
+// Primer hechizo - establecer el target
+client.castSpell(Spells.Curse);
+target.waitTargetEntity(enemy);
+
+// Siguiente oleada de hechizos - repetir el mismo target
+client.castSpell(Spells.Lightning);
+target.wait();
+target.repeatLast(); // Atacará al mismo enemigo
+wait(1500);
+
+client.castSpell(Spells.Fireball);
+target.wait();
+target.repeatLast(); // Atacará al mismo enemigo otra vez
+wait(1500);
+
+client.castSpell(Spells.EnergyBolt);
+target.wait();
+target.repeatLast(); // Atacará al mismo enemigo de nuevo
+
+// Curación en cadena sobre el mismo objetivo
+function curarCompletamente(objetivo) {
+    // Primer hechizo de curación
+    client.castSpell(Spells.GreaterHeal);
+    target.waitTargetEntity(objetivo);
+    wait(1000);
+
+    // Continuar curando mientras sea necesario
+    while (objetivo.hits < objetivo.maxHits && player.mana > 20) {
+        client.castSpell(Spells.GreaterHeal);
+        target.wait();
+        target.repeatLast(); // Sigue curando el mismo objetivo
+        wait(1500);
+    }
+
+    client.headMsg('Curación completa', objetivo, 66);
+}
+
+// Aplicar múltiples buffs sobre aliado
+const ally = client.findObject(0x00012345);
+
+client.castSpell(Spells.Bless);
+target.waitTargetEntity(ally);
+wait(500);
+
+const buffs = [Spells.Agility, Spells.Strength, Spells.Protection];
+for (const buff of buffs) {
+    client.castSpell(buff);
+    target.wait();
+    target.repeatLast(); // Aplica todos los buffs al mismo aliado
+    wait(500);
+}
+
+// Invocar múltiples criaturas en la misma ubicación
+client.castSpell(Spells.EnergyVortex);
+target.wait();
+target.terrainWithOffset(3, 3, 0); // Primera invocación
+wait(2000);
+
+client.castSpell(Spells.BladeSpirits);
+target.wait();
+target.repeatLast(); // Invoca en la misma posición
+wait(2000);
+
+// Sistema de ataque continuo
+function atacarHastaEliminar(enemigo) {
+    // Establecer target inicial
+    client.castSpell(Spells.Lightning);
+    target.waitTargetEntity(enemigo);
+
+    // Continuar atacando mientras viva
+    while (enemigo.hits > 0 && player.mana > 15) {
+        if (player.distanceTo(enemigo) > 12) {
+            client.sysMsg('Enemigo fuera de rango', 33);
+            break;
+        }
+
+        client.castSpell(Spells.Fireball);
+        target.wait();
+        target.repeatLast(); // Sigue atacando el mismo enemigo
+
+        wait(1500);
+    }
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="waitTargetType">
+                                <td><code>Target.waitTargetType()</code></td>
+                                <td><span class="parameter-type">graphic: number, hue?: number, timeoutMs?: number</span></td>
+                                <td><span class="parameter-type">boolean</span></td>
+                                <td class="method-description">Espera a que se abra el cursor y targetea automáticamente el primer objeto con el gráfico/hue especificado</td>
+                            </tr>
+                            <tr class="method-details" data-method="waitTargetType" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Target.waitTargetType(graphic: number, hue?: number, timeoutMs?: number): boolean</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Espera a que se abra el cursor de targeting y automáticamente targetea el primer objeto encontrado con el tipo gráfico (y opcionalmente color/hue) especificado. Este método es extremadamente útil para automatizar el uso de items específicos sin necesidad de buscarlos manualmente. El script buscará automáticamente el objeto más cercano que coincida con los criterios y lo targeteará.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">graphic</code>
+                                                    <span class="parameter-type">number</span>
+                                                    <div class="parameter-description">ID gráfico del objeto a buscar y targetear automáticamente</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">hue</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Color/hue específico del objeto. Si se omite, acepta cualquier color</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">timeoutMs</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Tiempo máximo de espera en milisegundos. Si se omite, esperará indefinidamente</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="parameters-section">
+                                            <h5>Valor de retorno:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <span class="parameter-type">boolean</span>
+                                                    <div class="parameter-description">Retorna <code>true</code> si encontró y targetó el objeto correctamente, <code>false</code> si se agotó el timeout o no se encontró el objeto</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+<pre><code class="language-javascript">// Ejemplo básico de la documentación oficial
+player.useType(0xf9d); // Usar poción
+target.waitTargetType(0x1078); // Targetear automáticamente un libro (0x1078)
+
+// Usar vendaje automáticamente sobre cuerpo específico
+player.useType(0xe21); // Vendaje
+if (target.waitTargetType(0x2006, -1, 5000)) { // Cuerpo humano
+    client.sysMsg('Vendaje aplicado en cuerpo', 66);
+} else {
+    client.sysMsg('No se encontró cuerpo válido', 33);
+}
+
+// Sistema de auto-curación con pociones
+function usarPocionCuracion() {
+    const pocion = client.findType(0xf0c); // Greater Heal Potion
+
+    if (!pocion) {
+        client.headMsg('No hay pociones', player, 33);
+        return false;
+    }
+
+    player.use(pocion);
+    if (target.waitTargetType(player.graphic, player.hue, 3000)) {
+        client.sysMsg('Poción usada correctamente', 66);
+        return true;
+    } else {
+        client.sysMsg('Falló uso de poción', 33);
+        return false;
+    }
+}
+
+// Aplicar vendaje en tipo específico de criatura
+const OGRE_GRAPHIC = 0x0001;
+
+player.useType(0xe21); // Vendaje
+if (target.waitTargetType(OGRE_GRAPHIC, -1, 5000)) {
+    client.sysMsg('Vendaje aplicado en ogro', 66);
+} else {
+    client.sysMsg('No hay ogros cerca', 85);
+}
+
+// Usar habilidad en item específico por color
+const RUNEBOOK_GRAPHIC = 0x22C5;
+const BLESSED_HUE = 0x0481; // Color dorado
+
+player.useSkill(Skills.ItemIdentification);
+if (target.waitTargetType(RUNEBOOK_GRAPHIC, BLESSED_HUE, 3000)) {
+    client.sysMsg('Runebook bendito identificado', 66);
+}
+
+// Automatizar aplicación de veneno en arma
+const armaGraphic = 0x0F62; // Katana
+const venonoGraphic = 0x0F0A; // Poción de veneno
+
+const veneno = client.findType(venonoGraphic);
+if (veneno) {
+    player.use(veneno);
+    if (target.waitTargetType(armaGraphic, -1, 5000)) {
+        client.headMsg('Veneno aplicado al arma', player, 66);
+    }
+}
+
+// Sistema de organización automática
+function moverItemAContenedor(itemGraphic, contenedorGraphic) {
+    const item = client.findType(itemGraphic);
+
+    if (!item) {
+        client.sysMsg(`No se encontró item 0x${itemGraphic.toString(16)}`, 33);
+        return false;
+    }
+
+    player.moveItem(item, -1); // Mover item
+    if (target.waitTargetType(contenedorGraphic, -1, 5000)) {
+        client.sysMsg('Item movido al contenedor', 66);
+        return true;
+    } else {
+        client.sysMsg('No se encontró contenedor destino', 33);
+        return false;
+    }
+}
+
+// Usar herramienta en recurso específico
+const PICKAXE = 0x0E86;
+const IRON_ORE_GRAPHIC = 0x19B9;
+
+player.useType(PICKAXE);
+if (target.waitTargetType(IRON_ORE_GRAPHIC, -1, 3000)) {
+    client.sysMsg('Minando mineral de hierro', 66);
+} else {
+    client.sysMsg('No hay mineral de hierro cerca', 85);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
             </div>
         </section>

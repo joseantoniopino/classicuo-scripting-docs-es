@@ -5461,6 +5461,450 @@ client.sysMsg('Habilidades desactivadas', 85);</code></pre>
                         </table>
                     </div>
                 </div>
+
+                <!--Player Movimiento e Interacción-->
+                <div class="subsection metodos">
+                    <h3>🏃 Movimiento e Interacción</h3>
+                    <p>Métodos para controlar el movimiento del jugador y su interacción con objetos del mundo. Estos métodos permiten mover al personaje paso a paso, simular clics en objetos, abrir puertas automáticamente, y activar capacidades especiales de movimiento como el vuelo para Gárgolas.</p>
+                    <div class="methods-table-container">
+                        <table class="methods-table">
+                            <thead>
+                            <tr>
+                                <th>Método</th>
+                                <th>Parámetros</th>
+                                <th>Retorna</th>
+                                <th>Descripción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="method-row" data-method="click">
+                                <td><code>Player.click()</code></td>
+                                <td><span class="parameter-type">serial: SerialOrEntity</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Simula un clic en un objeto</td>
+                            </tr>
+                            <tr class="method-details" data-method="click" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Player.click(serial: SerialOrEntity): void</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Simula un clic simple (single-click) en un objeto o entidad específica. Este método es útil para abrir gumps, mostrar información de objetos, o interactuar con NPCs sin necesidad de doble clic.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">serial</code>
+                                                    <span class="parameter-type">SerialOrEntity</span>
+                                                    <div class="parameter-description">El objeto o entidad a clickear. Puede ser un número de serial, objeto Serial, GameObject o "world"</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Clickear en ti mismo para ver stats
+player.click(player);
+
+// Clickear en un NPC para abrir su menú de interacción
+const vendedor = client.findType(0x0190, 10); // Buscar NPC cercano
+if (vendedor) {
+    player.click(vendedor);
+    client.sysMsg(`Interactuando con ${vendedor.name}`, 66);
+    sleep(500);
+}
+
+// Clickear en un item para ver sus propiedades
+const cofre = client.findType(0x0e43); // Graphic ID de cofre
+if (cofre) {
+    player.click(cofre);
+    client.sysMsg('Mostrando información del cofre', 85);
+}
+
+// Sistema de verificación de items
+function verificarItem(itemSerial) {
+    const item = client.findObject(itemSerial);
+    if (item) {
+        player.click(item);
+        client.sysMsg(`Verificando: ${item.name}`, 66);
+        sleep(100);
+        return true;
+    } else {
+        client.sysMsg('Item no encontrado', 33);
+        return false;
+    }
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="run">
+                                <td><code>Player.run()</code></td>
+                                <td><span class="parameter-type">direction: Directions</span></td>
+                                <td><span class="parameter-type">boolean</span></td>
+                                <td class="method-description">Corre/gira un paso en una dirección</td>
+                            </tr>
+                            <tr class="method-details" data-method="run" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Player.run(direction: Directions): boolean</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Mueve al jugador un paso en la dirección especificada, o simplemente gira hacia esa dirección si el movimiento está bloqueado. Este método es fundamental para crear sistemas de navegación y pathfinding en scripts.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">direction</code>
+                                                    <span class="parameter-type">Directions</span>
+                                                    <div class="parameter-description">Dirección del movimiento usando el enum Directions (North, Northeast, East, Southeast, South, Southwest, West, Northwest)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="parameters-section">
+                                            <h5>Retorna:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <span class="parameter-type">boolean</span>
+                                                    <div class="parameter-description">true si el personaje puede correr, false si está bloqueado o sobrecargado</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Mover un paso al sur
+player.run(Directions.South);
+
+// Caminar hacia el norte 10 pasos
+for (let i = 0; i < 10; i++) {
+    if (player.run(Directions.North)) {
+        client.sysMsg(`Paso ${i + 1}/10`, 85);
+        sleep(200); // Pequeña pausa entre pasos
+    } else {
+        client.headMsg('Camino bloqueado', player, 33);
+        break;
+    }
+}
+
+// Girar hacia una dirección sin moverse
+function mirarHacia(direccion) {
+    player.run(direccion);
+    client.sysMsg(`Mirando hacia ${Directions[direccion]}`, 66);
+}
+
+// Navegar hacia una coordenada específica
+function irHacia(targetX, targetY) {
+    const maxSteps = 100;
+    let steps = 0;
+
+    while (steps < maxSteps) {
+        const diffX = targetX - player.x;
+        const diffY = targetY - player.y;
+
+        // Ya llegamos
+        if (Math.abs(diffX) <= 1 && Math.abs(diffY) <= 1) {
+            client.headMsg('¡Destino alcanzado!', player, 66);
+            return true;
+        }
+
+        // Calcular dirección
+        let dir;
+        if (diffY < 0 && diffX === 0) dir = Directions.North;
+        else if (diffY < 0 && diffX > 0) dir = Directions.Northeast;
+        else if (diffY === 0 && diffX > 0) dir = Directions.East;
+        else if (diffY > 0 && diffX > 0) dir = Directions.Southeast;
+        else if (diffY > 0 && diffX === 0) dir = Directions.South;
+        else if (diffY > 0 && diffX < 0) dir = Directions.Southwest;
+        else if (diffY === 0 && diffX < 0) dir = Directions.West;
+        else dir = Directions.Northwest;
+
+        // Intentar moverse
+        if (!player.run(dir)) {
+            client.sysMsg('Obstáculo detectado, intentando rodear...', 85);
+            // Intentar direcciones alternativas
+            sleep(100);
+        }
+
+        steps++;
+        sleep(150);
+    }
+
+    client.headMsg('No se pudo alcanzar el destino', player, 33);
+    return false;
+}
+
+// Uso del pathfinding simple
+irHacia(2500, 1500);
+
+// Patrullar un área
+function patrullarArea() {
+    const patrulla = [
+        Directions.North,
+        Directions.East,
+        Directions.South,
+        Directions.West
+    ];
+
+    patrulla.forEach(dir => {
+        for (let i = 0; i < 5; i++) {
+            player.run(dir);
+            sleep(200);
+        }
+    });
+
+    client.sysMsg('Patrulla completada', 66);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="openDoor">
+                                <td><code>Player.openDoor()</code></td>
+                                <td><span class="parameter-type">ninguno</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Abre la puerta directamente enfrente</td>
+                            </tr>
+                            <tr class="method-details" data-method="openDoor" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Player.openDoor(): void</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Abre automáticamente cualquier puerta que esté directamente enfrente del jugador, en la dirección hacia la que está mirando. Este método es muy útil para scripts de navegación automática en edificios o dungeons.</p>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Abrir puerta simple
+player.openDoor();
+client.sysMsg('Abriendo puerta...', 66);
+
+// Sistema de navegación con apertura automática de puertas
+function moverConPuertas(direccion, pasos) {
+    for (let i = 0; i < pasos; i++) {
+        // Intentar abrir puerta si hay una enfrente
+        player.openDoor();
+        sleep(100);
+
+        // Moverse
+        if (player.run(direccion)) {
+            client.sysMsg(`Paso ${i + 1}/${pasos}`, 85);
+        } else {
+            client.headMsg('Camino bloqueado', player, 33);
+            break;
+        }
+
+        sleep(200);
+    }
+}
+
+// Atravesar una casa abriendo puertas
+function atravesarCasa() {
+    client.sysMsg('Entrando a la casa...', 66);
+
+    // Mirar norte
+    player.run(Directions.North);
+    sleep(100);
+
+    // Abrir puerta norte
+    player.openDoor();
+    sleep(200);
+
+    // Avanzar al norte
+    moverConPuertas(Directions.North, 3);
+
+    // Girar este
+    player.run(Directions.East);
+    sleep(100);
+
+    // Abrir puerta este
+    player.openDoor();
+    sleep(200);
+
+    // Avanzar al este
+    moverConPuertas(Directions.East, 2);
+
+    client.sysMsg('Navegación completada', 66);
+}
+
+// Entrar a un edificio específico
+function entrarEdificio() {
+    // Posicionarse frente a la puerta
+    irHacia(2500, 1500); // Coordenadas de la puerta
+
+    // Mirar hacia la puerta (ajustar según orientación)
+    player.run(Directions.North);
+    sleep(200);
+
+    // Abrir la puerta
+    player.openDoor();
+    client.sysMsg('Puerta abierta', 66);
+    sleep(300);
+
+    // Entrar
+    player.run(Directions.North);
+    client.sysMsg('Entrando al edificio...', 66);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="toggleFlying">
+                                <td><code>Player.toggleFlying()</code></td>
+                                <td><span class="parameter-type">ninguno</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Activa/desactiva vuelo (solo Gárgolas)</td>
+                            </tr>
+                            <tr class="method-details" data-method="toggleFlying" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Player.toggleFlying(): void</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Alterna entre el modo de vuelo y caminar para personajes Gárgola. Este método solo funciona si tu personaje es una Gárgola (graphic 666 o 667). El vuelo permite moverte más rápidamente y acceder a ciertas áreas elevadas.</p>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Activar/desactivar vuelo
+player.toggleFlying();
+client.sysMsg('Modo vuelo alternado', 66);
+
+// Verificar si eres Gárgola antes de intentar volar
+if (player.graphic === 666 || player.graphic === 667) {
+    player.toggleFlying();
+    client.headMsg('¡Volando!', player, 66);
+} else {
+    client.headMsg('Solo las Gárgolas pueden volar', player, 33);
+}
+
+// Sistema de viaje rápido para Gárgolas
+function viajarVolando(targetX, targetY) {
+    // Verificar que es Gárgola
+    if (player.graphic !== 666 && player.graphic !== 667) {
+        client.sysMsg('Este método es solo para Gárgolas', 33);
+        return false;
+    }
+
+    // Activar vuelo
+    client.sysMsg('Activando modo vuelo...', 66);
+    player.toggleFlying();
+    sleep(500);
+
+    // Viajar volando
+    const resultado = irHacia(targetX, targetY);
+
+    // Desactivar vuelo al llegar
+    player.toggleFlying();
+    client.sysMsg('Aterrizando...', 66);
+    sleep(300);
+
+    return resultado;
+}
+
+// Uso práctico: volar a una ubicación y aterrizar
+if (player.graphic === 666 || player.graphic === 667) {
+    client.sysMsg('Iniciando viaje aéreo...', 66);
+    viajarVolando(2500, 1500);
+    client.headMsg('Destino alcanzado', player, 66);
+}
+
+// Toggle inteligente - activar solo si no está volando
+function activarVuelo() {
+    if (player.graphic === 666 || player.graphic === 667) {
+        // Asumiendo que hay alguna forma de verificar estado de vuelo
+        // (esto podría requerir verificar buffs o estados)
+        player.toggleFlying();
+        client.sysMsg('Vuelo activado', 66);
+        return true;
+    }
+    return false;
+}
+
+function desactivarVuelo() {
+    if (player.graphic === 666 || player.graphic === 667) {
+        player.toggleFlying();
+        client.sysMsg('Vuelo desactivado', 85);
+        return true;
+    }
+    return false;
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
             </div>
         </section>
 

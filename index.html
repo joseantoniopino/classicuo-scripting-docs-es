@@ -8531,6 +8531,291 @@ if (target.lastObjectSerial !== serialAnterior) {
                     </div>
                 </div>
 
+                <!--Target Gestión Básica-->
+                <div class="subsection metodos">
+                    <h3>⏱️ Gestión Básica</h3>
+                    <p>Métodos fundamentales para controlar el ciclo de vida del cursor de targeting. Estos métodos permiten esperar la apertura del cursor, cancelar operaciones en curso y gestionar la cola de targets pendientes. Son esenciales para cualquier script que interactúe con el sistema de targeting del juego.</p>
+                    <div class="methods-table-container">
+                        <table class="methods-table">
+                            <thead>
+                            <tr>
+                                <th>Método</th>
+                                <th>Parámetros</th>
+                                <th>Retorna</th>
+                                <th>Descripción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="method-row" data-method="wait">
+                                <td><code>Target.wait()</code></td>
+                                <td><span class="parameter-type">timeoutMs?: number</span></td>
+                                <td><span class="parameter-type">boolean</span></td>
+                                <td class="method-description">Espera a que se abra el cursor de target dentro de un tiempo específico</td>
+                            </tr>
+                            <tr class="method-details" data-method="wait" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Target.wait(timeoutMs?: number): boolean</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Espera a que se abra el cursor de target dentro de un período de tiempo específico. Este método es fundamental para sincronizar scripts con acciones que requieren targeting, como lanzar hechizos o usar habilidades. Si no se especifica timeout, esperará indefinidamente hasta que el cursor se abra.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">timeoutMs</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Tiempo máximo de espera en milisegundos. Si se omite, esperará indefinidamente. Se recomienda siempre especificar un timeout para evitar scripts bloqueados</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="parameters-section">
+                                            <h5>Valor de retorno:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <span class="parameter-type">boolean</span>
+                                                    <div class="parameter-description">Retorna <code>true</code> si el cursor se abrió dentro del tiempo especificado, <code>false</code> si se agotó el timeout sin que el cursor se abriera</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+<pre><code class="language-javascript">// Uso básico con timeout
+client.castSpell(Spells.Heal);
+if (target.wait(5000)) {
+    client.sysMsg('Cursor abierto - targetando jugador', 66);
+    target.self();
+} else {
+    client.headMsg('ERROR: Timeout esperando cursor', player, 33);
+    exit('No se pudo abrir el cursor de target');
+}
+
+// Espera sin timeout (no recomendado en producción)
+client.castSpell(Spells.Lightning);
+target.wait(); // Esperará indefinidamente
+target.entity(enemy);
+
+// Uso en bucle de combate con validación
+while (player.mana > 30 && enemy.hits > 0) {
+    client.castSpell(Spells.Fireball);
+
+    if (!target.wait(3000)) {
+        client.sysMsg('Timeout en target - reintentando', 85);
+        continue;
+    }
+
+    target.entity(enemy);
+    wait(1500);
+}
+
+// Verificar apertura antes de targetear manualmente
+player.useType(0xe21); // Usar vendaje
+const abierto = target.wait(2000);
+if (abierto) {
+    client.headMsg('Cursor listo para selección', player, 66);
+    target.self();
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="cancel">
+                                <td><code>Target.cancel()</code></td>
+                                <td><span class="parameter-type">ninguno</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Cierra el cursor de target actualmente abierto</td>
+                            </tr>
+                            <tr class="method-details" data-method="cancel" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Target.cancel(): void</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Cierra el cursor de target si está actualmente abierto. Este método es útil para cancelar operaciones de targeting en progreso, limpiar estados inconsistentes, o cuando el usuario decide abortar una acción que requería selección de objetivo. No tiene efecto si el cursor no está abierto.</p>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+<pre><code class="language-javascript">// Cancelar target si el objetivo está fuera de rango
+client.castSpell(Spells.Fireball);
+target.wait(3000);
+
+if (player.distanceTo(enemy) > 12) {
+    client.headMsg('Objetivo muy lejos - cancelando', player, 33);
+    target.cancel();
+    exit('Enemigo fuera de rango');
+}
+
+target.entity(enemy);
+
+// Sistema de cancelación por condición de salud
+client.castSpell(Spells.Lightning);
+if (target.wait(5000)) {
+    const healthPercent = (player.hits / player.maxHits) * 100;
+
+    if (healthPercent < 30) {
+        client.sysMsg('Salud crítica - abortando ataque', 33);
+        target.cancel();
+        // Cambiar a curación
+        client.castSpell(Spells.GreaterHeal);
+        target.waitTargetSelf();
+    } else {
+        target.entity(enemy);
+    }
+}
+
+// Limpiar cursor al finalizar script
+function cleanup() {
+    if (target.open) {
+        client.sysMsg('Cerrando cursor al finalizar', 85);
+        target.cancel();
+    }
+}
+
+// Cancelar en caso de interrupción
+try {
+    client.castSpell(Spells.EnergyVortex);
+    target.wait();
+    target.terrain(x, y, z);
+} catch (error) {
+    client.sysMsg('Error detectado - limpiando cursor', 33);
+    target.cancel();
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="clearQueue">
+                                <td><code>Target.clearQueue()</code></td>
+                                <td><span class="parameter-type">ninguno</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Limpia la cola de targets pendientes</td>
+                            </tr>
+                            <tr class="method-details" data-method="clearQueue" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Target.clearQueue(): void</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Limpia la cola de targets pendientes que han sido encolados pero aún no procesados. Esto es especialmente útil cuando se ejecutan múltiples operaciones de targeting en secuencia y se necesita asegurar que no hay targets antiguos o no deseados esperando en la cola. Se recomienda llamar a este método antes de iniciar secuencias complejas de targeting para garantizar un estado limpio.</p>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+<pre><code class="language-javascript">// Limpiar cola antes de iniciar secuencia de combate
+function iniciarCombate(enemigo) {
+    client.sysMsg('Preparando secuencia de combate', 66);
+    target.clearQueue(); // Asegurar estado limpio
+
+    // Primera oleada de ataques
+    client.castSpell(Spells.Curse);
+    target.waitTargetEntity(enemigo);
+
+    client.castSpell(Spells.Lightning);
+    target.waitTargetEntity(enemigo);
+
+    client.sysMsg('Secuencia completada', 66);
+}
+
+// Limpiar al iniciar script
+target.clearQueue();
+client.sysMsg('Cola de targets limpiada', 85);
+
+// Iniciar operaciones normales
+client.castSpell(Spells.Heal);
+target.waitTargetSelf();
+
+// Uso en sistema de auto-curación con múltiples targets
+function sistemaCuracion() {
+    // Limpiar cualquier target pendiente
+    target.clearQueue();
+
+    const healthPercent = (player.hits / player.maxHits) * 100;
+
+    if (healthPercent < 50) {
+        client.castSpell(Spells.GreaterHeal);
+        target.waitTargetSelf();
+    }
+
+    if (player.poisoned) {
+        client.castSpell(Spells.Cure);
+        target.waitTargetSelf();
+    }
+}
+
+// Reiniciar estado tras error
+function reiniciarTargeting() {
+    client.sysMsg('Reiniciando sistema de targeting', 85);
+    target.cancel();      // Cerrar cursor actual
+    target.clearQueue();  // Limpiar cola pendiente
+    client.sysMsg('Sistema reiniciado', 66);
+}
+
+// Antes de bucles complejos
+target.clearQueue();
+for (let i = 0; i < enemigos.length; i++) {
+    client.castSpell(Spells.Fireball);
+    target.waitTargetEntity(enemigos[i]);
+    wait(1000);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
             </div>
         </section>
 

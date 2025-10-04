@@ -8531,6 +8531,7 @@ if (target.lastObjectSerial !== serialAnterior) {
                     </div>
                 </div>
 
+                <!--Métodos de Target-->
                 <!--Target Gestión Básica-->
                 <div class="subsection metodos">
                     <h3>⏱️ Gestión Básica</h3>
@@ -9255,6 +9256,393 @@ if (pocion) {
                         </table>
                     </div>
                 </div>
+
+                <!--Target Target de Terreno-->
+                <div class="subsection metodos">
+                    <h3>🌍 Target de Terreno</h3>
+                    <p>Métodos especializados para targetear tiles (suelo) y statics (objetos estáticos del terreno) en el mundo del juego. Estos métodos son esenciales para hechizos de teleportación, invocaciones, y cualquier efecto que requiera seleccionar una posición específica en el mapa. Cuando el parámetro <code>graphic</code> se omite, se targetea LAND (suelo). Cuando se especifica, se targetea un STATIC específico con ese gráfico.</p>
+                    <div class="methods-table-container">
+                        <table class="methods-table">
+                            <thead>
+                            <tr>
+                                <th>Método</th>
+                                <th>Parámetros</th>
+                                <th>Retorna</th>
+                                <th>Descripción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="method-row" data-method="terrain">
+                                <td><code>Target.terrain()</code></td>
+                                <td><span class="parameter-type">x: number, y: number, z: number, graphic?: number</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Targetea tile o static en coordenadas absolutas del mapa</td>
+                            </tr>
+                            <tr class="method-details" data-method="terrain" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Target.terrain(x: number, y: number, z: number, graphic?: number): void</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Targetea un tile (baldosa de suelo) o static (objeto estático) en coordenadas absolutas del mapa. Cuando el parámetro <code>graphic</code> se omite, targetea LAND (suelo) por defecto. Cuando se especifica un valor para <code>graphic</code>, targetea un STATIC específico con ese ID gráfico en las coordenadas indicadas. Útil para teleportación a coordenadas exactas conocidas o interacción con objetos estáticos del mundo.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">x</code>
+                                                    <span class="parameter-type">number</span>
+                                                    <div class="parameter-description">Coordenada X absoluta en el mapa del mundo</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">y</code>
+                                                    <span class="parameter-type">number</span>
+                                                    <div class="parameter-description">Coordenada Y absoluta en el mapa del mundo</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">z</code>
+                                                    <span class="parameter-type">number</span>
+                                                    <div class="parameter-description">Coordenada Z (altura/elevación) en el mapa</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">graphic</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">ID gráfico del static a targetear. Si se omite, targetea LAND (suelo) por defecto</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+<pre><code class="language-javascript">// Ejemplo básico de la documentación oficial - Targetear LAND (suelo)
+client.castSpell(Spells.Teleport);
+target.wait();
+target.terrain(1203, 222, 0);
+
+// Ejemplo de la documentación - Targetear STATIC específico
+client.castSpell(Spells.Teleport);
+target.wait();
+target.terrain(1203, 222, 0, 0x5a2);
+
+// Teleportarse a coordenadas conocidas (puerta de ciudad)
+const puertaBritain = { x: 1434, y: 1699, z: 2 };
+client.castSpell(Spells.Teleport);
+target.wait();
+target.terrain(puertaBritain.x, puertaBritain.y, puertaBritain.z);
+client.sysMsg('Teleportado a Britain', 66);
+
+// Invocar criatura en posición exacta
+const posicionInvocacion = { x: 2500, y: 3000, z: 0 };
+client.castSpell(Spells.EnergyVortex);
+if (target.wait(5000)) {
+    target.terrain(posicionInvocacion.x, posicionInvocacion.y, posicionInvocacion.z);
+    client.headMsg('Energy Vortex invocado', player, 66);
+}
+
+// Targetear altar específico para ritual
+const altarGraphic = 0x2 // ID del altar
+const coordsAltar = { x: 1450, y: 1650, z: 10 };
+client.castSpell(Spells.Resurrection);
+target.wait();
+target.terrain(coordsAltar.x, coordsAltar.y, coordsAltar.z, altarGraphic);
+
+// Lista de waypoints para teleportación rápida
+const waypoints = [
+    { nombre: 'Casa', x: 2700, y: 2100, z: 0 },
+    { nombre: 'Dungeon', x: 5120, y: 768, z: 0 },
+    { nombre: 'Banco', x: 1434, y: 1699, z: 0 }
+];
+
+for (const wp of waypoints) {
+    client.sysMsg(`Teleportando a ${wp.nombre}...`, 85);
+    client.castSpell(Spells.Teleport);
+    target.wait();
+    target.terrain(wp.x, wp.y, wp.z);
+    wait(2000);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="terrainWithOffset">
+                                <td><code>Target.terrainWithOffset()</code></td>
+                                <td><span class="parameter-type">x: number, y: number, z: number, graphic?: number</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Targetea tile o static usando offset relativo al jugador</td>
+                            </tr>
+                            <tr class="method-details" data-method="terrainWithOffset" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Target.terrainWithOffset(x: number, y: number, z: number, graphic?: number): void</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Targetea un tile (baldosa de suelo) o static (objeto estático) donde <code>{x, y, z}</code> representa la distancia/offset desde la posición actual del jugador, no coordenadas absolutas. Por ejemplo, <code>x: -1, y: -2</code> significa 1 tile al oeste y 2 tiles al norte desde el jugador. Cuando <code>graphic</code> se omite, targetea LAND (suelo). Cuando se especifica, targetea un STATIC específico. Muy útil para movimientos relativos y hechizos direccionales.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">x</code>
+                                                    <span class="parameter-type">number</span>
+                                                    <div class="parameter-description">Offset en X desde la posición del jugador (positivo = este, negativo = oeste)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">y</code>
+                                                    <span class="parameter-type">number</span>
+                                                    <div class="parameter-description">Offset en Y desde la posición del jugador (positivo = sur, negativo = norte)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">z</code>
+                                                    <span class="parameter-type">number</span>
+                                                    <div class="parameter-description">Offset en Z desde la altura del jugador (altura relativa)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">graphic</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">ID gráfico del static a targetear. Si se omite, targetea LAND (suelo)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+<pre><code class="language-javascript">// Ejemplo básico de la documentación oficial - offset relativo
+client.castSpell(Spells.Teleport);
+target.wait();
+target.terrainWithOffset(-1, -2, 0);
+
+// Ejemplo con static específico
+client.castSpell(Spells.Teleport);
+target.wait();
+target.terrainWithOffset(-1, -2, 0, 0x5a2);
+
+// Teleportarse 5 tiles hacia adelante (norte)
+client.castSpell(Spells.Teleport);
+target.wait();
+target.terrainWithOffset(0, -5, 0);
+client.sysMsg('Teleportado hacia el norte', 66);
+
+// Esquivar hacia un lado (escapar de peligro)
+function esquivarOeste() {
+    client.castSpell(Spells.Teleport);
+    if (target.wait(3000)) {
+        target.terrainWithOffset(-3, 0, 0); // 3 tiles al oeste
+        client.headMsg('¡Esquivando!', player, 85);
+    }
+}
+
+// Invocar Energy Vortex cerca del jugador
+client.castSpell(Spells.EnergyVortex);
+target.wait();
+target.terrainWithOffset(2, 2, 0); // 2 tiles al sureste
+client.sysMsg('Vortex invocado cerca', 66);
+
+// Sistema de teleportación en patrón circular
+const direcciones = [
+    { nombre: 'Norte', x: 0, y: -3, z: 0 },
+    { nombre: 'Este', x: 3, y: 0, z: 0 },
+    { nombre: 'Sur', x: 0, y: 3, z: 0 },
+    { nombre: 'Oeste', x: -3, y: 0, z: 0 }
+];
+
+for (const dir of direcciones) {
+    client.sysMsg(`Moviéndose hacia ${dir.nombre}`, 85);
+    client.castSpell(Spells.Teleport);
+    target.wait();
+    target.terrainWithOffset(dir.x, dir.y, dir.z);
+    wait(1500);
+}
+
+// Retroceder rápidamente
+function retroceder(distancia) {
+    client.castSpell(Spells.Teleport);
+    target.wait();
+    // Retroceder en dirección opuesta a la que miramos
+    target.terrainWithOffset(0, distancia, 0);
+}
+
+// Invocar campo de fuego delante del jugador
+client.castSpell(Spells.FireField);
+target.wait();
+target.terrainWithOffset(0, -2, 0); // 2 tiles al norte</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="terrainRelativeToEntity">
+                                <td><code>Target.terrainRelativeToEntity()</code></td>
+                                <td><span class="parameter-type">entity: SerialOrEntity, range: number, forward: boolean, graphic?: number</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Targetea tile o static relativo a una entidad específica</td>
+                            </tr>
+                            <tr class="method-details" data-method="terrainRelativeToEntity" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Target.terrainRelativeToEntity(entity: SerialOrEntity, range: number, forward: boolean, graphic?: number): void</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Targetea un tile (baldosa de suelo) o static (objeto estático) desde la posición de un Item o Mobile específico. El parámetro <code>range</code> determina la distancia, y <code>forward</code> indica si es hacia adelante (en la dirección que mira la entidad) o hacia atrás. Cuando <code>graphic</code> se omite, targetea LAND (suelo). Este método es especialmente útil para lanzar hechizos posicionalmente relativos a enemigos u otros objetos del mundo.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">entity</code>
+                                                    <span class="parameter-type">number | SerialObject | GameObject | "world"</span>
+                                                    <div class="parameter-description">La entidad (Mobile o Item) desde la cual calcular la posición relativa</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">range</code>
+                                                    <span class="parameter-type">number</span>
+                                                    <div class="parameter-description">Distancia en tiles desde la entidad especificada</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">forward</code>
+                                                    <span class="parameter-type">boolean</span>
+                                                    <div class="parameter-description">Si es <code>true</code>, targetea hacia adelante en la dirección de la entidad. Si es <code>false</code>, targetea hacia atrás</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">graphic</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">ID gráfico del static a targetear. Si se omite, targetea LAND (suelo)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+<pre><code class="language-javascript">// Ejemplo básico de la documentación oficial
+const mob = client.findType(0x0001);
+client.castSpell(Spells.Teleport);
+target.wait();
+target.terrainRelativeToEntity(mob, 5, true);
+
+// Ejemplo con static específico
+client.castSpell(Spells.Teleport);
+target.wait();
+target.terrainRelativeToEntity(mob, 5, true, 0x5a2);
+
+// Teleportarse detrás de un enemigo
+const enemy = client.findType(0x0001); // Ogro
+if (enemy) {
+    client.castSpell(Spells.Teleport);
+    target.wait();
+    target.terrainRelativeToEntity(enemy, 2, false); // 2 tiles detrás
+    client.headMsg('¡Ataque sorpresa!', player, 66);
+}
+
+// Invocar Energy Vortex delante del enemigo
+const objetivo = client.findType(0x0002);
+if (objetivo) {
+    client.castSpell(Spells.EnergyVortex);
+    target.wait();
+    target.terrainRelativeToEntity(objetivo, 3, true); // 3 tiles adelante
+    client.sysMsg('Vortex bloqueando escape', 66);
+}
+
+// Crear muro de fuego entre jugador y enemigo
+const atacante = client.findType(0x0004);
+if (atacante) {
+    client.castSpell(Spells.FireField);
+    target.wait();
+    // Posicionar campo 2 tiles delante del enemigo
+    target.terrainRelativeToEntity(atacante, 2, true);
+    client.sysMsg('Campo de fuego creado', 85);
+}
+
+// Teleportarse cerca de un aliado
+const aliado = client.findObject(0x00012345);
+if (aliado) {
+    client.sysMsg('Teleportando para ayudar aliado', 66);
+    client.castSpell(Spells.Teleport);
+    target.wait();
+    target.terrainRelativeToEntity(aliado, 1, true); // Justo delante
+}
+
+// Sistema táctico: rodear al enemigo
+const enemigo = client.findType(0x0001);
+if (enemigo) {
+    // Primera posición: detrás
+    client.castSpell(Spells.Teleport);
+    target.wait();
+    target.terrainRelativeToEntity(enemigo, 3, false);
+    wait(1000);
+
+    // Atacar desde atrás
+    client.castSpell(Spells.Lightning);
+    target.waitTargetEntity(enemigo);
+
+    // Reposicionarse al frente
+    client.castSpell(Spells.Teleport);
+    target.wait();
+    target.terrainRelativeToEntity(enemigo, 4, true);
+}
+
+// Escapar de múltiples enemigos
+const enemigoMasCercano = client.findType(0x0001, -1, -1);
+if (enemigoMasCercano && player.hits < player.maxHits * 0.3) {
+    client.headMsg('¡Huyendo!', player, 33);
+    client.castSpell(Spells.Teleport);
+    target.wait();
+    // Teleportarse lejos, detrás del enemigo
+    target.terrainRelativeToEntity(enemigoMasCercano, 8, false);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
 
             </div>
         </section>

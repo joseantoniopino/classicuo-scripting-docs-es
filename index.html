@@ -8227,156 +8227,310 @@ if (player.waitForBuffDebuff(BuffDebuffs.Bless, 3000)) {
                 <p class="description">Controla el sistema de targeting del juego</p>
             </div>
             <div class="section-content">
-                <div class="subsection metodos">
-                    <h3>Propiedades</h3>
-                    <div class="table-container">
-                        <table>
+
+                <!--Propiedades de Target-->
+                <!--Target Estado del Target-->
+                <div class="subsection propiedades">
+                    <h3>📌 Estado del Target</h3>
+                    <p>Propiedades que permiten verificar el estado actual del sistema de targeting y obtener información sobre el último objetivo seleccionado. Estas propiedades son fundamentales para controlar flujos de targeting y validar que las operaciones se ejecuten correctamente.</p>
+                    <div class="properties-table-container">
+                        <table class="properties-table">
                             <thead>
-                            <tr><th>Propiedad</th><th>Tipo</th><th>Descripción</th></tr>
+                            <tr>
+                                <th>Propiedad</th>
+                                <th>Tipo</th>
+                                <th>Descripción</th>
+                            </tr>
                             </thead>
                             <tbody>
-                            <tr><td>last</td><td>Item | Mobile</td><td>Último target, es decir, último Item/Mobile apuntado</td></tr>
-                            <tr><td>lastSerial</td><td>number</td><td>Serial del último target</td></tr>
-                            <tr><td>lastObject</td><td>Item</td><td>Último objeto usado</td></tr>
-                            <tr><td>lastObjectSerial</td><td>number</td><td>Serial del último objeto usado</td></tr>
-                            <tr><td>open</td><td>boolean</td><td>Verifica si el target está abierto</td></tr>
+                            <tr class="property-row" data-property="open">
+                                <td><code>Target.open</code></td>
+                                <td><span class="parameter-type">boolean</span></td>
+                                <td class="property-description">Indica si el cursor de target está actualmente abierto</td>
+                            </tr>
+                            <tr class="property-details" data-property="open" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Indica si el cursor de target está actualmente abierto y esperando selección. Esta propiedad es esencial para verificar que un target esté activo antes de intentar targetear, evitando errores en scripts que dependen de la sincronización del cursor.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+<pre><code class="language-javascript">// Verificar estado antes de targetear
+client.castSpell(Spells.Heal);
+target.wait(5000);
+
+if (target.open) {
+    client.sysMsg('Cursor abierto - targetando jugador', 66);
+    target.self();
+} else {
+    client.headMsg('ERROR: Target no se abrió', player, 33);
+    exit('Timeout esperando target');
+}
+
+// Esperar a que se cierre el cursor tras targetear
+client.castSpell(Spells.EnergyBolt);
+target.wait();
+target.entity(enemy);
+
+// Verificar que el target se completó
+if (!target.open) {
+    client.sysMsg('Target completado correctamente', 66);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="last">
+                                <td><code>Target.last</code></td>
+                                <td><span class="parameter-type">undefined | Item | Mobile</span></td>
+                                <td class="property-description">Referencia al objeto del último target realizado</td>
+                            </tr>
+                            <tr class="property-details" data-property="last" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Referencia al objeto (Item o Mobile) del último target realizado en la sesión actual. Permite acceder a las propiedades del objetivo previamente seleccionado, como verificar si sigue vivo, su posición actual, o reutilizar el mismo objetivo en operaciones subsecuentes. Retorna <code>undefined</code> si no se ha realizado ningún target todavía.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+<pre><code class="language-javascript">// Atacar y verificar estado del último objetivo
+client.castSpell(Spells.Fireball);
+target.waitTargetEntity(enemy);
+
+if (target.last) {
+    const objetivo = target.last;
+    client.sysMsg(`Último target: ${objetivo.name || 'Desconocido'}`, 66);
+
+    // Verificar si el objetivo es un Mobile y está vivo
+    if (objetivo.hits !== undefined) {
+        const healthPercent = (objetivo.hits / objetivo.maxHits) * 100;
+        client.headMsg(`Vida del objetivo: ${healthPercent.toFixed(0)}%`, objetivo, 85);
+
+        if (objetivo.hits > 0) {
+            // Continuar atacando si sigue vivo
+            client.castSpell(Spells.Lightning);
+            target.wait();
+            target.repeatLast();
+        }
+    }
+}
+
+// Verificar distancia al último objetivo
+if (target.last && player.distanceTo(target.last) > 10) {
+    client.headMsg('Objetivo muy lejos - acercándose', player, 85);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                <div class="subsection metodos">
-                    <h3>Métodos Principales</h3>
-
-                    <h4>wait()</h4>
-                    <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-header-left">Definición JavaScript</div>
-                            <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                        </div>
-                        <div class="code-content">
-                            <pre><code class="language-javascript">wait(timeoutMs?: number): boolean</code></pre>
-                        </div>
-                    </div>
-                    <p><strong>Descripción:</strong> Espera a que el target se abra dentro de un tiempo específico.</p>
-                    <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-header-left">Ejemplo</div>
-                            <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                        </div>
-                        <div class="code-content">
-                                <pre><code class="language-javascript">client.castSpell(Spells.Heal);
-target.wait();
-target.entity(player);</code></pre>
-                        </div>
-                    </div>
-
-                    <h4>entity()</h4>
-                    <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-header-left">Definición JavaScript</div>
-                            <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                        </div>
-                        <div class="code-content">
-                            <pre><code class="language-javascript">entity(serial: SerialOrEntity): void</code></pre>
-                        </div>
-                    </div>
-                    <p><strong>Descripción:</strong> Apunta a un Mobile o un Item con el target actualmente abierto.</p>
-
-                    <h4>waitTargetSelf()</h4>
-                    <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-header-left">Definición JavaScript</div>
-                            <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                        </div>
-                        <div class="code-content">
-                            <pre><code class="language-javascript">waitTargetSelf(timeoutMs?: number): boolean</code></pre>
-                        </div>
-                    </div>
-                    <p><strong>Descripción:</strong> Espera el target con un tiempo específico, cuando se abra se apunta a sí mismo.</p>
-                    <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-header-left">Ejemplo</div>
-                            <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                        </div>
-                        <div class="code-content">
-                                <pre><code class="language-javascript">player.useType(0xe21);
-target.waitTargetSelf();</code></pre>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="subsection metodos">
-                    <h3>Métodos de Control de Target</h3>
-                    <div class="table-container">
-                        <table>
+                <!--Target Historial de Uso-->
+                <div class="subsection propiedades">
+                    <h3>📜 Historial de Uso</h3>
+                    <p>Propiedades que mantienen un registro de los últimos objetivos seleccionados mediante targeting y objetos utilizados mediante doble-clic. Es importante distinguir entre "target" (selección con cursor) y "uso" (doble-clic en objeto). Estas propiedades son útiles para implementar sistemas de repetición automática y tracking de interacciones del jugador.</p>
+                    <div class="properties-table-container">
+                        <table class="properties-table">
                             <thead>
-                            <tr><th>Método</th><th>Descripción</th><th>Retorna</th></tr>
+                            <tr>
+                                <th>Propiedad</th>
+                                <th>Tipo</th>
+                                <th>Descripción</th>
+                            </tr>
                             </thead>
                             <tbody>
-                            <tr><td>cancel()</td><td>Cierra el target</td><td>void</td></tr>
-                            <tr><td>clearQueue()</td><td>Limpia la cola de targets</td><td>void</td></tr>
-                            <tr><td>query(isGround?)</td><td>Crea un target y retorna información sobre el resultado</td><td>TargetInfo</td></tr>
-                            <tr><td>repeatLast()</td><td>Repite la información del último targeting</td><td>void</td></tr>
-                            <tr><td>self()</td><td>Se apunta a sí mismo con el target actualmente abierto</td><td>void</td></tr>
+                            <tr class="property-row" data-property="lastSerial">
+                                <td><code>Target.lastSerial</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Serial del último objetivo targetado</td>
+                            </tr>
+                            <tr class="property-details" data-property="lastSerial" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Número serial del último objetivo que fue targetado por el jugador mediante el cursor de targeting. A diferencia de <code>target.last</code> que retorna el objeto completo (Item o Mobile), esta propiedad solo proporciona el identificador numérico único. Es útil cuando solo necesitas verificar si se targetó el mismo objetivo sin cargar el objeto completo.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+<pre><code class="language-javascript">// Guardar serial del objetivo inicial
+client.castSpell(Spells.Curse);
+target.waitTargetEntity(enemy);
+const objetivoInicial = target.lastSerial;
+
+client.sysMsg(`Objetivo inicial: ${objetivoInicial}`, 66);
+
+// Continuar atacando el mismo objetivo
+while (player.mana > 20) {
+    client.castSpell(Spells.Fireball);
+    target.wait();
+
+    // Verificar que seguimos atacando el mismo objetivo
+    target.repeatLast();
+
+    if (target.lastSerial === objetivoInicial) {
+        client.sysMsg('Atacando mismo objetivo', 85);
+    } else {
+        client.headMsg('¡Cambio de objetivo detectado!', player, 33);
+        break;
+    }
+
+    wait(1500);
+}
+
+// Comparar con serial de jugador
+if (target.lastSerial === player.serial) {
+    client.sysMsg('Te has targetado a ti mismo', 66);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="lastObject">
+                                <td><code>Target.lastObject</code></td>
+                                <td><span class="parameter-type">undefined | Item</span></td>
+                                <td class="property-description">Último objeto usado con doble-clic por el jugador</td>
+                            </tr>
+                            <tr class="property-details" data-property="lastObject" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Referencia al último objeto (Item) que fue utilizado mediante doble-clic por el jugador. Esta propiedad es diferente de <code>target.last</code>, ya que registra objetos usados directamente (como puertas, contenedores, pociones), no objetivos seleccionados con el cursor de targeting. Retorna <code>undefined</code> si no se ha usado ningún objeto todavía en la sesión.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+<pre><code class="language-javascript">// Usar una poción y verificar qué se usó
+const pocion = client.findType(0xf0c); // Greater Heal Potion
+if (pocion) {
+    player.use(pocion);
+    wait(500);
+
+    if (target.lastObject) {
+        client.sysMsg(`Último objeto usado: ${target.lastObject.name}`, 66);
+        client.sysMsg(`Graphic: 0x${target.lastObject.graphic.toString(16)}`, 85);
+
+        // Verificar que es la poción correcta
+        if (target.lastObject.graphic === 0xf0c) {
+            client.headMsg('Poción de curación usada', player, 66);
+        }
+    }
+}
+
+// Abrir contenedor y registrar uso
+const backpack = player.backpack;
+if (backpack) {
+    player.use(backpack);
+    wait(300);
+
+    if (target.lastObject && target.lastObject.serial === backpack.serial) {
+        client.sysMsg('Mochila abierta correctamente', 66);
+    }
+}
+
+// Sistema de auto-repetición de uso
+if (target.lastObject && target.lastObject.graphic === 0xe21) {
+    client.sysMsg('Último objeto fue un vendaje - reusando', 85);
+    player.use(target.lastObject);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="lastObjectSerial">
+                                <td><code>Target.lastObjectSerial</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Serial del último objeto usado con doble-clic</td>
+                            </tr>
+                            <tr class="property-details" data-property="lastObjectSerial" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Número serial del último objeto que fue utilizado mediante doble-clic por el jugador. Similar a <code>target.lastObjectSerial</code> pero para objetos usados en lugar de objetos targetados. Útil para verificar rápidamente qué objeto se usó sin necesidad de cargar el objeto completo desde <code>target.lastObject</code>.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+<pre><code class="language-javascript">// Tracking de objetos usados en secuencia
+const objetosUsados = [];
+
+function registrarUso() {
+    if (target.lastObjectSerial) {
+        objetosUsados.push({
+            serial: target.lastObjectSerial,
+            timestamp: Date.now()
+        });
+        client.sysMsg(`Registrado uso: ${target.lastObjectSerial}`, 85);
+    }
+}
+
+// Usar varios vendajes y registrar
+const vendajes = client.findType(0xe21, -1, player.backpack);
+if (vendajes) {
+    for (let i = 0; i < 3; i++) {
+        player.useType(0xe21);
+        target.waitTargetSelf();
+        wait(500);
+        registrarUso();
+    }
+}
+
+client.sysMsg(`Total objetos usados: ${objetosUsados.length}`, 66);
+
+// Verificar si el último objeto usado fue la mochila
+if (target.lastObjectSerial === player.backpack?.serial) {
+    client.sysMsg('Última acción: abrir mochila', 66);
+}
+
+// Comparar serial para evitar usos duplicados
+const serialAnterior = target.lastObjectSerial;
+// ... realizar alguna acción ...
+if (target.lastObjectSerial !== serialAnterior) {
+    client.headMsg('Se usó un nuevo objeto', player, 85);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                <div class="subsection metodos">
-                    <h3>Métodos de Targeting de Terreno</h3>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                            <tr><th>Método</th><th>Descripción</th><th>Parámetros</th></tr>
-                            </thead>
-                            <tbody>
-                            <tr><td>terrain()</td><td>Apunta a un Tile o Static</td><td>x, y, z, graphic?</td></tr>
-                            <tr><td>terrainRelativeToEntity()</td><td>Apunta a Tile/Static desde Item/Mobile específico</td><td>entity, range, forward, graphic?</td></tr>
-                            <tr><td>terrainWithOffset()</td><td>Apunta a Tile/Static con offset desde jugador</td><td>x, y, z, graphic?</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="subsection metodos">
-                    <h3>Métodos de Conveniencia</h3>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                            <tr><th>Método</th><th>Descripción</th><th>Retorna</th></tr>
-                            </thead>
-                            <tbody>
-                            <tr><td>waitTargetEntity(entity, timeout?)</td><td>Espera target y luego apunta a la entidad deseada</td><td>boolean</td></tr>
-                            <tr><td>waitTargetType(graphic, hue?, timeout?)</td><td>Espera target y apunta al primer objeto con graphic/hue específico</td><td>boolean</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="code-block">
-                    <div class="code-header">
-                        <div class="code-header-left">Ejemplos de Uso de Terreno</div>
-                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                    </div>
-                    <div class="code-content">
-                            <pre><code class="language-javascript">// Teleport a coordenadas específicas
-client.castSpell(Spells.Teleport);
-target.wait();
-target.terrain(1203, 222, 0);
-
-// Teleport con offset desde el jugador
-client.castSpell(Spells.Teleport);
-target.wait();
-target.terrainWithOffset(-1, -2, 0);
-
-// Teleport relativo a una entidad
-client.castSpell(Spells.Teleport);
-target.wait();
-target.terrainRelativeToEntity(mob, 5, true);</code></pre>
-                    </div>
-                </div>
             </div>
         </section>
 

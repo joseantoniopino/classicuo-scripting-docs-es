@@ -5071,6 +5071,396 @@ if (player.followers === player.maxFollowers) {
                         </table>
                     </div>
                 </div>
+
+                <!--Player Combate y Casting-->
+                <div class="subsection metodos">
+                    <h3>⚡ Combate y Casting</h3>
+                    <p>Métodos esenciales para el combate y lanzamiento de hechizos. Estos métodos permiten atacar enemigos, castear hechizos con o sin target automático, y activar las habilidades especiales del arma equipada. Son fundamentales para cualquier tipo de combate, ya sea físico o mágico.</p>
+                    <div class="methods-table-container">
+                        <table class="methods-table">
+                            <thead>
+                            <tr>
+                                <th>Método</th>
+                                <th>Parámetros</th>
+                                <th>Retorna</th>
+                                <th>Descripción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="method-row" data-method="attack">
+                                <td><code>Player.attack()</code></td>
+                                <td><span class="parameter-type">serial: SerialOrEntity</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Ataca a un mobile</td>
+                            </tr>
+                            <tr class="method-details" data-method="attack" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Player.attack(serial: SerialOrEntity): void</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Inicia un ataque contra un mobile específico. Este método hace que el jugador comience a atacar automáticamente al objetivo especificado, similar a hacer doble clic en War Mode.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">serial</code>
+                                                    <span class="parameter-type">SerialOrEntity</span>
+                                                    <div class="parameter-description">El serial del mobile a atacar. Puede ser un número, objeto Serial, GameObject o "world"</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Atacar el último objetivo seleccionado
+player.attack(target.lastSerial);
+
+// Sistema de combate automático
+const enemigo = client.findType(0x0001); // Tipo de monstruo
+if (enemigo) {
+    client.headMsg('¡Enemigo detectado!', player, 33);
+    player.attack(enemigo);
+    client.sysMsg(`Atacando a ${enemigo.name}`, 66);
+} else {
+    client.sysMsg('No hay enemigos cercanos', 85);
+}
+
+// Verificar que estás en War Mode antes de atacar
+if (!player.inWarMode) {
+    client.headMsg('Activa War Mode primero (TAB)', player, 33);
+} else {
+    // Seleccionar objetivo y atacar
+    target.setLastSerial();
+    if (target.lastSerial) {
+        player.attack(target.lastSerial);
+    }
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="cast">
+                                <td><code>Player.cast()</code></td>
+                                <td><span class="parameter-type">spell: any</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Castea un hechizo</td>
+                            </tr>
+                            <tr class="method-details" data-method="cast" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Player.cast(spell: any): void</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Lanza un hechizo específico. Después de castear, normalmente necesitarás usar target.wait() y target.entity() para seleccionar el objetivo del hechizo. Para hechizos que requieren target automático, considera usar castTo() en su lugar.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">spell</code>
+                                                    <span class="parameter-type">any</span>
+                                                    <div class="parameter-description">El hechizo a lanzar, típicamente del enum Spells (ejemplo: Spells.Heal, Spells.EnergyBolt)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Castear hechizo buff en ti mismo
+player.cast(Spells.Agility);
+target.wait();
+target.entity(player);
+
+// Sistema de auto-curación
+if (player.hits < player.maxHits * 0.5) {
+    if (player.mana >= 11) {
+        client.sysMsg('Casteando Greater Heal...', 66);
+        player.cast(Spells.GreaterHeal);
+        target.wait(5000);
+        target.entity(player);
+    } else {
+        client.headMsg('Sin maná para Greater Heal', player, 33);
+    }
+}
+
+// Castear hechizo ofensivo
+player.cast(Spells.EnergyBolt);
+target.wait(5000);
+target.entity(target.lastSerial);
+
+// Verificar maná antes de castear
+const manaNecesario = 20;
+if (player.mana >= manaNecesario) {
+    player.cast(Spells.Lightning);
+    target.wait();
+    target.entity(target.lastSerial);
+} else {
+    client.headMsg('Maná insuficiente', player, 33);
+    player.useSkill(Skills.Meditation);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="castTo">
+                                <td><code>Player.castTo()</code></td>
+                                <td><span class="parameter-type">spell: any, serial: SerialOrEntity, timeout?: number</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Castea un hechizo y automáticamente hace target</td>
+                            </tr>
+                            <tr class="method-details" data-method="castTo" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Player.castTo(spell: any, serial: SerialOrEntity, timeout?: number): void</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Lanza un hechizo y automáticamente selecciona el target especificado. Este método es más conveniente que cast() ya que combina el casteo y el targeting en una sola llamada, evitando la necesidad de usar target.wait() y target.entity().</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">spell</code>
+                                                    <span class="parameter-type">any</span>
+                                                    <div class="parameter-description">El hechizo a lanzar del enum Spells</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">serial</code>
+                                                    <span class="parameter-type">SerialOrEntity</span>
+                                                    <div class="parameter-description">El objetivo del hechizo (jugador, mobile, o item)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">timeout</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Tiempo máximo de espera en milisegundos para el cursor de target (opcional)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Auto-curación simplificada
+player.castTo(Spells.Heal, player);
+
+// Curación en aliado
+const aliado = client.findObject(0x0001234); // Serial del aliado
+if (aliado) {
+    player.castTo(Spells.GreaterHeal, aliado);
+    client.sysMsg(`Curando a ${aliado.name}`, 66);
+}
+
+// Sistema de combate mágico con timeout
+const enemigo = target.lastSerial;
+if (enemigo) {
+    // Castear con timeout de 3 segundos
+    player.castTo(Spells.EnergyBolt, enemigo, 3000);
+    sleep(1500); // Esperar entre hechizos
+}
+
+// Loop de auto-curación inteligente
+while (player.hits < player.maxHits) {
+    const vidaPorcentaje = (player.hits / player.maxHits) * 100;
+
+    if (vidaPorcentaje < 40 && player.mana >= 11) {
+        client.headMsg('Vida crítica - Greater Heal', player, 33);
+        player.castTo(Spells.GreaterHeal, player);
+        sleep(2000);
+    } else if (vidaPorcentaje < 70 && player.mana >= 4) {
+        client.sysMsg('Curando con Heal', 85);
+        player.castTo(Spells.Heal, player);
+        sleep(1500);
+    } else {
+        break; // Vida suficiente o sin maná
+    }
+}
+
+// Combo de buffs automáticos
+function aplicarBuffs() {
+    const buffs = [
+        { spell: Spells.Bless, mana: 9, nombre: 'Bless' },
+        { spell: Spells.Agility, mana: 9, nombre: 'Agility' },
+        { spell: Spells.Strength, mana: 9, nombre: 'Strength' }
+    ];
+
+    buffs.forEach(buff => {
+        if (player.mana >= buff.mana) {
+            player.castTo(buff.spell, player);
+            client.sysMsg(`Aplicando ${buff.nombre}`, 66);
+            sleep(1200);
+        }
+    });
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="setAbility">
+                                <td><code>Player.setAbility()</code></td>
+                                <td><span class="parameter-type">primary: boolean, active: boolean</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Activa/desactiva habilidad primaria o secundaria</td>
+                            </tr>
+                            <tr class="method-details" data-method="setAbility" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Player.setAbility(primary: boolean, active: boolean): void</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Activa o desactiva las habilidades especiales del arma equipada. Cada arma tiene dos habilidades (primaria y secundaria) que se pueden activar consumiendo maná o stamina. Las habilidades activadas se ejecutan en el siguiente golpe.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">primary</code>
+                                                    <span class="parameter-type">boolean</span>
+                                                    <div class="parameter-description">true para habilidad primaria, false para habilidad secundaria</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">active</code>
+                                                    <span class="parameter-type">boolean</span>
+                                                    <div class="parameter-description">true para activar, false para desactivar</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Activar habilidad primaria
+player.setAbility(true, true);
+client.sysMsg('Habilidad primaria activada', 66);
+
+// Desactivar habilidad primaria
+player.setAbility(true, false);
+
+// Activar habilidad secundaria
+player.setAbility(false, true);
+client.sysMsg('Habilidad secundaria activada', 85);
+
+// Sistema de rotación de habilidades
+function usarHabilidadPrimaria() {
+    if (player.mana >= 10 && player.stamina >= 20) {
+        player.setAbility(true, true);
+        client.headMsg(`Usando: ${Abilities[player.primaryAbility]}`, player, 66);
+        return true;
+    } else {
+        client.sysMsg('Recursos insuficientes para habilidad', 33);
+        return false;
+    }
+}
+
+function usarHabilidadSecundaria() {
+    if (player.mana >= 10 && player.stamina >= 20) {
+        player.setAbility(false, true);
+        client.headMsg(`Usando: ${Abilities[player.secondaryAbility]}`, player, 85);
+        return true;
+    } else {
+        client.sysMsg('Recursos insuficientes para habilidad', 33);
+        return false;
+    }
+}
+
+// Combate con habilidades alternadas
+let usarPrimaria = true;
+
+while (true) {
+    const enemigo = client.findType(0x0001, 10); // Buscar enemigo cercano
+
+    if (enemigo && enemigo.hits > 0) {
+        player.attack(enemigo);
+
+        // Alternar entre habilidades
+        if (usarPrimaria) {
+            usarHabilidadPrimaria();
+        } else {
+            usarHabilidadSecundaria();
+        }
+
+        usarPrimaria = !usarPrimaria; // Alternar para próximo golpe
+        sleep(2000); // Esperar cooldown
+    } else {
+        client.sysMsg('No hay enemigos', 85);
+        break;
+    }
+}
+
+// Desactivar todas las habilidades
+player.setAbility(true, false);
+player.setAbility(false, false);
+client.sysMsg('Habilidades desactivadas', 85);</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </section>
 

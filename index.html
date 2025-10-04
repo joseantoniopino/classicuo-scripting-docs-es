@@ -3031,6 +3031,1887 @@ if (player.tithingPoints >= puntosNecesarios) {
                     </div>
                 </div>
 
+                <!--Player Resistencias-->
+                <div class="subsection propiedades">
+                    <h3>🛡️ Resistencias</h3>
+                    <p>Las resistencias determinan la protección del jugador contra diferentes tipos de daño. Cada tipo de resistencia reduce el daño recibido de su respectivo elemento. Las resistencias actuales muestran la protección total obtenida del equipamiento y buffs, mientras que las resistencias máximas indican el límite que puede alcanzar el jugador según las reglas del servidor.</p>
+                    <div class="properties-table-container">
+                        <table class="properties-table">
+                            <thead>
+                            <tr>
+                                <th>Propiedad</th>
+                                <th>Tipo</th>
+                                <th>Descripción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="property-row" data-property="fireResistance">
+                                <td><code>Player.fireResistance</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Resistencia actual al fuego</td>
+                            </tr>
+                            <tr class="property-details" data-property="fireResistance" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Resistencia actual al fuego del jugador. Este valor representa la protección contra daño de fuego obtenida a través del equipamiento, buffs y habilidades. Valores más altos reducen significativamente el daño recibido de ataques basados en fuego, dragones, y hechizos de fuego.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Verificar resistencia al fuego antes de enfrentar dragones
+if (player.fireResistance >= 70) {
+    client.sysMsg('Resistencia al fuego alta - listo para dragones', 66);
+} else if (player.fireResistance >= 50) {
+    client.sysMsg('Resistencia al fuego media - ten cuidado', 85);
+} else {
+    client.headMsg('¡ADVERTENCIA! Resistencia al fuego baja', player, 33);
+    exit('Equipa mejor armadura antes de continuar');
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="coldResistance">
+                                <td><code>Player.coldResistance</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Resistencia actual al frío</td>
+                            </tr>
+                            <tr class="property-details" data-property="coldResistance" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Resistencia actual al frío del jugador. Este valor protege contra daño de hielo y frío, común en criaturas de hielo, hechizos de frío, y ciertas áreas del juego con clima extremo.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Sistema de advertencia para áreas de frío
+const resistenciaMinima = 60;
+
+if (player.coldResistance < resistenciaMinima) {
+    const faltante = resistenciaMinima - player.coldResistance;
+    client.headMsg(`Resistencia al frío baja (${player.coldResistance})`, player, 33);
+    client.sysMsg(`Necesitas ${faltante} puntos más para estar seguro`, 85);
+} else {
+    client.sysMsg(`Resistencia al frío: ${player.coldResistance} - Óptimo`, 66);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="poisonResistance">
+                                <td><code>Player.poisonResistance</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Resistencia actual al veneno</td>
+                            </tr>
+                            <tr class="property-details" data-property="poisonResistance" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Resistencia actual al veneno del jugador. Reduce tanto el daño recibido de ataques venenosos como la duración de los efectos de envenenamiento. Es crucial para enfrentar criaturas venenosas y jugadores que usan armas envenenadas.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Comprobar si tienes suficiente resistencia al veneno
+if (player.isPoisoned) {
+    const resPoison = player.poisonResistance;
+
+    if (resPoison >= 70) {
+        client.sysMsg('Envenenado, pero alta resistencia - poco peligro', 85);
+    } else if (resPoison >= 40) {
+        client.headMsg('Envenenado - resistencia media', player, 85);
+        // Usar cura si está disponible
+    } else {
+        client.headMsg('¡PELIGRO! Envenenado con baja resistencia', player, 33);
+        // Usar cura inmediatamente
+    }
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="energyResistance">
+                                <td><code>Player.energyResistance</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Resistencia actual a la energía</td>
+                            </tr>
+                            <tr class="property-details" data-property="energyResistance" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Resistencia actual a la energía del jugador. Protege contra daño de energía mágica, común en hechizos ofensivos como Energy Bolt, Lightning, y ataques de criaturas mágicas. Es especialmente importante en combate PvP contra magos.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Evaluar preparación para combate mágico
+function evaluarResistenciaMagica() {
+    const energyRes = player.energyResistance;
+    const fireRes = player.fireResistance;
+    const resistenciaPromedio = (energyRes + fireRes) / 2;
+
+    client.sysMsg(`Resistencia a Energía: ${energyRes}`, 85);
+    client.sysMsg(`Resistencia a Fuego: ${fireRes}`, 85);
+
+    if (resistenciaPromedio >= 65) {
+        client.sysMsg('Bien protegido contra ataques mágicos', 66);
+        return true;
+    } else {
+        client.headMsg('Vulnerable a hechizos - mejora tu equipo', player, 33);
+        return false;
+    }
+}
+
+evaluarResistenciaMagica();</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="physicalResistance">
+                                <td><code>Player.physicalResistance</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Resistencia física actual</td>
+                            </tr>
+                            <tr class="property-details" data-property="physicalResistance" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Resistencia física actual del jugador. Reduce el daño recibido de ataques cuerpo a cuerpo y proyectiles físicos como flechas. Es la resistencia más importante para guerreros y personajes de combate cercano.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Verificar resistencias antes de entrar en combate
+function verificarArmadura() {
+    const resists = {
+        fisica: player.physicalResistance,
+        fuego: player.fireResistance,
+        frio: player.coldResistance,
+        veneno: player.poisonResistance,
+        energia: player.energyResistance
+    };
+
+    client.sysMsg('=== Estado de Resistencias ===', 66);
+
+    for (const [tipo, valor] of Object.entries(resists)) {
+        const color = valor >= 60 ? 66 : valor >= 40 ? 85 : 33;
+        client.sysMsg(`${tipo.toUpperCase()}: ${valor}`, color);
+    }
+
+    const resistenciaMinima = Math.min(...Object.values(resists));
+    if (resistenciaMinima < 40) {
+        client.headMsg('¡Tienes resistencias muy bajas!', player, 33);
+        return false;
+    }
+
+    return true;
+}
+
+if (!verificarArmadura()) {
+    exit('Mejora tu equipamiento antes de continuar');
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="maxFireResistence">
+                                <td><code>Player.maxFireResistence</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Resistencia máxima al fuego</td>
+                            </tr>
+                            <tr class="property-details" data-property="maxFireResistence" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Resistencia máxima al fuego que puede alcanzar el jugador. Este valor representa el límite superior establecido por las reglas del servidor, típicamente 70 para jugadores normales, pero puede aumentarse con ciertos buffs, hechizos de protección o equipamiento especial.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Verificar si las resistencias están al máximo
+const resistenciaActual = player.fireResistance;
+const resistenciaMaxima = player.maxFireResistence;
+const porcentajeCap = (resistenciaActual / resistenciaMaxima * 100).toFixed(1);
+
+client.sysMsg(`Resistencia al Fuego: ${resistenciaActual}/${resistenciaMaxima} (${porcentajeCap}%)`, 85);
+
+if (resistenciaActual >= resistenciaMaxima) {
+    client.headMsg('¡Resistencia al fuego al máximo!', player, 66);
+} else {
+    const faltante = resistenciaMaxima - resistenciaActual;
+    client.sysMsg(`Te faltan ${faltante} puntos para alcanzar el máximo`, 85);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="maxColdResistence">
+                                <td><code>Player.maxColdResistence</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Resistencia máxima al frío</td>
+                            </tr>
+                            <tr class="property-details" data-property="maxColdResistence" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Resistencia máxima al frío que puede alcanzar el jugador. Define el límite superior de protección contra daño de frío que puedes obtener mediante equipamiento y buffs.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Mostrar estado de resistencia al frío
+const coldCurrent = player.coldResistance;
+const coldMax = player.maxColdResistence;
+
+if (coldCurrent < coldMax) {
+    const mejoraPosible = coldMax - coldCurrent;
+    client.sysMsg(`Puedes mejorar tu resistencia al frío en ${mejoraPosible} puntos`, 85);
+    client.sysMsg('Considera usar hechizos de protección o mejor equipamiento', 85);
+} else {
+    client.headMsg('Resistencia al frío maximizada', player, 66);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="maxPoisonResistence">
+                                <td><code>Player.maxPoisonResistence</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Resistencia máxima al veneno</td>
+                            </tr>
+                            <tr class="property-details" data-property="maxPoisonResistence" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Resistencia máxima al veneno que puede alcanzar el jugador. Determina el límite superior de protección contra efectos de envenenamiento.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Sistema de evaluación de resistencias completo
+function mostrarEstadoResistencias() {
+    const resistencias = [
+        { nombre: 'Fuego', actual: player.fireResistance, max: player.maxFireResistence },
+        { nombre: 'Frío', actual: player.coldResistance, max: player.maxColdResistence },
+        { nombre: 'Veneno', actual: player.poisonResistance, max: player.maxPoisonResistence },
+        { nombre: 'Energía', actual: player.energyResistance, max: player.maxEnergyResistence },
+        { nombre: 'Física', actual: player.physicalResistance, max: player.maxPhysicResistence }
+    ];
+
+    client.sysMsg('═══ ESTADO DE RESISTENCIAS ═══', 66);
+
+    resistencias.forEach(res => {
+        const porcentaje = (res.actual / res.max * 100).toFixed(0);
+        const color = porcentaje >= 90 ? 66 : porcentaje >= 70 ? 85 : 33;
+        client.sysMsg(`${res.nombre}: ${res.actual}/${res.max} (${porcentaje}%)`, color);
+    });
+}
+
+mostrarEstadoResistencias();</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="maxEnergyResistence">
+                                <td><code>Player.maxEnergyResistence</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Resistencia máxima a la energía</td>
+                            </tr>
+                            <tr class="property-details" data-property="maxEnergyResistence" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Resistencia máxima a la energía que puede alcanzar el jugador. Define el límite superior de protección contra daño de energía mágica.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Verificar optimización de resistencias mágicas
+const energyPercent = (player.energyResistance / player.maxEnergyResistence * 100);
+const firePercent = (player.fireResistance / player.maxFireResistence * 100);
+
+client.sysMsg('=== Resistencias Mágicas ===', 66);
+client.sysMsg(`Energía: ${energyPercent.toFixed(0)}% del máximo`, 85);
+client.sysMsg(`Fuego: ${firePercent.toFixed(0)}% del máximo`, 85);
+
+const promedioMagico = (energyPercent + firePercent) / 2;
+
+if (promedioMagico >= 85) {
+    client.headMsg('¡Excelente protección mágica!', player, 66);
+} else {
+    client.sysMsg('Considera mejorar tu protección contra magia', 85);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="maxPhysicResistence">
+                                <td><code>Player.maxPhysicResistence</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Resistencia máxima física</td>
+                            </tr>
+                            <tr class="property-details" data-property="maxPhysicResistence" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Resistencia máxima física que puede alcanzar el jugador. Determina el límite superior de protección contra daño físico de ataques cuerpo a cuerpo y proyectiles.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Análisis de optimización de armadura
+function analizarArmadura() {
+    const fisicaActual = player.physicalResistance;
+    const fisicaMaxima = player.maxPhysicResistence;
+    const eficiencia = (fisicaActual / fisicaMaxima * 100);
+
+    client.sysMsg('=== ANÁLISIS DE ARMADURA ===', 66);
+    client.sysMsg(`Resistencia Física: ${fisicaActual}/${fisicaMaxima}`, 85);
+    client.sysMsg(`Eficiencia de armadura: ${eficiencia.toFixed(1)}%`, 85);
+
+    if (eficiencia >= 95) {
+        client.headMsg('¡Armadura óptima!', player, 66);
+        return 'EXCELENTE';
+    } else if (eficiencia >= 80) {
+        client.sysMsg('Armadura buena, pequeñas mejoras posibles', 85);
+        return 'BUENA';
+    } else if (eficiencia >= 60) {
+        client.headMsg('Armadura mejorable', player, 85);
+        return 'MEJORABLE';
+    } else {
+        client.headMsg('¡Armadura muy deficiente!', player, 33);
+        return 'DEFICIENTE';
+    }
+}
+
+const estadoArmadura = analizarArmadura();
+client.sysMsg(`Estado final: ${estadoArmadura}`, 66);</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!--Player Combat Stats-->
+                <div class="subsection propiedades">
+                    <h3>⚔️ Combat Stats</h3>
+                    <p>Propiedades relacionadas con el combate físico del jugador. Estas estadísticas determinan la efectividad en combate cuerpo a cuerpo, incluyendo el daño infligido, la probabilidad de acertar golpes, la capacidad de defenderse, la velocidad de ataque y las habilidades especiales del arma equipada. Estos valores se calculan en base al equipamiento actual y buffs activos.</p>
+                    <div class="properties-table-container">
+                        <table class="properties-table">
+                            <thead>
+                            <tr>
+                                <th>Propiedad</th>
+                                <th>Tipo</th>
+                                <th>Descripción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="property-row" data-property="damageMin">
+                                <td><code>Player.damageMin</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Daño mínimo del arma equipada</td>
+                            </tr>
+                            <tr class="property-details" data-property="damageMin" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Daño mínimo que puede infligir el arma equipada actualmente. Este valor representa el límite inferior del rango de daño que harás en cada golpe exitoso en combate cuerpo a cuerpo.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Mostrar información de daño del arma equipada
+if (player.equippedItems.oneHanded || player.equippedItems.twoHanded) {
+    client.sysMsg(`Daño del arma: ${player.damageMin}-${player.damageMax}`, 66);
+
+    const promedioBase = (player.damageMin + player.damageMax) / 2;
+    client.sysMsg(`Daño promedio base: ${promedioBase.toFixed(1)}`, 85);
+} else {
+    client.headMsg('No tienes arma equipada', player, 33);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="damageMax">
+                                <td><code>Player.damageMax</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Daño máximo del arma equipada</td>
+                            </tr>
+                            <tr class="property-details" data-property="damageMax" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Daño máximo que puede infligir el arma equipada actualmente. Este valor representa el límite superior del rango de daño que puedes hacer en cada golpe exitoso. El daño real en cada ataque será un valor aleatorio entre damageMin y damageMax.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Evaluar si el arma es adecuada para el combate
+const rangoDamage = player.damageMax - player.damageMin;
+const consistencia = (player.damageMin / player.damageMax * 100).toFixed(1);
+
+client.sysMsg(`Rango de daño: ${rangoDamage} puntos`, 85);
+client.sysMsg(`Consistencia: ${consistencia}% del máximo`, 85);
+
+if (player.damageMax >= 30) {
+    client.headMsg('Arma de alto daño equipada', player, 66);
+} else if (player.damageMax >= 15) {
+    client.sysMsg('Arma de daño moderado', 85);
+} else {
+    client.headMsg('Arma de bajo daño - considera mejorar', player, 33);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="damageIncrease">
+                                <td><code>Player.damageIncrease</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Aumento de daño porcentual</td>
+                            </tr>
+                            <tr class="property-details" data-property="damageIncrease" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Porcentaje de aumento de daño total acumulado del equipamiento y buffs. Este modificador se aplica al daño base del arma, incrementando el daño final de cada golpe. Valores más altos significan mayor daño en combate físico.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Calcular daño efectivo con bonificaciones
+const damageBase = (player.damageMin + player.damageMax) / 2;
+const damageConBonus = damageBase * (1 + player.damageIncrease / 100);
+
+client.sysMsg('=== ANÁLISIS DE DAÑO ===', 66);
+client.sysMsg(`Daño base promedio: ${damageBase.toFixed(1)}`, 85);
+client.sysMsg(`Aumento de daño: +${player.damageIncrease}%`, 85);
+client.sysMsg(`Daño efectivo: ${damageConBonus.toFixed(1)}`, 66);
+
+if (player.damageIncrease >= 100) {
+    client.headMsg('¡Daño maximizado!', player, 66);
+} else {
+    const restante = 100 - player.damageIncrease;
+    client.sysMsg(`Puedes mejorar tu daño en ${restante}%`, 85);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="hitChanceIncrease">
+                                <td><code>Player.hitChanceIncrease</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Aumento de probabilidad de golpe</td>
+                            </tr>
+                            <tr class="property-details" data-property="hitChanceIncrease" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Porcentaje de aumento en la probabilidad de acertar golpes al enemigo. Este valor mejora tu precisión en combate, haciendo que falles menos ataques. Es especialmente importante contra enemigos con alta defensa.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Evaluar efectividad en combate
+function evaluarCombate() {
+    const hit = player.hitChanceIncrease;
+    const damage = player.damageIncrease;
+    const swing = player.swingSpeedIncrease;
+
+    client.sysMsg('=== ESTADÍSTICAS DE COMBATE ===', 66);
+    client.sysMsg(`Probabilidad de golpe: +${hit}%`, 85);
+    client.sysMsg(`Aumento de daño: +${damage}%`, 85);
+    client.sysMsg(`Velocidad de ataque: +${swing}%`, 85);
+
+    // Evaluar balance
+    if (hit >= 45) {
+        client.sysMsg('Excelente precisión', 66);
+    } else if (hit >= 25) {
+        client.sysMsg('Precisión adecuada', 85);
+    } else {
+        client.headMsg('Baja precisión - considera equipo con HCI', player, 33);
+    }
+}
+
+evaluarCombate();</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="defenseChanceIncrease">
+                                <td><code>Player.defenseChanceIncrease</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Aumento de probabilidad de defensa</td>
+                            </tr>
+                            <tr class="property-details" data-property="defenseChanceIncrease" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Porcentaje de aumento en la probabilidad de esquivar o parar ataques enemigos. Este valor mejora tu capacidad defensiva en combate, permitiéndote evitar más golpes. Es crucial para personajes tanque o de combate cercano.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Verificar capacidades defensivas
+const dci = player.defenseChanceIncrease;
+const maxDci = player.maxDefenseChanceIncrease;
+
+client.sysMsg(`Defensa: ${dci}/${maxDci} (+${dci}%)`, 85);
+
+if (dci >= maxDci) {
+    client.headMsg('¡Defensa maximizada!', player, 66);
+} else if (dci >= maxDci * 0.8) {
+    client.sysMsg('Buena capacidad defensiva', 66);
+} else {
+    const mejora = maxDci - dci;
+    client.headMsg(`Puedes mejorar defensa en ${mejora}%`, player, 85);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="maxDefenseChanceIncrease">
+                                <td><code>Player.maxDefenseChanceIncrease</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Máximo aumento de defensa alcanzable</td>
+                            </tr>
+                            <tr class="property-details" data-property="maxDefenseChanceIncrease" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Límite máximo de aumento de probabilidad de defensa que puede alcanzar el jugador. Este valor representa el cap establecido por las reglas del servidor, típicamente 45% para PvM (combate contra monstruos) y 70% para personajes con Wrestling o Anatomy + Evaluating Intelligence.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Análisis completo de capacidades de combate
+function analizarCapacidadesCombate() {
+    const stats = {
+        hit: { actual: player.hitChanceIncrease, max: 45 },
+        defense: { actual: player.defenseChanceIncrease, max: player.maxDefenseChanceIncrease },
+        damage: { actual: player.damageIncrease, max: 100 },
+        swing: { actual: player.swingSpeedIncrease, max: 60 }
+    };
+
+    client.sysMsg('═══ ANÁLISIS DE COMBATE ═══', 66);
+
+    for (const [nombre, valor] of Object.entries(stats)) {
+        const porcentaje = (valor.actual / valor.max * 100).toFixed(0);
+        const color = porcentaje >= 90 ? 66 : porcentaje >= 70 ? 85 : 33;
+        client.sysMsg(
+            `${nombre.toUpperCase()}: ${valor.actual}/${valor.max} (${porcentaje}%)`,
+            color
+        );
+    }
+}
+
+analizarCapacidadesCombate();</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="swingSpeedIncrease">
+                                <td><code>Player.swingSpeedIncrease</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Aumento de velocidad de ataque</td>
+                            </tr>
+                            <tr class="property-details" data-property="swingSpeedIncrease" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Porcentaje de aumento en la velocidad de ataque (Swing Speed Increase o SSI). Este valor reduce el tiempo entre golpes consecutivos, permitiéndote atacar más rápidamente. El máximo efectivo suele ser 60%, y se combina con la destreza para determinar la velocidad de ataque final.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Calcular DPS aproximado (daño por segundo)
+function calcularDPS() {
+    const damagePromedio = (player.damageMin + player.damageMax) / 2;
+    const damageConBonus = damagePromedio * (1 + player.damageIncrease / 100);
+
+    // SSI afecta la velocidad de golpe
+    const ssi = player.swingSpeedIncrease;
+    const velocidadBase = 1.25; // Segundos entre golpes (ejemplo)
+    const velocidadFinal = velocidadBase / (1 + ssi / 100);
+
+    const dps = damageConBonus / velocidadFinal;
+
+    client.sysMsg('=== CÁLCULO DE DPS ===', 66);
+    client.sysMsg(`Daño promedio: ${damageConBonus.toFixed(1)}`, 85);
+    client.sysMsg(`SSI: ${ssi}% (cap: 60%)`, 85);
+    client.sysMsg(`DPS aproximado: ${dps.toFixed(1)}`, 66);
+
+    if (ssi >= 60) {
+        client.headMsg('Velocidad de ataque maximizada', player, 66);
+    } else {
+        client.sysMsg(`Puedes mejorar SSI en ${60 - ssi}%`, 85);
+    }
+}
+
+calcularDPS();</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="luck">
+                                <td><code>Player.luck</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Suerte del jugador</td>
+                            </tr>
+                            <tr class="property-details" data-property="luck" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Valor de suerte (Luck) del jugador obtenido del equipamiento. La suerte aumenta la probabilidad de obtener mejor loot de los enemigos derrotados, incluyendo items mágicos, recursos raros y oro. Valores más altos mejoran la calidad y cantidad del botín.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Mostrar información de suerte antes de farmear
+if (player.luck >= 1000) {
+    client.headMsg(`¡Alta suerte! (${player.luck})`, player, 66);
+    client.sysMsg('Excelente para farmear items raros', 66);
+} else if (player.luck >= 500) {
+    client.sysMsg(`Suerte media: ${player.luck}`, 85);
+    client.sysMsg('Considera usar equipo con más luck', 85);
+} else if (player.luck > 0) {
+    client.headMsg(`Suerte baja: ${player.luck}`, player, 33);
+    client.sysMsg('Equipa items con luck para mejorar drops', 85);
+} else {
+    client.headMsg('Sin bonus de suerte', player, 33);
+    client.sysMsg('Usa equipo con luck para mejores recompensas', 85);
+}
+
+// Mostrar suerte junto con estadísticas de combate
+client.sysMsg('═══════════════════════', 85);
+client.sysMsg(`Gold actual: ${player.gold}`, 66);
+client.sysMsg(`Luck: ${player.luck}`, 85);</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="primaryAbility">
+                                <td><code>Player.primaryAbility</code></td>
+                                <td><span class="parameter-type">Abilities</span></td>
+                                <td class="property-description">Habilidad primaria del arma equipada</td>
+                            </tr>
+                            <tr class="property-details" data-property="primaryAbility" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Habilidad especial primaria del arma equipada actualmente. Cada arma en Ultima Online tiene dos habilidades especiales (primaria y secundaria) que pueden activarse consumiendo maná o stamina. Las habilidades primarias suelen ser ofensivas y específicas del tipo de arma.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Verificar y activar habilidad primaria del arma
+if (player.equippedItems.oneHanded || player.equippedItems.twoHanded) {
+    const primaryAb = player.primaryAbility;
+    const secondaryAb = player.secondaryAbility;
+
+    client.sysMsg('=== HABILIDADES DEL ARMA ===', 66);
+    client.sysMsg(`Primaria: ${Abilities[primaryAb] || 'Ninguna'}`, 85);
+    client.sysMsg(`Secundaria: ${Abilities[secondaryAb] || 'Ninguna'}`, 85);
+
+    // Activar habilidad primaria si hay suficiente maná
+    if (player.mana >= 20) {
+        player.setAbility(true, true); // Activar primaria
+        client.headMsg('Habilidad primaria activada', player, 66);
+    } else {
+        client.headMsg('Maná insuficiente para habilidad', player, 33);
+    }
+} else {
+    client.sysMsg('No tienes arma equipada', 33);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="secondaryAbility">
+                                <td><code>Player.secondaryAbility</code></td>
+                                <td><span class="parameter-type">Abilities</span></td>
+                                <td class="property-description">Habilidad secundaria del arma equipada</td>
+                            </tr>
+                            <tr class="property-details" data-property="secondaryAbility" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Habilidad especial secundaria del arma equipada actualmente. Las habilidades secundarias suelen tener efectos tácticos diferentes a las primarias, como desarmar, aturdir, o aplicar efectos especiales. Se activan mediante el método setAbility().</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Sistema de alternancia entre habilidades
+function usarHabilidadArma(usarPrimaria) {
+    if (!player.equippedItems.oneHanded && !player.equippedItems.twoHanded) {
+        client.headMsg('No hay arma equipada', player, 33);
+        return false;
+    }
+
+    const primaryAb = player.primaryAbility;
+    const secondaryAb = player.secondaryAbility;
+    const habilidad = usarPrimaria ? primaryAb : secondaryAb;
+    const nombre = usarPrimaria ? 'Primaria' : 'Secundaria';
+
+    // Verificar recursos
+    const costoMana = 20; // Aproximado
+    const costoStamina = 30; // Aproximado
+
+    if (player.mana >= costoMana && player.stamina >= costoStamina) {
+        player.setAbility(usarPrimaria, true);
+        client.headMsg(`Habilidad ${nombre} activada: ${Abilities[habilidad]}`, player, 66);
+        return true;
+    } else {
+        client.headMsg(`Recursos insuficientes para habilidad ${nombre}`, player, 33);
+        return false;
+    }
+}
+
+// Usar habilidad secundaria
+usarHabilidadArma(false);</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!--Player Propiedades Mágicas-->
+                <div class="subsection propiedades">
+                    <h3>✨ Propiedades Mágicas</h3>
+                    <p>Propiedades que afectan el uso de magia y hechizos del jugador. Estas estadísticas son fundamentales para personajes magos, permitiendo lanzar hechizos más rápidamente, reducir costos de maná y reactivos, y aumentar el daño de los hechizos. Los valores se obtienen del equipamiento y buffs activos.</p>
+                    <div class="properties-table-container">
+                        <table class="properties-table">
+                            <thead>
+                            <tr>
+                                <th>Propiedad</th>
+                                <th>Tipo</th>
+                                <th>Descripción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="property-row" data-property="fasterCasting">
+                                <td><code>Player.fasterCasting</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Reducción del tiempo de casteo de hechizos</td>
+                            </tr>
+                            <tr class="property-details" data-property="fasterCasting" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Nivel de Faster Casting (FC) que reduce el tiempo de casteo de hechizos. El máximo efectivo es FC 2 para la mayoría de situaciones, aunque ciertos builds pueden alcanzar FC 4 o FC 6. Cada nivel de FC reduce significativamente el tiempo que tardas en lanzar un hechizo, siendo crucial para magos en combate PvP y PvM.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Verificar optimización de stats mágicos
+const fc = player.fasterCasting;
+const fcr = player.fasterCastRecovery;
+
+client.sysMsg('=== STATS MÁGICOS ===', 66);
+client.sysMsg(`Faster Casting: ${fc}/2 (óptimo)`, fc >= 2 ? 66 : 85);
+client.sysMsg(`Faster Cast Recovery: ${fcr}/6`, fcr >= 6 ? 66 : 85);
+
+if (fc >= 2 && fcr >= 6) {
+    client.headMsg('¡Stats de casteo maximizados!', player, 66);
+} else if (fc < 2) {
+    client.headMsg(`Necesitas ${2 - fc} FC más`, player, 85);
+} else if (fcr < 6) {
+    client.headMsg(`Necesitas ${6 - fcr} FCR más`, player, 85);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="fasterCastRecovery">
+                                <td><code>Player.fasterCastRecovery</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Reducción del tiempo de recuperación tras castear</td>
+                            </tr>
+                            <tr class="property-details" data-property="fasterCastRecovery" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Nivel de Faster Cast Recovery (FCR) que reduce el tiempo de recuperación después de lanzar un hechizo. El máximo efectivo es FCR 6, que permite castear hechizos en rápida sucesión. Mientras que FC reduce el tiempo de casteo en sí, FCR reduce el tiempo de espera entre hechizos, siendo ambos esenciales para maximizar el DPS mágico.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Análisis de eficiencia de casteo
+function analizarEficienciaMagica() {
+    const fc = player.fasterCasting;
+    const fcr = player.fasterCastRecovery;
+    const lmc = player.lowerManaCost;
+    const sdi = player.spellDamageIncrease;
+
+    client.sysMsg('═══ ANÁLISIS DE MAGO ═══', 66);
+
+    // Velocidad de casteo
+    const velocidadOptima = (fc >= 2 && fcr >= 6);
+    client.sysMsg(`FC: ${fc}/2 | FCR: ${fcr}/6`, velocidadOptima ? 66 : 33);
+
+    // Eficiencia de maná
+    client.sysMsg(`LMC: ${lmc}% (cap: 40%)`, lmc >= 40 ? 66 : 85);
+
+    // Daño mágico
+    client.sysMsg(`SDI: ${sdi}% (variable por server)`, sdi >= 100 ? 66 : 85);
+
+    if (velocidadOptima && lmc >= 40) {
+        client.headMsg('¡Build de mago optimizado!', player, 66);
+    } else {
+        client.sysMsg('Hay margen de mejora en tu equipamiento', 85);
+    }
+}
+
+analizarEficienciaMagica();</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="lowerManaCost">
+                                <td><code>Player.lowerManaCost</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Reducción porcentual del coste de maná</td>
+                            </tr>
+                            <tr class="property-details" data-property="lowerManaCost" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Porcentaje de Lower Mana Cost (LMC) que reduce el coste de maná de todos los hechizos. El máximo efectivo es 40%, lo que reduce significativamente el consumo de maná en combate prolongado. Es una propiedad esencial para magos, permitiendo lanzar más hechizos antes de quedarse sin maná.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Calcular eficiencia de maná
+const lmc = player.lowerManaCost;
+const manaActual = player.mana;
+const manaMax = player.maxMana;
+
+// Ejemplo: Energy Bolt cuesta 20 de maná base
+const costBase = 20;
+const costReal = Math.floor(costBase * (1 - lmc / 100));
+const hechizosDisponibles = Math.floor(manaActual / costReal);
+
+client.sysMsg('=== EFICIENCIA DE MANÁ ===', 66);
+client.sysMsg(`LMC: ${lmc}% (cap: 40%)`, lmc >= 40 ? 66 : 85);
+client.sysMsg(`Coste Energy Bolt: ${costBase} → ${costReal} maná`, 85);
+client.sysMsg(`Maná: ${manaActual}/${manaMax}`, 85);
+client.sysMsg(`Energy Bolts disponibles: ${hechizosDisponibles}`, 66);
+
+if (lmc < 40) {
+    const mejora = 40 - lmc;
+    client.headMsg(`Puedes mejorar LMC en ${mejora}%`, player, 85);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="lowerReagentCost">
+                                <td><code>Player.lowerReagentCost</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Reducción porcentual del coste de reactivos</td>
+                            </tr>
+                            <tr class="property-details" data-property="lowerReagentCost" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Porcentaje de Lower Reagent Cost (LRC) que reduce la probabilidad de consumir reactivos al lanzar hechizos. El máximo es 100%, lo que elimina completamente el consumo de reactivos, permitiendo lanzar hechizos indefinidamente sin necesidad de recargar reactivos. Es una propiedad altamente valorada por magos para reducir costos operativos.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Verificar ahorro de reactivos
+const lrc = player.lowerReagentCost;
+
+client.sysMsg('=== LOWER REAGENT COST ===', 66);
+
+if (lrc >= 100) {
+    client.headMsg('¡LRC 100% - Sin gasto de reactivos!', player, 66);
+    client.sysMsg('No necesitas cargar reactivos', 66);
+} else if (lrc >= 80) {
+    client.sysMsg(`LRC: ${lrc}% - Bajo consumo de reactivos`, 85);
+    client.sysMsg(`${100 - lrc}% de probabilidad de consumir`, 85);
+} else if (lrc >= 50) {
+    client.sysMsg(`LRC: ${lrc}% - Consumo moderado`, 85);
+    client.headMsg('Lleva reactivos de respaldo', player, 85);
+} else {
+    client.headMsg(`LRC: ${lrc}% - Alto consumo de reactivos`, player, 33);
+    client.sysMsg('Considera mejorar tu equipamiento con LRC', 85);
+}
+
+// Verificar si tienes reactivos en la mochila
+if (lrc < 100 && player.backpack) {
+    const blackPearl = client.findType(0x0f7a, -1, player.backpack);
+    if (blackPearl) {
+        client.sysMsg(`Black Pearls en mochila: ${blackPearl.amount}`, 66);
+    } else {
+        client.headMsg('¡Sin reactivos! Compra antes de castear', player, 33);
+    }
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="spellDamageIncrease">
+                                <td><code>Player.spellDamageIncrease</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Aumento de daño de hechizos</td>
+                            </tr>
+                            <tr class="property-details" data-property="spellDamageIncrease" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Porcentaje de Spell Damage Increase (SDI) que aumenta el daño infligido por hechizos ofensivos. El cap varía según el servidor y el tipo de personaje (típicamente 100% para magos puros en PvM, 15-30% en PvP). Es la estadística más importante para maximizar el daño mágico, complementándose con la inteligencia base del jugador.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Calcular DPS mágico aproximado
+function calcularDPSMagico() {
+    const sdi = player.spellDamageIncrease;
+    const int = player.intelligence;
+    const fc = player.fasterCasting;
+    const fcr = player.fasterCastRecovery;
+
+    // Energy Bolt: daño base ~40 puntos
+    const damageBase = 40;
+    const damageConSDI = damageBase * (1 + sdi / 100);
+
+    // Velocidad de casteo (simplificado)
+    const tiempoEntreCasts = fc >= 2 && fcr >= 6 ? 1.25 : 2.0;
+    const dps = damageConSDI / tiempoEntreCasts;
+
+    client.sysMsg('═══ DPS MÁGICO (Energy Bolt) ═══', 66);
+    client.sysMsg(`INT: ${int} | SDI: ${sdi}%`, 85);
+    client.sysMsg(`Daño base: ${damageBase}`, 85);
+    client.sysMsg(`Daño con SDI: ${damageConSDI.toFixed(1)}`, 66);
+    client.sysMsg(`DPS aproximado: ${dps.toFixed(1)}`, 66);
+
+    // Evaluación
+    if (sdi >= 100) {
+        client.headMsg('¡SDI maximizado para PvM!', player, 66);
+    } else if (sdi >= 50) {
+        client.sysMsg('SDI bueno, pero mejorable', 85);
+    } else {
+        client.headMsg('SDI bajo - equipa items con SDI', player, 33);
+    }
+}
+
+calcularDPSMagico();</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!--Player Información de Posición y Estado-->
+                <div class="subsection propiedades">
+                    <h3>📍 Información de Posición y Estado</h3>
+                    <p>Propiedades que definen la ubicación, apariencia y estado actual del jugador en el mundo del juego. Incluyen coordenadas de posición, dirección, identificadores gráficos, notoriedad, estados de combate y una referencia completa a todos los items equipados actualmente.</p>
+                    <div class="properties-table-container">
+                        <table class="properties-table">
+                            <thead>
+                            <tr>
+                                <th>Propiedad</th>
+                                <th>Tipo</th>
+                                <th>Descripción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="property-row" data-property="x">
+                                <td><code>Player.x</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Coordenada X del jugador</td>
+                            </tr>
+                            <tr class="property-details" data-property="x" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Coordenada X actual del jugador en el mundo. Retorna 0 si la entidad ya no está en pantalla. Este valor se actualiza automáticamente al moverse y es fundamental para navegación, cálculo de distancias y posicionamiento.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Mostrar posición actual del jugador
+client.sysMsg(`Posición: ${player.x}, ${player.y}, ${player.z}`, 66);
+client.sysMsg(`Mapa: ${player.map} | Dirección: ${Directions[player.direction]}`, 85);
+
+// Calcular distancia a un objetivo
+const targetX = 2500;
+const targetY = 1500;
+const distancia = Math.sqrt(
+    Math.pow(player.x - targetX, 2) +
+    Math.pow(player.y - targetY, 2)
+);
+client.sysMsg(`Distancia al objetivo: ${distancia.toFixed(1)} tiles`, 85);</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="y">
+                                <td><code>Player.y</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Coordenada Y del jugador</td>
+                            </tr>
+                            <tr class="property-details" data-property="y" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Coordenada Y actual del jugador en el mundo. Retorna 0 si la entidad ya no está en pantalla. Junto con X y Z, define la posición tridimensional exacta del personaje.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Guardar posición para recall
+const posicionRecall = {
+    x: player.x,
+    y: player.y,
+    z: player.z,
+    map: player.map
+};
+
+client.sysMsg(`Posición guardada: ${posicionRecall.x}, ${posicionRecall.y}`, 66);
+client.sysMsg(`Usa esta información para crear runes de recall`, 85);</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="z">
+                                <td><code>Player.z</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Coordenada Z del jugador (altura)</td>
+                            </tr>
+                            <tr class="property-details" data-property="z" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Coordenada Z actual del jugador (altura/elevación). Retorna 0 si la entidad ya no está en pantalla. Este valor indica la elevación vertical del personaje, importante para navegación en edificios y terreno irregular.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Verificar si estás en un piso específico de un edificio
+if (player.z > 20) {
+    client.headMsg('Estás en un piso superior', player, 66);
+} else if (player.z < 0) {
+    client.headMsg('Estás bajo tierra', player, 85);
+} else {
+    client.sysMsg('Nivel del suelo', 66);
+}
+
+// Información completa de posición
+client.sysMsg(`═══ POSICIÓN COMPLETA ═══`, 66);
+client.sysMsg(`Coordenadas: ${player.x}, ${player.y}, ${player.z}`, 85);
+client.sysMsg(`Mapa: ${player.map}`, 85);
+client.sysMsg(`Dirección: ${Directions[player.direction]}`, 85);</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="direction">
+                                <td><code>Player.direction</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Dirección hacia la que mira (0-7)</td>
+                            </tr>
+                            <tr class="property-details" data-property="direction" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Dirección hacia la que está mirando el jugador, expresada como número del 0 al 7. Retorna 0 si el cliente no conoce la dirección o la entidad ya no está en pantalla. Se debe comparar usando el enum Directions (North, Northeast, East, Southeast, South, Southwest, West, Northwest).</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Verificar dirección del jugador
+if (player.direction === Directions.North) {
+    client.sysMsg('Mirando al Norte', 66);
+} else {
+    const nombreDireccion = Directions[player.direction];
+    client.sysMsg(`Mirando al ${nombreDireccion}`, 85);
+}
+
+// Girar hacia una dirección específica
+function mirarHacia(direccion) {
+    if (player.direction !== direccion) {
+        player.run(direccion); // Gira sin moverse si ya estás bloqueado
+        client.sysMsg(`Girando hacia ${Directions[direccion]}`, 85);
+    } else {
+        client.sysMsg('Ya estás mirando en esa dirección', 66);
+    }
+}
+
+// Mirar al Este
+mirarHacia(Directions.East);</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="map">
+                                <td><code>Player.map</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">ID del mapa actual</td>
+                            </tr>
+                            <tr class="property-details" data-property="map" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Identificador numérico del mapa/faceta donde se encuentra actualmente el jugador. Los valores típicos son: 0 (Felucca), 1 (Trammel), 2 (Ilshenar), 3 (Malas), 4 (Tokuno), 5 (Ter Mur). Este valor es esencial para navegación y sistemas de recall/gate.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Identificar mapa actual
+const mapNames = {
+    0: 'Felucca',
+    1: 'Trammel',
+    2: 'Ilshenar',
+    3: 'Malas',
+    4: 'Tokuno',
+    5: 'Ter Mur'
+};
+
+const mapaActual = mapNames[player.map] || `Mapa ${player.map}`;
+client.sysMsg(`Ubicación: ${mapaActual}`, 66);
+
+// Verificar si estás en Felucca (PvP)
+if (player.map === 0) {
+    client.headMsg('¡CUIDADO! Estás en Felucca (zona PvP)', player, 33);
+} else if (player.map === 1) {
+    client.sysMsg('Estás en Trammel (zona segura)', 66);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="graphic">
+                                <td><code>Player.graphic</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">ID gráfico del cuerpo del jugador</td>
+                            </tr>
+                            <tr class="property-details" data-property="graphic" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> ID gráfico del cuerpo/modelo del jugador. Retorna 0 si la entidad ya no está en pantalla. Ejemplos comunes: 400/401 (humano masculino/femenino), 605/606 (elfo), 666/667 (gárgola). Este valor determina la apariencia base del personaje.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Identificar tipo de raza
+const graphic = player.graphic;
+
+if (graphic === 400 || graphic === 401) {
+    client.sysMsg('Raza: Humano', 66);
+} else if (graphic === 605 || graphic === 606) {
+    client.sysMsg('Raza: Elfo', 66);
+} else if (graphic === 666 || graphic === 667) {
+    client.sysMsg('Raza: Gárgola', 66);
+    client.sysMsg('Puedes usar toggleFlying()', 85);
+} else {
+    client.sysMsg(`Graphic ID: ${graphic}`, 85);
+}
+
+client.sysMsg(`Género: ${player.isFemale ? 'Femenino' : 'Masculino'}`, 85);</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="hue">
+                                <td><code>Player.hue</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Color/tono del cuerpo del jugador</td>
+                            </tr>
+                            <tr class="property-details" data-property="hue" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Color o tono (hue) del cuerpo del jugador. Retorna 0 si la entidad ya no está en pantalla. Este valor determina el color de la piel del personaje y puede cambiar temporalmente por efectos de hechizos o transformaciones.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Verificar color del cuerpo
+client.sysMsg(`Hue del cuerpo: ${player.hue}`, 85);
+
+// Ejemplo de uso con items equipados
+if (player.equippedItems.robe) {
+    const robeItem = client.findObject(player.equippedItems.robe);
+    if (robeItem) {
+        client.sysMsg(`Túnica: ${robeItem.name}`, 66);
+        client.sysMsg(`Color de la túnica: ${robeItem.hue}`, 85);
+    }
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="name">
+                                <td><code>Player.name</code></td>
+                                <td><span class="parameter-type">string</span></td>
+                                <td class="property-description">Nombre del jugador</td>
+                            </tr>
+                            <tr class="property-details" data-property="name" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Nombre del jugador. Retorna una cadena vacía si aún no es conocido por el cliente. Esta propiedad es útil para identificación, logs y mensajes personalizados.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Mensaje de bienvenida personalizado
+client.sysMsg(`═══ Bienvenido ${player.name} ═══`, 66);
+client.sysMsg(`Vida: ${player.hits}/${player.maxHits}`, 85);
+client.sysMsg(`Maná: ${player.mana}/${player.maxMana}`, 85);
+client.sysMsg(`Posición: ${player.x}, ${player.y}, ${player.z}`, 85);
+
+// Log de acción
+client.sysMsg(`[${player.name}] Script iniciado correctamente`, 66);</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="notoriety">
+                                <td><code>Player.notoriety</code></td>
+                                <td><span class="parameter-type">Notorieties</span></td>
+                                <td class="property-description">Notoriedad (Innocent, Gray, Criminal, etc.)</td>
+                            </tr>
+                            <tr class="property-details" data-property="notoriety" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Notoriedad del jugador, que determina cómo es visto por otros jugadores y el sistema. Los valores posibles incluyen: Innocent (azul), Gray (gris), Criminal (gris con flag), Murderer (rojo), entre otros. Afecta las mecánicas de PvP y las consecuencias de tus acciones.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Verificar notoriedad antes de atacar
+const notorietyNames = {
+    1: 'Innocent (Azul)',
+    2: 'Ally (Verde)',
+    3: 'Gray (Atacable)',
+    4: 'Criminal (Gris)',
+    5: 'Enemy (Naranja)',
+    6: 'Murderer (Rojo)',
+    7: 'Invulnerable (Amarillo)'
+};
+
+const notoriety = notorietyNames[player.notoriety] || 'Desconocida';
+client.sysMsg(`Tu notoriedad: ${notoriety}`, 85);
+
+if (player.notoriety === Notorieties.Criminal) {
+    client.headMsg('¡ERES CRIMINAL! Guards te atacarán', player, 33);
+} else if (player.notoriety === Notorieties.Murderer) {
+    client.headMsg('¡ERES MURDERER! No puedes entrar en ciudades', player, 33);
+} else if (player.notoriety === Notorieties.Innocent) {
+    client.sysMsg('Estás limpio (Innocent)', 66);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="inWarMode">
+                                <td><code>Player.inWarMode</code></td>
+                                <td><span class="parameter-type">boolean</span></td>
+                                <td class="property-description">Si está en modo guerra</td>
+                            </tr>
+                            <tr class="property-details" data-property="inWarMode" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Indica si el jugador está actualmente en War Mode (modo guerra). En War Mode, el cursor cambia a espada y los clics atacan objetivos en lugar de interactuar con ellos. Es un estado fundamental para el combate.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Verificar modo de combate
+if (player.inWarMode) {
+    client.headMsg('Modo Guerra ACTIVADO', player, 33);
+    client.sysMsg('Listo para combate', 85);
+} else {
+    client.sysMsg('Modo Paz - Presiona TAB para War Mode', 66);
+}
+
+// Asegurar que estás en War Mode para atacar
+if (!player.inWarMode) {
+    client.headMsg('¡Activa War Mode antes de atacar!', player, 33);
+    client.sysMsg('Presiona TAB o usa el botón de War Mode', 85);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="isFemale">
+                                <td><code>Player.isFemale</code></td>
+                                <td><span class="parameter-type">boolean</span></td>
+                                <td class="property-description">Si es personaje femenino</td>
+                            </tr>
+                            <tr class="property-details" data-property="isFemale" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Indica si el personaje es femenino (true) o masculino (false). Esta propiedad determina el género del personaje y puede afectar ciertas mecánicas del juego y la apariencia del equipamiento.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Información del personaje
+const genero = player.isFemale ? 'Femenino' : 'Masculino';
+client.sysMsg(`═══ INFO DEL PERSONAJE ═══`, 66);
+client.sysMsg(`Nombre: ${player.name}`, 85);
+client.sysMsg(`Género: ${genero}`, 85);
+client.sysMsg(`Graphic ID: ${player.graphic}`, 85);</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="isParalyzed">
+                                <td><code>Player.isParalyzed</code></td>
+                                <td><span class="parameter-type">boolean</span></td>
+                                <td class="property-description">Si está paralizado</td>
+                            </tr>
+                            <tr class="property-details" data-property="isParalyzed" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Indica si el jugador está actualmente paralizado. Cuando está paralizado, no puede moverse ni realizar acciones hasta que el efecto termine. Común por hechizos como Paralyze o ataques especiales.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Verificar estados negativos
+if (player.isParalyzed) {
+    client.headMsg('¡PARALIZADO! No puedes moverte', player, 33);
+}
+
+if (player.isPoisoned) {
+    client.headMsg('¡ENVENENADO! Usa cura', player, 33);
+}
+
+// Sistema de auto-cura
+if (player.isParalyzed || player.isPoisoned) {
+    client.sysMsg('Estados negativos detectados', 33);
+    // Intentar curarse o pedir ayuda
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="isPoisoned">
+                                <td><code>Player.isPoisoned</code></td>
+                                <td><span class="parameter-type">boolean</span></td>
+                                <td class="property-description">Si está envenenado</td>
+                            </tr>
+                            <tr class="property-details" data-property="isPoisoned" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Indica si el jugador está envenenado (mostrado con hue verde). El envenenamiento causa daño periódico hasta ser curado con hechizos, pociones o vendajes con suficiente habilidad de Healing.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Sistema de auto-cura de veneno
+if (player.isPoisoned) {
+    client.headMsg('¡ENVENENADO!', player, 33);
+
+    // Intentar curarse con hechizo
+    if (player.mana >= 20) {
+        client.sysMsg('Casteando Cure...', 85);
+        player.castTo(Spells.Cure, player);
+    } else {
+        // Usar poción de cura si no hay maná
+        const curePotion = client.findType(0x0f07, -1, player.backpack);
+        if (curePotion) {
+            client.sysMsg('Usando poción de cura...', 85);
+            player.use(curePotion);
+        } else {
+            client.headMsg('¡Sin recursos para curar veneno!', player, 33);
+        }
+    }
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="isYellowHits">
+                                <td><code>Player.isYellowHits</code></td>
+                                <td><span class="parameter-type">boolean</span></td>
+                                <td class="property-description">Si tiene estado invulnerable (amarillo)</td>
+                            </tr>
+                            <tr class="property-details" data-property="isYellowHits" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Indica si el jugador tiene estado de invulnerabilidad (barra de vida amarilla). Este estado temporal hace que el jugador sea inmune al daño, común al entrar al juego o después de resucitar.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Verificar invulnerabilidad
+if (player.isYellowHits) {
+    client.headMsg('Invulnerable - Aprovecha para moverte', player, 66);
+    client.sysMsg('El estado terminará al atacar o tras unos segundos', 85);
+} else {
+    client.sysMsg('Estado normal - vulnerable a ataques', 85);
+}
+
+// Esperar a que termine invulnerabilidad antes de atacar
+while (player.isYellowHits) {
+    client.sysMsg('Esperando fin de invulnerabilidad...', 85);
+    sleep(1000);
+}
+client.sysMsg('Invulnerabilidad terminada', 66);</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="equippedItems">
+                                <td><code>Player.equippedItems</code></td>
+                                <td><span class="parameter-type">object</span></td>
+                                <td class="property-description">Items actualmente equipados</td>
+                            </tr>
+                            <tr class="property-details" data-property="equippedItems" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Objeto que contiene referencias a todos los items actualmente equipados por el jugador. Cada slot del cuerpo tiene su propia propiedad que retorna un objeto Item o undefined si el slot está vacío. Es fundamental para verificar equipamiento, gestionar items y optimizar builds.</p>
+
+                                        <h5>Slots de Equipamiento (23 slots):</h5>
+                                        <table class="equipment-slots-table">
+                                            <thead>
+                                            <tr>
+                                                <th>Slot</th>
+                                                <th>Tipo</th>
+                                                <th>Descripción</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td><span class="equipment-slot-name">Player.equippedItems.arms</span></td>
+                                                <td><span class="equipment-slot-type">Item</span></td>
+                                                <td><span class="equipment-slot-description">Brazaletes/Protección de brazos</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="equipment-slot-name">Player.equippedItems.beard</span></td>
+                                                <td><span class="equipment-slot-type">Item</span></td>
+                                                <td><span class="equipment-slot-description">Barba (solo masculino)</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="equipment-slot-name">Player.equippedItems.bracelet</span></td>
+                                                <td><span class="equipment-slot-type">Item</span></td>
+                                                <td><span class="equipment-slot-description">Brazalete</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="equipment-slot-name">Player.equippedItems.cloak</span></td>
+                                                <td><span class="equipment-slot-type">Item</span></td>
+                                                <td><span class="equipment-slot-description">Capa</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="equipment-slot-name">Player.equippedItems.earrings</span></td>
+                                                <td><span class="equipment-slot-type">Item</span></td>
+                                                <td><span class="equipment-slot-description">Pendientes</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="equipment-slot-name">Player.equippedItems.face</span></td>
+                                                <td><span class="equipment-slot-type">Item</span></td>
+                                                <td><span class="equipment-slot-description">Máscara/Cara</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="equipment-slot-name">Player.equippedItems.gloves</span></td>
+                                                <td><span class="equipment-slot-type">Item</span></td>
+                                                <td><span class="equipment-slot-description">Guantes</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="equipment-slot-name">Player.equippedItems.hair</span></td>
+                                                <td><span class="equipment-slot-type">Item</span></td>
+                                                <td><span class="equipment-slot-description">Pelo</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="equipment-slot-name">Player.equippedItems.helmet</span></td>
+                                                <td><span class="equipment-slot-type">Item</span></td>
+                                                <td><span class="equipment-slot-description">Casco/Yelmo</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="equipment-slot-name">Player.equippedItems.legs</span></td>
+                                                <td><span class="equipment-slot-type">Item</span></td>
+                                                <td><span class="equipment-slot-description">Protección de piernas</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="equipment-slot-name">Player.equippedItems.mount</span></td>
+                                                <td><span class="equipment-slot-type">Item</span></td>
+                                                <td><span class="equipment-slot-description">Montura</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="equipment-slot-name">Player.equippedItems.necklace</span></td>
+                                                <td><span class="equipment-slot-type">Item</span></td>
+                                                <td><span class="equipment-slot-description">Collar</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="equipment-slot-name">Player.equippedItems.oneHanded</span></td>
+                                                <td><span class="equipment-slot-type">Item</span></td>
+                                                <td><span class="equipment-slot-description">Arma de una mano</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="equipment-slot-name">Player.equippedItems.pants</span></td>
+                                                <td><span class="equipment-slot-type">Item</span></td>
+                                                <td><span class="equipment-slot-description">Pantalones</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="equipment-slot-name">Player.equippedItems.ring</span></td>
+                                                <td><span class="equipment-slot-type">Item</span></td>
+                                                <td><span class="equipment-slot-description">Anillo</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="equipment-slot-name">Player.equippedItems.robe</span></td>
+                                                <td><span class="equipment-slot-type">Item</span></td>
+                                                <td><span class="equipment-slot-description">Túnica/Robe</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="equipment-slot-name">Player.equippedItems.shirt</span></td>
+                                                <td><span class="equipment-slot-type">Item</span></td>
+                                                <td><span class="equipment-slot-description">Camisa</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="equipment-slot-name">Player.equippedItems.shoes</span></td>
+                                                <td><span class="equipment-slot-type">Item</span></td>
+                                                <td><span class="equipment-slot-description">Zapatos/Botas</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="equipment-slot-name">Player.equippedItems.skirt</span></td>
+                                                <td><span class="equipment-slot-type">Item</span></td>
+                                                <td><span class="equipment-slot-description">Falda</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="equipment-slot-name">Player.equippedItems.talisman</span></td>
+                                                <td><span class="equipment-slot-type">Item</span></td>
+                                                <td><span class="equipment-slot-description">Talismán</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="equipment-slot-name">Player.equippedItems.torso</span></td>
+                                                <td><span class="equipment-slot-type">Item</span></td>
+                                                <td><span class="equipment-slot-description">Pechera/Torso</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="equipment-slot-name">Player.equippedItems.tunic</span></td>
+                                                <td><span class="equipment-slot-type">Item</span></td>
+                                                <td><span class="equipment-slot-description">Túnica</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="equipment-slot-name">Player.equippedItems.twoHanded</span></td>
+                                                <td><span class="equipment-slot-type">Item</span></td>
+                                                <td><span class="equipment-slot-description">Arma de dos manos</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="equipment-slot-name">Player.equippedItems.waist</span></td>
+                                                <td><span class="equipment-slot-type">Item</span></td>
+                                                <td><span class="equipment-slot-description">Cinturón</span></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <div class="property-example">
+                                            <h5 style="margin-top: 20px">Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Verificar arma equipada
+if (player.equippedItems.oneHanded) {
+    const weapon = client.findObject(player.equippedItems.oneHanded);
+    if (weapon) {
+        client.sysMsg(`Arma equipada: ${weapon.name}`, 66);
+        client.sysMsg(`Daño: ${player.damageMin}-${player.damageMax}`, 85);
+    }
+} else if (player.equippedItems.twoHanded) {
+    const weapon = client.findObject(player.equippedItems.twoHanded);
+    if (weapon) {
+        client.sysMsg(`Arma a 2 manos: ${weapon.name}`, 66);
+    }
+} else {
+    client.headMsg('¡Sin arma equipada!', player, 33);
+}
+
+// Listar todo el equipamiento
+function mostrarEquipamiento() {
+    client.sysMsg('═══ EQUIPAMIENTO ═══', 66);
+
+    const slots = [
+        'helmet', 'necklace', 'earrings', 'torso', 'arms',
+        'gloves', 'ring', 'bracelet', 'legs', 'pants',
+        'shoes', 'cloak', 'robe', 'oneHanded', 'twoHanded'
+    ];
+
+    slots.forEach(slot => {
+        if (player.equippedItems[slot]) {
+            const item = client.findObject(player.equippedItems[slot]);
+            if (item) {
+                client.sysMsg(`${slot}: ${item.name}`, 85);
+            }
+        }
+    });
+}
+
+mostrarEquipamiento();
+
+// Desequipar túnica y guardarla en mochila
+if (player.equippedItems.robe && player.backpack) {
+    player.moveItem(player.equippedItems.robe, player.backpack);
+    client.sysMsg('Túnica guardada en mochila', 66);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
 
 
                 <div class="subsection metodos">

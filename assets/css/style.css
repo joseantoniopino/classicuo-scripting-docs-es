@@ -719,6 +719,62 @@ tr:hover {
     display: none;
 }
 
+/* CSS adicional para la tabla de equipamiento */
+.equipment-slots-table {
+    width: 100%;
+    margin-top: 15px;
+    border-collapse: collapse;
+    background: var(--bg-primary);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.equipment-slots-table thead {
+    background: var(--property-bg-hover);
+}
+
+.equipment-slots-table th {
+    color: var(--property-primary);
+    font-weight: 600;
+    padding: 10px 12px;
+    text-align: left;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--property-border);
+}
+
+.equipment-slots-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.9rem;
+}
+
+.equipment-slots-table tr:last-child td {
+    border-bottom: none;
+}
+
+.equipment-slots-table tr:hover {
+    background: var(--property-bg-hover);
+}
+
+.equipment-slot-name {
+    font-family: var(--font-mono);
+    color: var(--property-secondary);
+    font-weight: 600;
+}
+
+.equipment-slot-type {
+    font-family: var(--font-mono);
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+.equipment-slot-description {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
 /* ============================================================
    SMOOTH SCROLL
    ============================================================ */

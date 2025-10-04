@@ -8816,6 +8816,446 @@ for (let i = 0; i < enemigos.length; i++) {
                     </div>
                 </div>
 
+                <!--Target Target de Entidades-->
+                <div class="subsection metodos">
+                    <h3>👤 Target de Entidades</h3>
+                    <p>Métodos especializados para targetear entidades del juego (Mobiles e Items). Estos métodos permiten seleccionar objetivos específicos de forma programática, incluyendo al propio jugador. La familia de métodos <code>waitTarget*()</code> combina la espera del cursor con el targeting automático en una sola operación, simplificando el código y mejorando la fiabilidad.</p>
+                    <div class="methods-table-container">
+                        <table class="methods-table">
+                            <thead>
+                            <tr>
+                                <th>Método</th>
+                                <th>Parámetros</th>
+                                <th>Retorna</th>
+                                <th>Descripción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="method-row" data-method="entity">
+                                <td><code>Target.entity()</code></td>
+                                <td><span class="parameter-type">serial: SerialOrEntity</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Targetea un Mobile o Item específico con el cursor actualmente abierto</td>
+                            </tr>
+                            <tr class="method-details" data-method="entity" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Target.entity(serial: SerialOrEntity): void</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Targetea un Mobile o Item específico con el cursor de targeting actualmente abierto. Este método requiere que el cursor ya esté abierto (normalmente tras llamar a <code>target.wait()</code>). Acepta múltiples formatos de entrada: número serial, objeto SerialObject, GameObject, o la cadena "world".</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">serial</code>
+                                                    <span class="parameter-type">number | SerialObject | GameObject | "world"</span>
+                                                    <div class="parameter-description">La entidad a targetear. Puede ser un número serial, un objeto con propiedad serial, un GameObject (Item/Mobile), o la cadena "world" para targetear el mundo</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+<pre><code class="language-javascript">// Ejemplo básico de la documentación oficial
+client.castSpell(Spells.Heal);
+target.wait();
+target.entity(player);
+
+// Targetear enemigo específico
+const enemy = client.findType(0x0001, -1, -1); // Buscar un ogro
+if (enemy) {
+    client.castSpell(Spells.Lightning);
+    target.wait(5000);
+    target.entity(enemy); // Pasar el objeto completo
+    client.headMsg('¡Atacando!', enemy, 33);
+}
+
+// Usar serial directamente
+const enemySerial = 0x00012345;
+client.castSpell(Spells.Fireball);
+target.wait();
+target.entity(enemySerial); // Pasar solo el serial
+
+// Targetear item en el suelo
+const gold = client.findType(0x0eed, -1, -1);
+if (gold) {
+    client.sysMsg('Oro encontrado - recogiendo', 66);
+    player.use(gold); // Intentar recoger
+
+    if (target.wait(2000)) {
+        target.entity(player.backpack); // Targetear mochila como destino
+    }
+}
+
+// Secuencia de múltiples targets
+const allies = client.findList('allies');
+for (const ally of allies) {
+    if (ally.hits < ally.maxHits * 0.5) {
+        client.castSpell(Spells.GreaterHeal);
+        target.wait();
+        target.entity(ally);
+        client.headMsg('Curando aliado', ally, 66);
+        wait(1000);
+    }
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="self">
+                                <td><code>Target.self()</code></td>
+                                <td><span class="parameter-type">ninguno</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Targetea al propio jugador con el cursor actualmente abierto</td>
+                            </tr>
+                            <tr class="method-details" data-method="self" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Target.self(): void</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Targetea al propio jugador con el cursor de targeting actualmente abierto. Este método es un atajo conveniente equivalente a <code>target.entity(player)</code>, pero más legible y semántico. Requiere que el cursor ya esté abierto antes de llamarlo.</p>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+<pre><code class="language-javascript">// Ejemplo básico de la documentación oficial
+client.castSpell(Spells.Heal);
+target.wait();
+target.self();
+
+// Sistema de auto-curación con verificación de salud
+const healthPercent = (player.hits / player.maxHits) * 100;
+
+if (healthPercent < 50) {
+    client.headMsg('¡Salud baja! Auto-curando', player, 33);
+    client.castSpell(Spells.GreaterHeal);
+    target.wait(3000);
+    target.self();
+} else if (healthPercent < 80) {
+    client.castSpell(Spells.Heal);
+    target.wait();
+    target.self();
+}
+
+// Curar envenenamiento
+if (player.poisoned) {
+    client.sysMsg('¡Envenenado! Lanzando Cure', 33);
+    client.castSpell(Spells.Cure);
+    target.wait();
+    target.self();
+}
+
+// Aplicar buffs personales
+const buffs = [Spells.Bless, Spells.Agility, Spells.Strength];
+
+for (const buff of buffs) {
+    client.castSpell(buff);
+    if (target.wait(3000)) {
+        target.self();
+        client.sysMsg(`Buff aplicado: ${buff}`, 66);
+        wait(500);
+    }
+}
+
+// Usar vendajes en uno mismo
+player.useType(0xe21); // Vendajes
+if (target.wait(2000)) {
+    target.self();
+    client.headMsg('Vendaje aplicado', player, 66);
+}
+
+// Remover maldiciones
+if (player.cursed) {
+    client.castSpell(Spells.RemoveCurse);
+    target.wait();
+    target.self();
+    client.sysMsg('Maldición removida', 66);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="waitTargetEntity">
+                                <td><code>Target.waitTargetEntity()</code></td>
+                                <td><span class="parameter-type">entity: SerialOrEntity, timeoutMs?: number</span></td>
+                                <td><span class="parameter-type">boolean</span></td>
+                                <td class="method-description">Espera a que se abra el cursor y automáticamente targetea la entidad deseada</td>
+                            </tr>
+                            <tr class="method-details" data-method="waitTargetEntity" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Target.waitTargetEntity(entity: SerialOrEntity, timeoutMs?: number): boolean</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Espera a que se abra el cursor de targeting y luego automáticamente targetea la entidad especificada. Este método combina <code>target.wait()</code> y <code>target.entity()</code> en una sola operación atómica, simplificando el código y reduciendo posibles errores de sincronización. Es la forma recomendada de targetear entidades específicas.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">entity</code>
+                                                    <span class="parameter-type">number | SerialObject | GameObject | "world"</span>
+                                                    <div class="parameter-description">La entidad a targetear una vez el cursor se abra. Acepta serial, objeto, o "world"</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">timeoutMs</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Tiempo máximo de espera en milisegundos para que se abra el cursor. Si se omite, esperará indefinidamente</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="parameters-section">
+                                            <h5>Valor de retorno:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <span class="parameter-type">boolean</span>
+                                                    <div class="parameter-description">Retorna <code>true</code> si el cursor se abrió y se targetó correctamente, <code>false</code> si se agotó el timeout</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+<pre><code class="language-javascript">// Uso simplificado - más limpio que wait() + entity()
+const enemy = client.findType(0x0001);
+if (enemy) {
+    client.castSpell(Spells.Fireball);
+    if (target.waitTargetEntity(enemy, 5000)) {
+        client.sysMsg('Hechizo lanzado correctamente', 66);
+    } else {
+        client.headMsg('ERROR: Timeout en target', player, 33);
+    }
+}
+
+// Combate automático con validación
+function atacarEnemigo(enemigo) {
+    if (!enemigo || enemigo.hits <= 0) {
+        client.sysMsg('Objetivo inválido o muerto', 33);
+        return false;
+    }
+
+    client.castSpell(Spells.Lightning);
+    const exito = target.waitTargetEntity(enemigo, 3000);
+
+    if (exito) {
+        client.headMsg(`Atacando: ${enemigo.name}`, enemigo, 33);
+        return true;
+    } else {
+        client.sysMsg('Falló el targeting', 33);
+        return false;
+    }
+}
+
+// Bucle de combate robusto
+const enemigos = client.findList('enemigos');
+for (const enemigo of enemigos) {
+    if (player.mana < 20) break;
+
+    client.castSpell(Spells.EnergyBolt);
+    if (!target.waitTargetEntity(enemigo, 5000)) {
+        client.sysMsg(`Falló target en ${enemigo.name}`, 85);
+        continue;
+    }
+
+    wait(1500);
+}
+
+// Curar aliado específico
+const ally = client.findObject(0x00012345);
+if (ally && ally.hits < ally.maxHits) {
+    client.castSpell(Spells.GreaterHeal);
+    target.waitTargetEntity(ally);
+    client.headMsg('Curación enviada', ally, 66);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="waitTargetSelf">
+                                <td><code>Target.waitTargetSelf()</code></td>
+                                <td><span class="parameter-type">timeoutMs?: number</span></td>
+                                <td><span class="parameter-type">boolean</span></td>
+                                <td class="method-description">Espera a que se abra el cursor y automáticamente se targetea a sí mismo</td>
+                            </tr>
+                            <tr class="method-details" data-method="waitTargetSelf" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Target.waitTargetSelf(timeoutMs?: number): boolean</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Espera a que se abra el cursor de targeting y automáticamente targetea al propio jugador. Este método combina <code>target.wait()</code> y <code>target.self()</code> en una sola operación. Es especialmente útil para auto-curación, aplicación de buffs personales, o uso de items que requieren selección de objetivo.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">timeoutMs</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Tiempo máximo de espera en milisegundos para que se abra el cursor. Si se omite, esperará indefinidamente</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="parameters-section">
+                                            <h5>Valor de retorno:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <span class="parameter-type">boolean</span>
+                                                    <div class="parameter-description">Retorna <code>true</code> si el cursor se abrió y se targetó correctamente al jugador, <code>false</code> si se agotó el timeout</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+<pre><code class="language-javascript">// Ejemplo básico de la documentación oficial
+player.useType(0xe21); // Usar vendaje
+target.waitTargetSelf();
+
+// Sistema de auto-curación con validación
+function autoCurar() {
+    const healthPercent = (player.hits / player.maxHits) * 100;
+
+    if (healthPercent < 30) {
+        client.headMsg('¡SALUD CRÍTICA!', player, 33);
+        client.castSpell(Spells.GreaterHeal);
+
+        if (target.waitTargetSelf(5000)) {
+            client.sysMsg('Curación aplicada', 66);
+            return true;
+        } else {
+            client.sysMsg('ERROR: No se pudo auto-curar', 33);
+            return false;
+        }
+    }
+    return false;
+}
+
+// Aplicar vendajes automáticamente
+function aplicarVendaje() {
+    const vendajes = client.findType(0xe21, -1, player.backpack);
+
+    if (!vendajes) {
+        client.headMsg('No hay vendajes', player, 33);
+        return;
+    }
+
+    player.use(vendajes);
+    if (target.waitTargetSelf(3000)) {
+        client.sysMsg('Vendaje aplicado correctamente', 66);
+    }
+}
+
+// Bucle de buffs personales
+const buffsPersonales = [
+    Spells.Protection,
+    Spells.Bless,
+    Spells.Agility
+];
+
+for (const hechizo of buffsPersonales) {
+    client.castSpell(hechizo);
+    if (!target.waitTargetSelf(5000)) {
+        client.sysMsg(`Falló aplicar: ${hechizo}`, 33);
+        break;
+    }
+    client.sysMsg(`Buff aplicado: ${hechizo}`, 66);
+    wait(500);
+}
+
+// Remover efectos negativos
+if (player.poisoned) {
+    client.castSpell(Spells.Cure);
+    target.waitTargetSelf();
+}
+
+if (player.cursed) {
+    client.castSpell(Spells.RemoveCurse);
+    target.waitTargetSelf();
+}
+
+// Usar poción con timeout
+const pocion = client.findType(0xf0c); // Greater Heal Potion
+if (pocion) {
+    player.use(pocion);
+    if (!target.waitTargetSelf(2000)) {
+        client.headMsg('Timeout usando poción', player, 33);
+    }
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
             </div>
         </section>
 

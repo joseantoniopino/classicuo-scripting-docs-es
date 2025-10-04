@@ -4912,218 +4912,163 @@ if (player.equippedItems.robe && player.backpack) {
                     </div>
                 </div>
 
+                <!--Player Seguidores-->
+                <div class="subsection propiedades">
+                    <h3>👥 Seguidores</h3>
+                    <p>Propiedades que controlan el sistema de mascotas (pets) y criaturas invocadas (summons) del jugador. Estas propiedades determinan cuántos seguidores puedes tener activos simultáneamente, lo cual es fundamental para domadores (tamers) y magos invocadores. El límite de seguidores depende de tu habilidad de Animal Taming, Animal Lore y otras bonificaciones del servidor.</p>
+                    <div class="properties-table-container">
+                        <table class="properties-table">
+                            <thead>
+                            <tr>
+                                <th>Propiedad</th>
+                                <th>Tipo</th>
+                                <th>Descripción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="property-row" data-property="followers">
+                                <td><code>Player.followers</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Número actual de seguidores (pets/summons)</td>
+                            </tr>
+                            <tr class="property-details" data-property="followers" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Número actual de slots de seguidores que estás usando. Cada mascota o criatura invocada consume uno o más slots de follower. Por ejemplo, un dragón puede consumir 5 slots, mientras que un Energy Vortex consume 2 slots. Este valor se actualiza automáticamente al invocar criaturas o domar mascotas.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Verificar espacio de seguidores antes de invocar
+client.sysMsg(`Seguidores: ${player.followers}/${player.maxFollowers}`, 85);
 
+const slotsDisponibles = player.maxFollowers - player.followers;
 
-                <div class="subsection metodos">
-                    <h3>Métodos Principales</h3>
-
-                    <h4>attack()</h4>
-                    <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-header-left">Definición JavaScript</div>
-                            <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                        </div>
-                        <div class="code-content">
-                            <pre><code class="language-javascript">attack(serial: SerialOrEntity): void</code></pre>
-                        </div>
-                    </div>
-                    <p><strong>Descripción:</strong> Ataca un móvil.</p>
-                    <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-header-left">Ejemplo</div>
-                            <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                        </div>
-                        <div class="code-content">
-                            <pre><code class="language-javascript">player.attack(target.lastSerial);</code></pre>
-                        </div>
-                    </div>
-
-                    <h4>cast() y castTo()</h4>
-                    <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-header-left">Definiciones TypeScript</div>
-                            <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                        </div>
-                        <div class="code-content">
-                                <pre><code class="language-javascript">cast(spell: any): void
-castTo(spell: any, serial: SerialOrEntity, timeout?: number): void</code></pre>
-                        </div>
-                    </div>
-                    <p><strong>Descripción:</strong> <code>cast()</code> lanza un hechizo. <code>castTo()</code> lanza un hechizo y automáticamente apunta al serial dado en el siguiente target.</p>
-                    <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-header-left">Ejemplos</div>
-                            <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                        </div>
-                        <div class="code-content">
-                                <pre><code class="language-javascript">player.cast(Spells.Agility);
-target.wait();
-target.entity(player);
-
-// O más directo:
-player.castTo(Spells.Heal, player);</code></pre>
-                        </div>
-                    </div>
-
-                    <h4>moveItem()</h4>
-                    <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-header-left">Definición JavaScript</div>
-                            <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                        </div>
-                        <div class="code-content">
-                                <pre><code class="language-javascript">moveItem(
-    serial: SerialOrEntity,
-    container: SerialOrEntity,
-    x?: number,
-    y?: number,
-    z?: number,
-    amount?: number
-): number</code></pre>
-                        </div>
-                    </div>
-                    <p><strong>Descripción:</strong> Intenta mover un objeto entre contenedores.</p>
-                    <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-header-left">Ejemplo</div>
-                            <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                        </div>
-                        <div class="code-content">
-                                <pre><code class="language-javascript">if (player.equippedItems.robe) {
-    player.moveItem(player.equippedItems.robe, player.backpack);
+if (slotsDisponibles >= 2) {
+    client.sysMsg(`Espacio disponible: ${slotsDisponibles} slots`, 66);
+    client.sysMsg('Puedes invocar Energy Vortex (2 slots)', 85);
+} else if (slotsDisponibles > 0) {
+    client.sysMsg(`Solo ${slotsDisponibles} slot disponible`, 85);
+    client.sysMsg('Invoca algo pequeño o libera mascotas', 85);
+} else {
+    client.headMsg('¡Sin espacio para más seguidores!', player, 33);
+    client.sysMsg('Libera algunas mascotas primero', 85);
 }</code></pre>
-                        </div>
-                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
 
-                    <h4>say()</h4>
-                    <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-header-left">Definición JavaScript</div>
-                            <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                        </div>
-                        <div class="code-content">
-                            <pre><code class="language-javascript">say(message: string, hue?: number): void</code></pre>
-                        </div>
-                    </div>
-                    <p><strong>Descripción:</strong> Envía un mensaje de chat como tu jugador, con un hue opcional para el mensaje.</p>
-                    <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-header-left">Ejemplo</div>
-                            <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                        </div>
-                        <div class="code-content">
-                            <pre><code class="language-javascript">player.say('Hello there!');</code></pre>
-                        </div>
-                    </div>
+                            <tr class="property-row" data-property="maxFollowers">
+                                <td><code>Player.maxFollowers</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Número máximo de seguidores permitidos</td>
+                            </tr>
+                            <tr class="property-details" data-property="maxFollowers" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Número máximo de slots de seguidores que puedes tener simultáneamente. Este valor está determinado por tu skill de Animal Taming y bonificaciones adicionales del servidor. Típicamente, los jugadores comienzan con 5 slots y pueden llegar hasta 7-8 slots con alta habilidad de taming y bonificaciones especiales.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Sistema de gestión de mascotas
+function gestionarMascotas() {
+    const actual = player.followers;
+    const maximo = player.maxFollowers;
+    const porcentajeUso = (actual / maximo * 100).toFixed(1);
 
-                    <h4>useSkill()</h4>
-                    <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-header-left">Definición JavaScript</div>
-                            <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                        </div>
-                        <div class="code-content">
-                            <pre><code class="language-javascript">useSkill(skill: any, target?: SerialOrEntity, timeout?: number): void</code></pre>
-                        </div>
-                    </div>
-                    <p><strong>Descripción:</strong> Usa una habilidad.</p>
-                    <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-header-left">Ejemplo</div>
-                            <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                        </div>
-                        <div class="code-content">
-                            <pre><code class="language-javascript">player.useSkill(Skills.Meditation);</code></pre>
-                        </div>
-                    </div>
-                </div>
+    client.sysMsg('═══ GESTIÓN DE MASCOTAS ═══', 66);
+    client.sysMsg(`Slots usados: ${actual}/${maximo} (${porcentajeUso}%)`, 85);
 
-                <div class="subsection metodos">
-                    <h3>Métodos de Interacción y Movimiento</h3>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                            <tr><th>Método</th><th>Descripción</th><th>Retorna</th></tr>
-                            </thead>
-                            <tbody>
-                            <tr><td>Player.click(serial)</td><td>Simula hacer clic en un objeto</td><td>void</td></tr>
-                            <tr><td>Player.equip(serial)</td><td>Intenta equipar un item si es posible</td><td>void</td></tr>
-                            <tr><td>Player.openDoor()</td><td>Usa cualquier puerta directamente enfrente del jugador</td><td>void</td></tr>
-                            <tr><td>Player.run(direction)</td><td>Corre/gira un solo paso en una dirección</td><td>boolean</td></tr>
-                            <tr><td>Player.toggleFlying()</td><td>Alterna volar, siempre que seas una Gárgola</td><td>void</td></tr>
-                            <tr><td>Player.use(serial)</td><td>Intenta usar un objeto si es posible</td><td>void</td></tr>
-                            <tr><td>Player.useItemInHand()</td><td>Usa el item actualmente en tu mano</td><td>void</td></tr>
-                            <tr><td>Player.useLastObject()</td><td>Usa el último objeto sobre el que hiciste doble-click</td><td>void</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+    // Calcular qué puedes invocar
+    const slotsLibres = maximo - actual;
 
-                <div class="subsection metodos">
-                    <h3>Métodos de Habilidades y Skills</h3>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                            <tr><th>Método</th><th>Descripción</th><th>Retorna</th></tr>
-                            </thead>
-                            <tbody>
-                            <tr><td>Player.getAllSkills()</td><td>Obtiene un array de todos los valores de habilidades</td><td>object[] | undefined</td></tr>
-                            <tr><td>Player.getSkill(skill)</td><td>Obtiene un objeto con los valores de una habilidad</td><td>object | undefined</td></tr>
-                            <tr><td>Player.setSkillLock(skill, lock)</td><td>Establece el estado de bloqueo de una habilidad</td><td>void</td></tr>
-                            <tr><td>Player.useVirtue(virtue, target?, timeout?)</td><td>Usa una virtud</td><td>void</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+    if (slotsLibres >= 5) {
+        client.sysMsg('Puedes invocar: Dragon (5 slots)', 66);
+    } else if (slotsLibres >= 4) {
+        client.sysMsg('Puedes invocar: Nightmare (4 slots)', 66);
+    } else if (slotsLibres >= 2) {
+        client.sysMsg('Puedes invocar: Energy Vortex (2 slots)', 66);
+    } else if (slotsLibres === 1) {
+        client.sysMsg('Puedes invocar: Blade Spirit (1 slot)', 66);
+    } else {
+        client.headMsg('Sin espacio - Libera mascotas', player, 33);
+    }
 
-                <div class="subsection metodos">
-                    <h3>Métodos de Manipulación de Items</h3>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                            <tr><th>Método</th><th>Descripción</th><th>Parámetros</th></tr>
-                            </thead>
-                            <tbody>
-                            <tr><td>Player.moveItemOnGroundOffset()</td><td>Mueve un objeto en el suelo usando offset</td><td>serial, x?, y?, z?, amount?</td></tr>
-                            <tr><td>Player.moveType()</td><td>Mueve un objeto de tipo específico entre contenedores</td><td>graphic, src, dest, x?, y?, z?, hue?, amount?, range?</td></tr>
-                            <tr><td>Player.moveTypeOnGroundOffset()</td><td>Mueve un objeto de tipo específico al suelo</td><td>graphic, src, x?, y?, z?, hue?, amount?, range?</td></tr>
-                            <tr><td>Player.useType()</td><td>Intenta usar un objeto de un tipo específico</td><td>graphic, hue?, sourceSerial?, range?</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+    return slotsLibres;
+}
 
-                <div class="subsection metodos">
-                    <h3>Métodos de Buff/Debuff y Habilidades Especiales</h3>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                            <tr><th>Método</th><th>Descripción</th><th>Retorna</th></tr>
-                            </thead>
-                            <tbody>
-                            <tr><td>Player.hasBuffDebuff(buffID)</td><td>Verifica si el jugador tiene un buff/debuff específico</td><td>boolean</td></tr>
-                            <tr><td>Player.setAbility(primary, active)</td><td>Activa/desactiva habilidad especial</td><td>void</td></tr>
-                            <tr><td>Player.waitForBuffDebuff(buffId, timeoutMs?)</td><td>Espera a que aparezca/desaparezca un buff/debuff</td><td>null | boolean</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+gestionarMascotas();
 
-                <div class="alert alert-info">
-                    <strong>ℹ️ Ejemplo de uso de Skills:</strong>
-                    <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-header-left">Uso de Skills</div>
-                            <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                        </div>
-                        <div class="code-content">
-                                <pre><code class="language-javascript">const anatomySkill = player.getSkill(Skills.Anatomy);
-if (anatomySkill) {
-    console.log(`Anatomy: ${anatomySkill.value / 10}%`); // Convertir a decimal
-    console.log(`Base: ${anatomySkill.base / 10}%`);
-    console.log(`Cap: ${anatomySkill.cap / 10}%`);
+// Invocar solo si hay espacio suficiente
+function invocarConSeguridad(hechizo, slotsNecesarios) {
+    const slotsDisponibles = player.maxFollowers - player.followers;
+
+    if (slotsDisponibles >= slotsNecesarios) {
+        player.cast(hechizo);
+        client.sysMsg(`Invocando... (${slotsNecesarios} slots)`, 66);
+        return true;
+    } else {
+        client.headMsg(`Necesitas ${slotsNecesarios} slots, solo tienes ${slotsDisponibles}`, player, 33);
+        return false;
+    }
+}
+
+// Ejemplos de invocación
+invocarConSeguridad(Spells.EnergyVortex, 2);
+
+// Sistema de auto-invocación con verificación
+function mantenerInvocaciones() {
+    const slotsLibres = player.maxFollowers - player.followers;
+
+    // Si hay espacio, invocar Energy Vortex
+    if (slotsLibres >= 2) {
+        player.cast(Spells.EnergyVortex);
+        target.wait(5000);
+        // target.entity(enemigo);
+        client.sysMsg('Energy Vortex invocado', 66);
+    } else {
+        client.sysMsg('Sin espacio para invocar', 85);
+    }
+}
+
+// Monitoreo continuo de capacidad
+client.sysMsg('═══ CAPACIDAD DE SEGUIDORES ═══', 66);
+
+if (player.maxFollowers >= 7) {
+    client.sysMsg('Capacidad excelente (Tamer experto)', 66);
+} else if (player.maxFollowers >= 5) {
+    client.sysMsg('Capacidad estándar', 85);
+} else {
+    client.sysMsg('Capacidad limitada - Aumenta Taming', 85);
+}
+
+// Calcular eficiencia de uso
+const eficiencia = (player.followers / player.maxFollowers * 100).toFixed(0);
+client.sysMsg(`Eficiencia de uso: ${eficiencia}%`, 85);
+
+if (player.followers === player.maxFollowers) {
+    client.headMsg('¡Capacidad de seguidores al máximo!', player, 66);
 }</code></pre>
-                        </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

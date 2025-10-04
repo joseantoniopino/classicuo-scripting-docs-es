@@ -5904,7 +5904,595 @@ function desactivarVuelo() {
                     </div>
                 </div>
 
+                <!--Player Uso de Items-->
+                <div class="subsection metodos">
+                    <h3>🎒 Uso de Items</h3>
+                    <p>Métodos para usar, equipar y manipular items del inventario. Estos métodos permiten usar objetos específicos mediante su serial o tipo, equipar items automáticamente, y acceder a los objetos que tienes en las manos o que has usado recientemente. Son esenciales para crear sistemas de auto-curación, auto-equipamiento y gestión automática de inventario.</p>
+                    <div class="methods-table-container">
+                        <table class="methods-table">
+                            <thead>
+                            <tr>
+                                <th>Método</th>
+                                <th>Parámetros</th>
+                                <th>Retorna</th>
+                                <th>Descripción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="method-row" data-method="use">
+                                <td><code>Player.use()</code></td>
+                                <td><span class="parameter-type">serial: SerialOrEntity</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Usa un objeto específico</td>
+                            </tr>
+                            <tr class="method-details" data-method="use" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Player.use(serial: SerialOrEntity): void</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Usa (doble-clic) un objeto específico identificado por su serial. Este método simula hacer doble clic en un item, activando su función (abrir contenedores, consumir pociones, usar herramientas, etc.).</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">serial</code>
+                                                    <span class="parameter-type">SerialOrEntity</span>
+                                                    <div class="parameter-description">El serial del objeto a usar. Puede ser un número, objeto Serial, GameObject o "world"</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Usar una daga
+const dagger = client.findType(0x0f52); // Dagger graphic ID
+if (dagger) {
+    player.use(dagger);
+    client.sysMsg('Usando daga', 66);
+}
 
+// Usar una poción de curación
+const healPotion = client.findType(0x0f0c, -1, player.backpack);
+if (healPotion) {
+    player.use(healPotion);
+    client.headMsg('Poción de curación consumida', player, 66);
+} else {
+    client.headMsg('Sin pociones de curación', player, 33);
+}
+
+// Abrir un cofre específico
+const cofre = client.findObject(0x12345678); // Serial del cofre
+if (cofre) {
+    player.use(cofre);
+    client.sysMsg('Abriendo cofre...', 85);
+    sleep(500);
+}
+
+// Sistema de auto-curación con pociones
+function usarPocionCuracion() {
+    const vidaPorcentaje = (player.hits / player.maxHits) * 100;
+
+    if (vidaPorcentaje < 50) {
+        // Buscar Greater Heal Potion
+        const ghPotion = client.findType(0x0f0c, 0, player.backpack);
+        if (ghPotion) {
+            player.use(ghPotion);
+            client.headMsg('Greater Heal Potion', player, 66);
+            return true;
+        }
+
+        // Si no hay, buscar Heal Potion normal
+        const hPotion = client.findType(0x0f0c, -1, player.backpack);
+        if (hPotion) {
+            player.use(hPotion);
+            client.sysMsg('Heal Potion', 85);
+            return true;
+        }
+
+        client.headMsg('¡Sin pociones!', player, 33);
+        return false;
+    }
+
+    return false;
+}
+
+// Usar herramienta de minería
+const pickaxe = client.findType(0x0e85, -1, player.backpack);
+if (pickaxe) {
+    player.use(pickaxe);
+    target.wait(5000);
+    target.terrain(); // Target en el suelo para minar
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="useType">
+                                <td><code>Player.useType()</code></td>
+                                <td><span class="parameter-type">graphic: number, hue?: number, sourceSerial?: SerialOrEntity, range?: number</span></td>
+                                <td><span class="parameter-type">boolean</span></td>
+                                <td class="method-description">Usa un objeto de cierto tipo gráfico</td>
+                            </tr>
+                            <tr class="method-details" data-method="useType" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Player.useType(graphic: number, hue?: number, sourceSerial?: SerialOrEntity, range?: number): boolean</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Busca y usa un objeto del tipo gráfico especificado. Este método es más conveniente que use() cuando no conoces el serial exacto del objeto pero sí su tipo. Automáticamente busca el primer objeto que coincida con los criterios y lo usa.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">graphic</code>
+                                                    <span class="parameter-type">number</span>
+                                                    <div class="parameter-description">ID gráfico del tipo de objeto a buscar (ejemplo: 0x0e21 para vendajes)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">hue</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Color específico del objeto. -1 para cualquier color (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">sourceSerial</code>
+                                                    <span class="parameter-type parameter-optional">SerialOrEntity?</span>
+                                                    <div class="parameter-description">Contenedor donde buscar (por defecto: mochila del jugador) (opcional)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">range</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Rango de búsqueda en tiles (opcional)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="parameters-section">
+                                            <h5>Retorna:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <span class="parameter-type">boolean</span>
+                                                    <div class="parameter-description">true si se encontró y usó el objeto, false si no se encontró</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Usar vendaje y aplicar en un amigo
+const myFriend = 0x217ded;
+if (player.useType(0x0e21)) { // Bandage type
+    target.wait(5000);
+    target.entity(myFriend);
+    client.sysMsg('Aplicando vendaje al aliado', 66);
+} else {
+    client.headMsg('Sin vendajes', player, 33);
+}
+
+// Usar cualquier poción de curación (cualquier color)
+if (player.useType(0x0f0c, -1)) {
+    client.sysMsg('Poción de curación usada', 66);
+} else {
+    client.sysMsg('No hay pociones disponibles', 33);
+}
+
+// Sistema de auto-curación con vendajes
+function usarVendaje(objetivo) {
+    if (player.useType(0x0e21, -1, player.backpack)) {
+        target.wait(3000);
+        target.entity(objetivo || player);
+        client.sysMsg('Aplicando vendaje...', 66);
+        return true;
+    } else {
+        client.headMsg('¡Sin vendajes!', player, 33);
+        return false;
+    }
+}
+
+// Usar vendaje en ti mismo si vida < 70%
+const vidaPorcentaje = (player.hits / player.maxHits) * 100;
+if (vidaPorcentaje < 70) {
+    usarVendaje(player);
+}
+
+// Usar herramienta específica del color correcto
+const hueCobre = 0x0973;
+if (player.useType(0x0e85, hueCobre, player.backpack)) { // Pickaxe de cobre
+    client.sysMsg('Usando pickaxe de cobre', 66);
+    target.wait();
+    target.terrain();
+}
+
+// Buscar y usar objeto en un rango específico
+if (player.useType(0x0e76, -1, null, 2)) { // Anvil cercano (2 tiles)
+    client.sysMsg('Usando yunque cercano', 66);
+} else {
+    client.sysMsg('No hay yunque cerca', 85);
+}
+
+// Sistema robusto de curación
+function sistemaAutoCuracion() {
+    const vidaPorcentaje = (player.hits / player.maxHits) * 100;
+
+    if (vidaPorcentaje < 40) {
+        // Intentar poción primero (más rápido)
+        if (player.useType(0x0f0c, -1, player.backpack)) {
+            client.headMsg('Usando poción', player, 66);
+            return 'potion';
+        }
+        // Si no hay poción, usar vendaje
+        else if (player.useType(0x0e21, -1, player.backpack)) {
+            target.wait(2000);
+            target.entity(player);
+            client.sysMsg('Usando vendaje', 85);
+            return 'bandage';
+        }
+        // Sin recursos
+        else {
+            client.headMsg('¡SIN RECURSOS DE CURACIÓN!', player, 33);
+            return null;
+        }
+    }
+
+    return null;
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="equip">
+                                <td><code>Player.equip()</code></td>
+                                <td><span class="parameter-type">serial: SerialOrEntity</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Intenta equipar un item</td>
+                            </tr>
+                            <tr class="method-details" data-method="equip" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Player.equip(serial: SerialOrEntity): void</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Intenta equipar un item específico si es posible. Este método automáticamente coloca el objeto en el slot de equipamiento apropiado (arma en mano, armadura en cuerpo, etc.).</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">serial</code>
+                                                    <span class="parameter-type">SerialOrEntity</span>
+                                                    <div class="parameter-description">El serial del item a equipar</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Equipar un hacha
+const axe = client.findType(0x0f49, -1, player.backpack); // Axe graphic ID
+if (axe) {
+    player.equip(axe);
+    client.sysMsg('Hacha equipada', 66);
+    sleep(500);
+}
+
+// Cambiar de arma rápidamente
+function cambiarArma(graphicID) {
+    const arma = client.findType(graphicID, -1, player.backpack);
+    if (arma) {
+        player.equip(arma);
+        client.headMsg(`Arma cambiada: ${arma.name}`, player, 66);
+        sleep(600);
+        return true;
+    } else {
+        client.sysMsg('Arma no encontrada en mochila', 33);
+        return false;
+    }
+}
+
+// Cambiar a espada
+cambiarArma(0x0f61); // Longsword
+
+// Sistema de auto-equipamiento de armadura
+function equiparArmaduraCompleta() {
+    const armadura = [
+        { tipo: 0x1410, nombre: 'Plate Helmet' },
+        { tipo: 0x1415, nombre: 'Plate Chest' },
+        { tipo: 0x1410, nombre: 'Plate Arms' },
+        { tipo: 0x1411, nombre: 'Plate Gloves' },
+        { tipo: 0x1412, nombre: 'Plate Legs' }
+    ];
+
+    client.sysMsg('Equipando armadura completa...', 66);
+
+    armadura.forEach(pieza => {
+        const item = client.findType(pieza.tipo, -1, player.backpack);
+        if (item) {
+            player.equip(item);
+            client.sysMsg(`Equipado: ${pieza.nombre}`, 85);
+            sleep(400);
+        } else {
+            client.sysMsg(`No encontrado: ${pieza.nombre}`, 33);
+        }
+    });
+
+    client.headMsg('Armadura equipada', player, 66);
+}
+
+// Equipar el mejor arma disponible
+function equiparMejorArma() {
+    const armas = [
+        { tipo: 0x0f61, nombre: 'Longsword', prioridad: 3 },
+        { tipo: 0x13b0, nombre: 'War Axe', prioridad: 2 },
+        { tipo: 0x0f52, nombre: 'Dagger', prioridad: 1 }
+    ];
+
+    // Ordenar por prioridad (mayor primero)
+    armas.sort((a, b) => b.prioridad - a.prioridad);
+
+    for (const arma of armas) {
+        const item = client.findType(arma.tipo, -1, player.backpack);
+        if (item) {
+            player.equip(item);
+            client.headMsg(`Equipada: ${arma.nombre}`, player, 66);
+            return true;
+        }
+    }
+
+    client.headMsg('No hay armas disponibles', player, 33);
+    return false;
+}
+
+// Desequipar arma actual y equipar nueva
+function cambioRapidoArma(nuevoGraphicID) {
+    // Si ya tienes un arma equipada, se desequipa automáticamente
+    // al equipar la nueva
+    const nuevaArma = client.findType(nuevoGraphicID, -1, player.backpack);
+    if (nuevaArma) {
+        player.equip(nuevaArma);
+        client.sysMsg('Arma cambiada', 66);
+        return true;
+    }
+    return false;
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="useItemInHand">
+                                <td><code>Player.useItemInHand()</code></td>
+                                <td><span class="parameter-type">ninguno</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Usa el item en la mano</td>
+                            </tr>
+                            <tr class="method-details" data-method="useItemInHand" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Player.useItemInHand(): void</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Usa el item actualmente equipado en la mano. Primero intenta usar el item en la mano izquierda, y si no hay ninguno, intenta con la mano derecha. Útil para usar armas o herramientas sin conocer su serial.</p>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Usar el arma/herramienta en la mano
+player.useItemInHand();
+client.sysMsg('Usando item en mano', 66);
+
+// Sistema de minería usando item en mano
+function minarConHerramientaEquipada() {
+    if (player.equippedItems.oneHanded || player.equippedItems.twoHanded) {
+        player.useItemInHand();
+        target.wait(5000);
+        target.terrain();
+        client.sysMsg('Minando...', 66);
+        return true;
+    } else {
+        client.headMsg('No tienes herramienta equipada', player, 33);
+        return false;
+    }
+}
+
+// Loop de recolección
+for (let i = 0; i < 10; i++) {
+    player.useItemInHand();
+    target.wait(3000);
+    target.terrain();
+    client.sysMsg(`Intento ${i + 1}/10`, 85);
+    sleep(1000);
+}
+
+// Verificar qué hay en la mano antes de usar
+function usarSiEsHerramienta() {
+    const itemMano = player.equippedItems.oneHanded || player.equippedItems.twoHanded;
+
+    if (itemMano) {
+        const item = client.findObject(itemMano);
+        if (item) {
+            client.sysMsg(`Usando: ${item.name}`, 66);
+            player.useItemInHand();
+            return true;
+        }
+    }
+
+    client.sysMsg('No hay item en la mano', 85);
+    return false;
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="useLastObject">
+                                <td><code>Player.useLastObject()</code></td>
+                                <td><span class="parameter-type">ninguno</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Usa el último objeto usado con doble-clic</td>
+                            </tr>
+                            <tr class="method-details" data-method="useLastObject" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Player.useLastObject(): void</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Usa el último objeto en el que hiciste doble clic, ya sea manualmente o mediante un script. Muy útil para repetir acciones con el mismo objeto sin tener que buscarlo de nuevo.</p>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                        <pre><code class="language-javascript">// Usar el último objeto
+player.useLastObject();
+client.sysMsg('Usando último objeto', 66);
+
+// Sistema de minería repetitiva
+function minarRepetidamente(veces) {
+    // Primer uso para establecer el objeto
+    const pickaxe = client.findType(0x0e85, -1, player.backpack);
+    if (!pickaxe) {
+        client.headMsg('No hay pickaxe', player, 33);
+        return;
+    }
+
+    player.use(pickaxe);
+    target.wait(3000);
+    target.terrain();
+    sleep(1000);
+
+    // Usos siguientes usando useLastObject
+    for (let i = 1; i < veces; i++) {
+        player.useLastObject();
+        target.wait(3000);
+        target.terrain();
+        client.sysMsg(`Intento ${i + 1}/${veces}`, 85);
+        sleep(1000);
+    }
+
+    client.headMsg('Minería completada', player, 66);
+}
+
+// Minar 20 veces en la misma ubicación
+minarRepetidamente(20);
+
+// Sistema de recolección continua
+function recolectarContinuo() {
+    let intentos = 0;
+    const maxIntentos = 50;
+
+    while (intentos < maxIntentos) {
+        player.useLastObject();
+        target.wait(2000);
+        target.terrain();
+
+        intentos++;
+        client.sysMsg(`Recolectando... ${intentos}/${maxIntentos}`, 85);
+        sleep(800);
+
+        // Verificar si la mochila está llena
+        if (player.weight >= player.weightMax * 0.9) {
+            client.headMsg('Mochila casi llena', player, 33);
+            break;
+        }
+    }
+
+    client.sysMsg('Recolección finalizada', 66);
+}
+
+// Usar último objeto con verificación
+function usarUltimoSiExiste() {
+    // Este método asume que ya has usado algo antes
+    player.useLastObject();
+    client.sysMsg('Intentando usar último objeto...', 85);
+
+    // Nota: No hay forma directa de verificar si existe
+    // el último objeto, así que este método siempre intentará usarlo
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </section>
 

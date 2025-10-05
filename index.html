@@ -10321,6 +10321,267 @@ if (gump) {
                         </table>
                     </div>
                 </div>
+
+                <!--Metodos de Gump-->
+                <!--Gump Búsqueda y Validación-->
+                <div class="subsection metodos">
+                    <h3>🔍 Búsqueda y Validación</h3>
+                    <p>Estos métodos estáticos permiten localizar y validar gumps sin necesidad de crear una instancia previa. Son fundamentales para encontrar gumps por serial o contenido de texto, verificar su existencia, y esperar a que aparezcan gumps de vendor con sus datos asociados.</p>
+                    <div class="methods-table-container">
+                        <table class="methods-table">
+                            <thead>
+                            <tr>
+                                <th>Método</th>
+                                <th>Parámetros</th>
+                                <th>Retorna</th>
+                                <th>Descripción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="method-row" data-method="findOrWait">
+                                <td><code>Gump.findOrWait()</code></td>
+                                <td><span class="parameter-type">serialOrText: string | number, timeoutMs?: number, fromServer?: boolean</span></td>
+                                <td><span class="parameter-type">undefined | Gump</span></td>
+                                <td class="method-description">Busca un gump por serial o texto, o espera a que aparezca</td>
+                            </tr>
+                            <tr class="method-details" data-method="findOrWait" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Gump.findOrWait(serialOrText: string | number, timeoutMs?: number, fromServer?: boolean): undefined | Gump</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Busca un gump por su serial o que contenga cierto texto, o espera a que aparezca. Este método estático es la forma principal de obtener una referencia a un gump. Retorna <code>undefined</code> si el gump no se encuentra o no aparece dentro del tiempo especificado.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">serialOrText</code>
+                                                    <span class="parameter-type">string | number</span>
+                                                    <div class="parameter-description">El serial del gump a buscar (número) o texto que debe contener el gump (string)</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">timeoutMs</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Tiempo máximo de espera en milisegundos. Por defecto es 5000ms (5 segundos) si no se especifica</div>
+                                                </div>
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">fromServer</code>
+                                                    <span class="parameter-type parameter-optional">boolean?</span>
+                                                    <div class="parameter-description">Si es <code>true</code> (por defecto), busca gumps del servidor. Si es <code>false</code>, busca gumps locales</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplos:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                    <pre><code class="language-javascript">// Buscar gump por serial con timeout de 100ms
+const gump = Gump.findOrWait(0xbb1b5472, 100);
+if (gump) {
+    gump.reply(1); // El gump está abierto, simular presionar un botón
+} else {
+    client.sysMsg('El gump no apareció a tiempo', 33);
+}
+
+// Buscar gump por texto contenido (usa timeout por defecto de 5000ms)
+const gumpMenu = Gump.findOrWait('Blacksmithy Selection Menu');
+if (gumpMenu) {
+    client.sysMsg('Menú de herrería encontrado', 66);
+    gumpMenu.reply(1);
+}
+
+// Buscar gump local usando un objeto
+const bolsa = client.findObject(0x4021c7b1);
+if (bolsa) {
+    player.use(bolsa);
+    // El parámetro 'false' significa 'buscar gumps locales', no del servidor
+    const gumpLocal = Gump.findOrWait(bolsa, 1000, false);
+    if (gumpLocal) {
+        client.sysMsg('Gump local encontrado', 66);
+    }
+}
+
+// Uso práctico: Abrir runebook y esperar su gump
+player.use(0x4021c7b1); // Serial del runebook
+const runebook = Gump.findOrWait(0x59, 1000); // Esperar 1 segundo
+if (!runebook) {
+    exit('No apareció el gump del runebook, ¿falta el objeto?');
+}
+player.say('¡Me voy de aquí!');
+runebook.reply(10); // Presionar la primera runa</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="exists">
+                                <td><code>Gump.exists()</code></td>
+                                <td><span class="parameter-type">serial: number</span></td>
+                                <td><span class="parameter-type">boolean</span></td>
+                                <td class="method-description">Verifica si un gump con el serial especificado está abierto</td>
+                            </tr>
+                            <tr class="method-details" data-method="exists" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Gump.exists(serial: number): boolean</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Verifica si un gump con el serial del servidor especificado está actualmente abierto, sin necesidad de crear una nueva instancia de Gump. Este método es más eficiente que <code>findOrWait()</code> cuando solo necesitas verificar la existencia del gump sin interactuar con él.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">serial</code>
+                                                    <span class="parameter-type">number</span>
+                                                    <div class="parameter-description">El serial del servidor del gump a verificar</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                    <pre><code class="language-javascript">// Verificación simple de existencia
+if (Gump.exists(0xbb1b5472)) {
+    player.say('Mi adorable gump, míralo');
+} else {
+    client.sysMsg('El gump no está abierto', 33);
+}
+
+// Uso práctico: Verificar antes de intentar operaciones
+const serialGump = 0x59;
+
+if (Gump.exists(serialGump)) {
+    const gump = Gump.findOrWait(serialGump, 100);
+    gump?.reply(5);
+} else {
+    client.sysMsg('Primero debes abrir el gump', 85);
+}
+
+// Verificar el último gump recibido usando lastSerial
+if (Gump.exists(Gump.lastSerial)) {
+    client.sysMsg('El último gump todavía está abierto', 66);
+    Gump.last?.close();
+} else {
+    client.sysMsg('El último gump ya se cerró', 85);
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="waitForVendorGumpData">
+                                <td><code>Gump.waitForVendorGumpData()</code></td>
+                                <td><span class="parameter-type">timeoutMs?: number</span></td>
+                                <td><span class="parameter-type">undefined | object</span></td>
+                                <td class="method-description">Espera a que aparezca un gump de vendor y retorna sus datos</td>
+                            </tr>
+                            <tr class="method-details" data-method="waitForVendorGumpData" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Gump.waitForVendorGumpData(timeoutMs?: number): undefined | object</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Espera a que aparezca un gump de compra o venta de vendor y retorna los datos asociados. Si no aparece ningún gump dentro del tiempo especificado, retorna <code>undefined</code>. El objeto retornado contiene información sobre el tipo de transacción (<code>type</code>: 'buy' o 'sell'), el vendor, y la lista de items disponibles.</p>
+                                        <div class="parameters-section">
+                                            <h5>Parámetros:</h5>
+                                            <div class="parameters-container">
+                                                <div class="parameter-item">
+                                                    <code class="parameter-name">timeoutMs</code>
+                                                    <span class="parameter-type parameter-optional">number?</span>
+                                                    <div class="parameter-description">Tiempo máximo de espera en milisegundos antes de retornar <code>undefined</code></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="alert alert-warning">
+                                            <strong>⚠️ Advertencia:</strong> Este método espera activamente bloqueando la ejecución del script. El objeto retornado incluye propiedades <code>type</code> ('buy' o 'sell'), <code>vendor</code>, e <code>items</code>. Siempre verifica el <code>type</code> antes de procesar los datos para evitar confusiones entre gumps de compra y venta.
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplo:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                    <pre><code class="language-javascript">// ¡PRECAUCIÓN! Este ejemplo vende TODO
+player.say('vendor sell');
+const data = Gump.waitForVendorGumpData();
+
+if (data && data.type === 'sell') {
+    // Verificar que es un gump de venta
+    client.sendSellRequest(data.vendor, data.items); // Vender TODOS los items que el vendor acepta
+    client.sysMsg(`Vendidos: ${data.items.map((i) => i.name).join(', ')}`, 66);
+} else if (!data) {
+    client.sysMsg('No apareció el gump de vendor a tiempo', 33);
+}
+
+// Ejemplo más controlado: vender solo items específicos
+player.say('vendor sell');
+const ventaData = Gump.waitForVendorGumpData(3000); // Esperar 3 segundos
+
+if (ventaData && ventaData.type === 'sell') {
+    // Vender solo armaduras de cuero
+    const cuero = ventaData.items.filter((i) =>
+        i.name.toLowerCase().includes('leather')
+    );
+
+    if (cuero.length > 0) {
+        client.sendSellRequest(ventaData.vendor, cuero);
+        client.sysMsg(`Vendidas ${cuero.length} piezas de cuero`, 66);
+    } else {
+        client.sysMsg('No hay items de cuero para vender', 85);
+    }
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </section>
 

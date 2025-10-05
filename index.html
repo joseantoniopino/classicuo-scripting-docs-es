@@ -10136,12 +10136,12 @@ if (gump.exists) {
                                 </td>
                             </tr>
 
-                            <tr class="property-row" data-property="last">
+                            <tr class="property-row" data-property="gump_last">
                                 <td><code>Gump.last</code></td>
                                 <td><span class="parameter-type">null | Gump</span></td>
                                 <td class="property-description">Referencia al último gump enviado por el servidor (estática)</td>
                             </tr>
-                            <tr class="property-details" data-property="last" style="display: none;">
+                            <tr class="property-details" data-property="gump_last" style="display: none;">
                                 <td colspan="3">
                                     <div class="property-content">
                                         <p><strong>Descripción completa:</strong> Obtiene una referencia al último gump enviado por el servidor. Retorna <code>null</code> si el gump ya no está abierto. Esta es una propiedad estática que permite acceso rápido al gump más reciente sin necesidad de conocer su serial previamente.</p>
@@ -10168,12 +10168,12 @@ if (Gump.last?.containsText('Chat')) {
                                 </td>
                             </tr>
 
-                            <tr class="property-row" data-property="lastSerial">
+                            <tr class="property-row" data-property="gump_lastSerial">
                                 <td><code>Gump.lastSerial</code></td>
                                 <td><span class="parameter-type">number</span></td>
                                 <td class="property-description">Serial del último gump enviado por el servidor (estática)</td>
                             </tr>
-                            <tr class="property-details" data-property="lastSerial" style="display: none;">
+                            <tr class="property-details" data-property="gump_lastSerial" style="display: none;">
                                 <td colspan="3">
                                     <div class="property-content">
                                         <p><strong>Descripción completa:</strong> El serial del servidor del último gump enviado. Este gump puede no estar abierto actualmente, por lo que siempre debes verificar con <code>Gump.exists(serial)</code> primero antes de intentar interactuar con él. Esta propiedad estática es útil para rastrear qué gump apareció más recientemente.</p>
@@ -10571,6 +10571,170 @@ if (ventaData && ventaData.type === 'sell') {
     } else {
         client.sysMsg('No hay items de cuero para vender', 85);
     }
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!--Gump Gestión de Gumps-->
+                <div class="subsection metodos">
+                    <h3>🗑️ Gestión de Gumps</h3>
+                    <p>Estos métodos permiten cerrar gumps de forma individual o masiva. Incluyen tanto un método de instancia para cerrar un gump específico como un método estático para cerrar todos los gumps abiertos excepto los elementos esenciales de la interfaz (Top Bar, Buff Bar y Radar).</p>
+                    <div class="methods-table-container">
+                        <table class="methods-table">
+                            <thead>
+                            <tr>
+                                <th>Método</th>
+                                <th>Parámetros</th>
+                                <th>Retorna</th>
+                                <th>Descripción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="method-row" data-method="close">
+                                <td><code>Gump.close()</code></td>
+                                <td><span class="parameter-type">ninguno</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Cierra el gump actual (método de instancia)</td>
+                            </tr>
+                            <tr class="method-details" data-method="close" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>close(): void</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Cierra el gump específico sobre el cual se llama este método. Este es un método de instancia, por lo que debe ser llamado sobre un objeto Gump existente. Después de cerrar el gump, la propiedad <code>exists</code> de la instancia será <code>false</code>.</p>
+                                        <div class="method-example">
+                                            <h5>Ejemplos:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                    <pre><code class="language-javascript">// Cerrar el último gump recibido si está abierto
+if (Gump.last?.containsText('Chat')) {
+    Gump.last.close();
+    client.sysMsg('Gump de chat cerrado', 66);
+}
+
+// Buscar y cerrar un gump específico
+const gump = Gump.findOrWait(0xbb1b5472, 100);
+if (gump) {
+    client.sysMsg('Gump encontrado, cerrándolo...', 85);
+    gump.close();
+}
+
+// Cerrar gump condicionalmente según su contenido
+const menu = Gump.findOrWait('Tailoring');
+if (menu && menu.containsText('Tailoring')) {
+    player.say('Odio a los sastres');
+    menu.close();
+}
+
+// Verificar que el gump se cerró correctamente
+const runebook = Gump.findOrWait(0x59, 1000);
+if (runebook) {
+    runebook.close();
+
+    // Verificar después de cerrar
+    if (!runebook.exists) {
+        client.sysMsg('Runebook cerrado exitosamente', 66);
+    }
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="method-row" data-method="closeAll">
+                                <td><code>Gump.closeAll()</code></td>
+                                <td><span class="parameter-type">ninguno</span></td>
+                                <td><span class="parameter-type">void</span></td>
+                                <td class="method-description">Cierra todos los gumps excepto interfaz esencial (estático)</td>
+                            </tr>
+                            <tr class="method-details" data-method="closeAll" style="display: none;">
+                                <td colspan="4">
+                                    <div class="method-content">
+                                        <div class="method-signature">
+                                            <h5>Definición:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Definición</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                                    <pre><code>Gump.closeAll(): void</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p><strong>Descripción:</strong> Cierra todos los gumps abiertos excepto los elementos esenciales de la interfaz: Top Bar (barra superior), Buff Bar (barra de buffs) y World View/Radar. Este método estático es equivalente al hotkey "Close Gumps" y es útil para limpiar la pantalla de gumps no deseados de forma rápida.</p>
+                                        <div class="alert alert-info">
+                                            <strong>ℹ️ Información:</strong> Los gumps que NO se cierran con este método son:
+                                            <ul style="margin-top: 8px; margin-bottom: 0;">
+                                                <li>Top Bar (barra superior de la interfaz)</li>
+                                                <li>Buff Bar (barra de buffs/efectos)</li>
+                                                <li>World View / Radar (vista del mundo)</li>
+                                            </ul>
+                                        </div>
+                                        <div class="method-example">
+                                            <h5>Ejemplos:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                    <pre><code class="language-javascript">// Uso simple: limpiar todos los gumps
+Gump.closeAll();
+client.sysMsg('Todos los gumps cerrados', 66);
+
+// Cerrar todos los gumps antes de iniciar una acción
+Gump.closeAll();
+client.sysMsg('Interfaz limpia, iniciando macro...', 85);
+// ... continuar con el script
+
+// Limpiar gumps después de terminar una tarea
+player.say('vendor sell');
+const data = Gump.waitForVendorGumpData(3000);
+
+if (data && data.type === 'sell') {
+    client.sendSellRequest(data.vendor, data.items);
+    client.sysMsg('Venta completada', 66);
+}
+
+// Cerrar todos los gumps restantes
+Gump.closeAll();
+
+// Uso en combinación con espera antes de continuar
+Gump.closeAll();
+client.pause(500); // Pequeña pausa para asegurar que se cerraron
+client.sysMsg('Listo para continuar', 66);
+
+// Cerrar gumps al detectar condición de emergencia
+if (player.hits < player.maxHits * 0.3) {
+    client.headMsg('¡EMERGENCIA! Cerrando gumps...', player, 33);
+    Gump.closeAll();
+    // Activar protocolo de emergencia
+    player.useSkill(Skills.Hiding);
 }</code></pre>
                                                 </div>
                                             </div>

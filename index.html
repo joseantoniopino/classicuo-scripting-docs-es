@@ -10087,173 +10087,238 @@ if (target.waitTargetType(IRON_ORE_GRAPHIC, -1, 3000)) {
                 <div class="alert alert-warning">
                     <strong>⚠️ Discrepancia en Documentación Oficial:</strong> El método se declara como <code>setCheckbox()</code> pero en el ejemplo oficial aparece como <code>gumpSetCheckbox()</code>. Verificar implementación real antes de usar.
                 </div>
-
-                <div class="subsection metodos">
-                    <h3>Propiedades Estáticas</h3>
-                    <div class="table-container">
-                        <table>
+                <!--Propiedades del Gump-->
+                <div class="subsection propiedades">
+                    <h3>📊 Propiedades del Gump</h3>
+                    <p>El namespace Gump proporciona propiedades para gestionar e identificar gumps del servidor. Incluye propiedades de instancia para validar el estado de un gump específico (<code>exists</code>, <code>serial</code>) y propiedades estáticas para acceder a información global sobre gumps recientes sin necesidad de una instancia (<code>last</code>, <code>lastSerial</code>, <code>lastVendorBuyData</code>, <code>lastVendorSellData</code>). Es fundamental validar siempre <code>gump.exists</code> antes de interactuar con un gump, ya que puede cerrarse externamente por el servidor o el usuario.</p>
+                    <div class="properties-table-container">
+                        <table class="properties-table">
                             <thead>
-                            <tr><th>Propiedad</th><th>Tipo</th><th>Descripción</th></tr>
+                            <tr>
+                                <th>Propiedad</th>
+                                <th>Tipo</th>
+                                <th>Descripción</th>
+                            </tr>
                             </thead>
                             <tbody>
-                            <tr><td>last</td><td>null | Gump</td><td>Referencia al último Gump enviado por el servidor</td></tr>
-                            <tr><td>lastSerial</td><td>number</td><td>Serial del servidor del último gump enviado</td></tr>
-                            <tr><td>lastVendorBuyData</td><td>object | undefined</td><td>Datos del último gump de compra de vendedor visto</td></tr>
-                            <tr><td>lastVendorSellData</td><td>object | undefined</td><td>Datos del último gump de venta de vendedor visto</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="subsection metodos">
-                    <h3>Métodos Principales</h3>
-
-                    <h4>findOrWait()</h4>
-                    <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-header-left">Definición JavaScript</div>
-                            <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                        </div>
-                        <div class="code-content">
-                                <pre><code class="language-javascript">static findOrWait(
-    serialOrText: string | number,
-    timeoutMs?: number,
-    fromServer?: boolean
-): undefined | Gump</code></pre>
-                        </div>
-                    </div>
-                    <p><strong>Descripción:</strong> Encuentra un gump por su serial o que contenga cierto texto, o espera a que aparezca.</p>
-                    <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-header-left">Ejemplos</div>
-                            <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                        </div>
-                        <div class="code-content">
-                                <pre><code class="language-javascript">const gump = Gump.findOrWait(0xbb1b5472, 100);
-if (gump) {
-    gump.reply(1);
+                            <tr class="property-row" data-property="exists">
+                                <td><code>Gump.exists</code></td>
+                                <td><span class="parameter-type">boolean</span></td>
+                                <td class="property-description">Indica si el gump todavía está abierto (instancia)</td>
+                            </tr>
+                            <tr class="property-details" data-property="exists" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Verifica si el gump todavía está abierto, es decir, que no ha sido cerrado por el servidor o por el jugador. Esta es una propiedad de instancia que debe verificarse periódicamente antes de interactuar con el gump, ya que puede volverse inválido si se cierra externamente.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                    <pre><code class="language-javascript">const gump = Gump.findOrWait(0xbb1b5472, 100);
+if (!gump) {
+    exit('No hay ningún gump abierto!');
 }
 
-const gump = Gump.findOrWait('Blacksmithy Selection Menu');
-if (gump) {
+// ... en algún punto posterior del script
+if (gump.exists) {
     gump.reply(1);
+} else {
+    client.sysMsg('El gump se cerró, ¿lo cerraste tú?', 33);
 }</code></pre>
-                        </div>
-                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
 
-                    <h4>reply()</h4>
-                    <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-header-left">Definición JavaScript</div>
-                            <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                        </div>
-                        <div class="code-content">
-                            <pre><code class="language-javascript">reply(buttonID: number): void</code></pre>
-                        </div>
-                    </div>
-                    <p><strong>Descripción:</strong> Responde a un gump "presionando" uno de los botones.</p>
-                    <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-header-left">Ejemplo</div>
-                            <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                        </div>
-                        <div class="code-content">
-                                <pre><code class="language-javascript">const gump = Gump.findOrWait(0xbb1b5472, 100);
-if (gump?.containsText('Alchemy')) {
-    gump.reply(1);
+                            <tr class="property-row" data-property="last">
+                                <td><code>Gump.last</code></td>
+                                <td><span class="parameter-type">null | Gump</span></td>
+                                <td class="property-description">Referencia al último gump enviado por el servidor (estática)</td>
+                            </tr>
+                            <tr class="property-details" data-property="last" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Obtiene una referencia al último gump enviado por el servidor. Retorna <code>null</code> si el gump ya no está abierto. Esta es una propiedad estática que permite acceso rápido al gump más reciente sin necesidad de conocer su serial previamente.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                    <pre><code class="language-javascript">// Cerrar el último gump recibido si está abierto
+Gump.last?.close();
+
+// Verificar contenido del último gump
+if (Gump.last?.containsText('Chat')) {
+    Gump.last.close();
+    client.sysMsg('Gump de chat cerrado', 66);
 }</code></pre>
-                        </div>
-                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
 
-                    <h4>waitForVendorGumpData()</h4>
-                    <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-header-left">Definición JavaScript</div>
-                            <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                        </div>
-                        <div class="code-content">
-                            <pre><code class="language-javascript">static waitForVendorGumpData(timeoutMs?: number): undefined | object</code></pre>
-                        </div>
-                    </div>
-                    <p><strong>Descripción:</strong> Espera a que aparezca un gump de compra o venta de vendedor y retorna los datos.</p>
-                    <div class="code-block">
-                        <div class="code-header">
-                            <div class="code-header-left">Ejemplo</div>
-                            <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                        </div>
-                        <div class="code-content">
-                                <pre><code class="language-javascript">player.say('vendor sell');
-const data = Gump.waitForVendorGumpData();
-if (data && data.type === 'sell') {
-    client.sendSellRequest(data.vendor, data.items);
+                            <tr class="property-row" data-property="lastSerial">
+                                <td><code>Gump.lastSerial</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Serial del último gump enviado por el servidor (estática)</td>
+                            </tr>
+                            <tr class="property-details" data-property="lastSerial" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> El serial del servidor del último gump enviado. Este gump puede no estar abierto actualmente, por lo que siempre debes verificar con <code>Gump.exists(serial)</code> primero antes de intentar interactuar con él. Esta propiedad estática es útil para rastrear qué gump apareció más recientemente.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                    <pre><code class="language-javascript">// Guardar el serial del último gump para referencia posterior
+const ultimoSerial = Gump.lastSerial;
+client.sysMsg(`Último gump recibido: 0x${ultimoSerial.toString(16)}`, 85);
+
+// Verificar si todavía está abierto antes de usarlo
+if (Gump.exists(ultimoSerial)) {
+    const gump = Gump.findOrWait(ultimoSerial, 100);
+    gump?.reply(1);
+} else {
+    client.sysMsg('El gump ya no está abierto', 33);
 }</code></pre>
-                        </div>
-                    </div>
-                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
 
-                <div class="subsection metodos">
-                    <h3>Métodos Estáticos</h3>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                            <tr><th>Método</th><th>Descripción</th><th>Retorna</th></tr>
-                            </thead>
-                            <tbody>
-                            <tr><td>closeAll()</td><td>Cierra todos los gumps (igual que hotkey "Close Gumps")</td><td>void</td></tr>
-                            <tr><td>exists(serial)</td><td>Verifica si gump con serial está abierto sin crear instancia</td><td>boolean</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                            <tr class="property-row" data-property="lastVendorBuyData">
+                                <td><code>Gump.lastVendorBuyData</code></td>
+                                <td><span class="parameter-type">undefined | object</span></td>
+                                <td class="property-description">Datos del último gump de compra a vendor (estática)</td>
+                            </tr>
+                            <tr class="property-details" data-property="lastVendorBuyData" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Retorna los datos del último gump de compra a vendor visto. El objeto contiene información sobre el vendor y los items disponibles para comprar. Esta propiedad persiste incluso después de que el gump se cierre, permitiendo procesar la información posteriormente. Siempre verifica que <code>data.type === 'buy'</code> antes de usar los datos.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                    <pre><code class="language-javascript">const data = Gump.lastVendorBuyData;
 
-                <div class="subsection metodos">
-                    <h3>Métodos de Interacción</h3>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                            <tr><th>Método</th><th>Descripción</th><th>Retorna</th></tr>
-                            </thead>
-                            <tbody>
-                            <tr><td>close()</td><td>Cierra el gump</td><td>void</td></tr>
-                            <tr><td>containsText(value)</td><td>Verifica si el gump contiene un string, sin distinguir mayúsculas</td><td>boolean</td></tr>
-                            <tr><td>hasButton(id)</td><td>Verifica si el gump tiene el ID de botón</td><td>boolean</td></tr>
-                            <tr><td>horizontalMenuSelect(graphic, hue?)</td><td>Selecciona item en menú horizontal T2A</td><td>void</td></tr>
-                            <tr><td>switchPage(page)</td><td>Intenta cambiar la página si es posible</td><td>void</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="subsection metodos">
-                    <h3>Métodos de Formularios</h3>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                            <tr><th>Método</th><th>Descripción</th><th>Parámetros</th></tr>
-                            </thead>
-                            <tbody>
-                            <tr><td>setCheckbox() / gumpSetCheckbox()</td><td>Marca o desmarca checkbox/radio button</td><td>serial, value</td></tr>
-                            <tr><td>setTextEntry()</td><td>Establece contenido de entrada de texto</td><td>localSerial, value</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="code-block">
-                    <div class="code-header">
-                        <div class="code-header-left">Ejemplo de Gump con Vendedor</div>
-                        <button class="copy-button" onclick="copyCode(this)">Copiar</button>
-                    </div>
-                    <div class="code-content">
-                            <pre><code class="language-javascript">const data = Gump.lastVendorBuyData;
 if (data && data.type === 'buy') {
-    // Comprar todos sus lingotes
-    const ingots = data.items.filter((i) =>
-        i.name.toLowerCase().includes('ingot')
-    );
-    client.sendBuyRequest(data.vendor, ingots);
-    console.log('Bought items', ingots);
+    // Comprar todos los lingotes que tenga el vendor
+    const lingotes = data.items.filter((i) => i.name.toLowerCase().includes('ingot'));
+
+    if (lingotes.length > 0) {
+        client.sendBuyRequest(data.vendor, lingotes);
+        client.sysMsg(`Comprados ${lingotes.length} tipos de lingotes`, 66);
+    } else {
+        client.sysMsg('No hay lingotes disponibles', 33);
+    }
 }</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="lastVendorSellData">
+                                <td><code>Gump.lastVendorSellData</code></td>
+                                <td><span class="parameter-type">undefined | object</span></td>
+                                <td class="property-description">Datos del último gump de venta a vendor (estática)</td>
+                            </tr>
+                            <tr class="property-details" data-property="lastVendorSellData" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> Retorna los datos del último gump de venta a vendor visto. El objeto contiene información sobre el vendor y los items que acepta comprar. Esta propiedad persiste incluso después de que el gump se cierre. Siempre verifica que <code>data.type === 'sell'</code> antes de procesar los datos para evitar confusiones con gumps de compra.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                    <pre><code class="language-javascript">player.say('vendor sell');
+const data = Gump.lastVendorSellData;
+
+if (data && data.type === 'sell') {
+    // Asegurarse de que es un gump de venta y no de compra
+    // Vender todas las tenazas (tongs)
+    const tenazas = data.items.filter((i) => i.name.toLowerCase() === 'tongs');
+
+    if (tenazas.length > 0) {
+        client.sendSellRequest(data.vendor, tenazas);
+        client.sysMsg(`Vendidos: ${tenazas.map((i) => i.name).join(', ')}`, 66);
+    } else {
+        client.sysMsg('No hay tenazas para vender', 85);
+    }
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="property-row" data-property="serial">
+                                <td><code>Gump.serial</code></td>
+                                <td><span class="parameter-type">number</span></td>
+                                <td class="property-description">Serial del servidor del gump (heredado de GameObject)</td>
+                            </tr>
+                            <tr class="property-details" data-property="serial" style="display: none;">
+                                <td colspan="3">
+                                    <div class="property-content">
+                                        <p><strong>Descripción completa:</strong> El serial único del servidor para este gump. Esta propiedad es heredada de <code>GameObject</code> y proporciona el identificador único del gump en el shard. Los gumps del servidor tienen un serial único por shard y solo puede haber uno abierto a la vez con ese serial específico. Este valor es útil para identificar y buscar gumps específicos.</p>
+                                        <div class="property-example">
+                                            <h5>Ejemplo de uso:</h5>
+                                            <div class="code-block">
+                                                <div class="code-header">
+                                                    <div class="code-header-left">Ejemplo</div>
+                                                    <button class="copy-button" onclick="copyCode(this)">Copiar</button>
+                                                </div>
+                                                <div class="code-content">
+                                    <pre><code class="language-javascript">// Buscar un gump de runebook y mostrar su serial
+player.use(0x4021c7b1); // Usar runebook
+const gump = Gump.findOrWait(0x59, 1000);
+
+if (gump) {
+    client.sysMsg(`Gump abierto con serial: 0x${gump.serial.toString(16)}`, 66);
+
+    // Guardar el serial para uso posterior
+    const serialGuardado = gump.serial;
+
+    // Más tarde, verificar si el mismo gump sigue abierto
+    if (Gump.exists(serialGuardado)) {
+        client.sysMsg('El gump todavía está abierto', 66);
+    }
+}</code></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
